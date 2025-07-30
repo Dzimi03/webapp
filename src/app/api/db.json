@@ -1,0 +1,124 @@
+{
+  "users": [
+    {
+      "id": "315d7700-922e-4ae3-b56b-d62be31eeb0f",
+      "name": "Alice",
+      "email": "alice@example.com",
+      "password": "$2b$10$XYt2M39Dn3dnUm9bxe0FQORNnWoQy0lFRp47WcdLUSG/Xl8Cl1AES",
+      "friends": [
+        "c59e86ee-7eae-4a38-b850-ce61799b1ac0",
+        "79785d20-be70-405e-b0d8-fba0478d3a8c"
+      ],
+      "groups": [
+        "9eeb1f56-f3fd-4401-baaa-978c1477a82f"
+      ],
+      "avatarUrl": ""
+    },
+    {
+      "id": "c59e86ee-7eae-4a38-b850-ce61799b1ac0",
+      "name": "Bob",
+      "email": "bob@example.com",
+      "password": "$2b$10$XYt2M39Dn3dnUm9bxe0FQORNnWoQy0lFRp47WcdLUSG/Xl8Cl1AES",
+      "friends": [
+        "315d7700-922e-4ae3-b56b-d62be31eeb0f"
+      ],
+      "groups": [
+        "9eeb1f56-f3fd-4401-baaa-978c1477a82f"
+      ],
+      "avatarUrl": ""
+    },
+    {
+      "id": "79785d20-be70-405e-b0d8-fba0478d3a8c",
+      "name": "Charlie",
+      "email": "charlie@example.com",
+      "password": "$2b$10$XYt2M39Dn3dnUm9bxe0FQORNnWoQy0lFRp47WcdLUSG/Xl8Cl1AES",
+      "friends": [
+        "315d7700-922e-4ae3-b56b-d62be31eeb0f"
+      ],
+      "groups": [
+        "9eeb1f56-f3fd-4401-baaa-978c1477a82f"
+      ],
+      "avatarUrl": ""
+    },
+    {
+      "id": "8c58e925-0bee-4a1c-b8cc-0c71a5c2cdc8",
+      "name": "Marcel",
+      "email": "email@email",
+      "password": "$2b$10$P31cqJTdOwgMB9wip6KZseXla2zotovLPYZ83u0qF59iFj8ueVur6",
+      "friends": [],
+      "groups": [
+        "8b3c26eb-991c-44d8-8bec-c0441717db36"
+      ],
+      "avatarUrl": ""
+    },
+    {
+      "id": "51cc2747-679d-4435-82a1-afb22be11ef9",
+      "name": "Marcel",
+      "email": "marcel@marcel",
+      "password": "$2b$10$3wBDo1uIwnJtQg5fsr0Fq.IchWrPqP2pGws5vjEnSmNspzYFWhFve",
+      "friends": [],
+      "groups": [],
+      "avatarUrl": ""
+    }
+  ],
+  "groups": [
+    {
+      "id": "9eeb1f56-f3fd-4401-baaa-978c1477a82f",
+      "name": "Best Friends",
+      "members": [
+        "315d7700-922e-4ae3-b56b-d62be31eeb0f",
+        "c59e86ee-7eae-4a38-b850-ce61799b1ac0",
+        "79785d20-be70-405e-b0d8-fba0478d3a8c"
+      ],
+      "events": [
+        "dd646b72-5c6c-4f1c-b9f9-7f227a16159a"
+      ]
+    },
+    {
+      "id": "8b3c26eb-991c-44d8-8bec-c0441717db36",
+      "name": "czarnuchy",
+      "members": [
+        "8c58e925-0bee-4a1c-b8cc-0c71a5c2cdc8"
+      ],
+      "events": []
+    }
+  ],
+  "events": [
+    {
+      "id": "ad528105-7aed-4372-9183-d2422b9ee4a8",
+      "title": "Public Concert",
+      "description": "A fun public concert!",
+      "date": "2025-07-23T17:43:55.799Z",
+      "isPublic": true,
+      "budget": 0,
+      "participants": [],
+      "comments": []
+    },
+    {
+      "id": "dd646b72-5c6c-4f1c-b9f9-7f227a16159a",
+      "title": "Private Dinner",
+      "description": "Dinner with friends",
+      "date": "2025-07-24T17:43:55.799Z",
+      "isPublic": false,
+      "groupId": "9eeb1f56-f3fd-4401-baaa-978c1477a82f",
+      "budget": 120,
+      "participants": [
+        "315d7700-922e-4ae3-b56b-d62be31eeb0f",
+        "c59e86ee-7eae-4a38-b850-ce61799b1ac0",
+        "79785d20-be70-405e-b0d8-fba0478d3a8c"
+      ],
+      "comments": [
+        "f345d983-0ea9-4d77-9f54-47ec5318cf77"
+      ]
+    }
+  ],
+  "comments": [
+    {
+      "id": "f345d983-0ea9-4d77-9f54-47ec5318cf77",
+      "eventId": "dd646b72-5c6c-4f1c-b9f9-7f227a16159a",
+      "userId": "315d7700-922e-4ae3-b56b-d62be31eeb0f",
+      "text": "Looking forward to it!",
+      "createdAt": "2025-07-22T17:43:55.800Z"
+    }
+  ]
+}

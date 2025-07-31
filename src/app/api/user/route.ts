@@ -9,7 +9,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   await db.read();
-  const user = db.data?.users.find((u: User) => u.email === session.user.email);
+  if (!session.user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  const userEmail = session.user?.email;
+  const user = db.data?.users.find((u: User) => u.email === userEmail);
   if (!user) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
@@ -22,14 +26,22 @@ export async function PUT(req: NextRequest) {
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const { name, avatarUrl } = await req.json();
+  const { name, avatarUrl, likedEvents, goingEvents, likedEventDetails, goingEventDetails } = await req.json();
   await db.read();
-  const user = db.data?.users.find((u: User) => u.email === session.user.email);
+  if (!session.user?.email) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  const userEmail = session.user.email;
+  const user = db.data?.users.find((u: User) => u.email === userEmail);
   if (!user) {
     return NextResponse.json({ error: 'User not found' }, { status: 404 });
   }
   if (name) user.name = name;
   if (avatarUrl) user.avatarUrl = avatarUrl;
+  if (likedEvents !== undefined) user.likedEvents = likedEvents;
+  if (goingEvents !== undefined) user.goingEvents = goingEvents;
+  if (likedEventDetails !== undefined) user.likedEventDetails = likedEventDetails;
+  if (goingEventDetails !== undefined) user.goingEventDetails = goingEventDetails;
   await db.write();
   const { password, ...userNoPass } = user;
   return NextResponse.json(userNoPass);

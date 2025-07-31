@@ -10,6 +10,10 @@ export type User = {
   friends: string[];
   groups: string[];
   avatarUrl?: string;
+  likedEvents?: string[];
+  goingEvents?: string[];
+  likedEventDetails?: any[];
+  goingEventDetails?: any[];
 };
 export type Group = {
   id: string;

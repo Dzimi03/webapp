@@ -19,18 +19,16 @@ export default function ProfilePage() {
         setUser(data);
         setName(data.name);
         setAvatarUrl(data.avatarUrl || '');
+        
+        // Load liked and going events from user data
+        if (data.likedEventDetails) setLikedEventDetails(data.likedEventDetails);
+        if (data.goingEventDetails) setGoingEventDetails(data.goingEventDetails);
       }
     }
     fetchUser();
   }, []);
 
-  // Load liked and going events from localStorage
-  useEffect(() => {
-    const savedLiked = localStorage.getItem('likedEventDetails');
-    const savedGoing = localStorage.getItem('goingEventDetails');
-    if (savedLiked) setLikedEventDetails(JSON.parse(savedLiked));
-    if (savedGoing) setGoingEventDetails(JSON.parse(savedGoing));
-  }, []);
+
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();

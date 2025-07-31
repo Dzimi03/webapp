@@ -21,6 +21,10 @@ export async function POST(req: NextRequest) {
     friends: [],
     groups: [],
     avatarUrl: '',
+    likedEvents: [],
+    goingEvents: [],
+    likedEventDetails: [],
+    goingEventDetails: [],
   };
   db.data?.users.push(user);
   await db.write();

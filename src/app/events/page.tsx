@@ -25,21 +25,54 @@ export default function EventsPage() {
   const [likedEventDetails, setLikedEventDetails] = useState<any[]>([]);
   const [goingEventDetails, setGoingEventDetails] = useState<any[]>([]);
 
-  // Load liked and going events from localStorage
+  // Function to save user preferences to database
+  const saveUserPreferences = async (likedEvents: string[], goingEvents: string[], likedEventDetails: any[], goingEventDetails: any[]) => {
+    try {
+      await fetch('/api/user', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          likedEvents,
+          goingEvents,
+          likedEventDetails,
+          goingEventDetails
+        }),
+      });
+    } catch (error) {
+      console.error('Failed to save user preferences:', error);
+    }
+  };
+
+  // Load liked and going events from database first, then fallback to localStorage
   useEffect(() => {
-    const savedLiked = localStorage.getItem('likedEventDetails');
-    const savedGoing = localStorage.getItem('goingEventDetails');
-    if (savedLiked) setLikedEventDetails(JSON.parse(savedLiked));
-    if (savedGoing) setGoingEventDetails(JSON.parse(savedGoing));
-    
-    // Also load the IDs for button states
-    const savedLikedIds = localStorage.getItem('likedEvents');
-    const savedGoingIds = localStorage.getItem('goingEvents');
-    if (savedLikedIds) setLikedEvents(JSON.parse(savedLikedIds));
-    if (savedGoingIds) setGoingEvents(JSON.parse(savedGoingIds));
+    async function loadUserPreferences() {
+      try {
+        const res = await fetch('/api/user');
+        if (res.ok) {
+          const user = await res.json();
+          if (user.likedEvents) setLikedEvents(user.likedEvents);
+          if (user.goingEvents) setGoingEvents(user.goingEvents);
+          if (user.likedEventDetails) setLikedEventDetails(user.likedEventDetails);
+          if (user.goingEventDetails) setGoingEventDetails(user.goingEventDetails);
+        }
+      } catch (error) {
+        console.error('Failed to load user preferences:', error);
+        // Fallback to localStorage
+        const savedLiked = localStorage.getItem('likedEventDetails');
+        const savedGoing = localStorage.getItem('goingEventDetails');
+        if (savedLiked) setLikedEventDetails(JSON.parse(savedLiked));
+        if (savedGoing) setGoingEventDetails(JSON.parse(savedGoing));
+        
+        const savedLikedIds = localStorage.getItem('likedEvents');
+        const savedGoingIds = localStorage.getItem('goingEvents');
+        if (savedLikedIds) setLikedEvents(JSON.parse(savedLikedIds));
+        if (savedGoingIds) setGoingEvents(JSON.parse(savedGoingIds));
+      }
+    }
+    loadUserPreferences();
   }, []);
 
-  // Save liked and going events to localStorage
+  // Save to localStorage as backup
   useEffect(() => {
     localStorage.setItem('likedEvents', JSON.stringify(likedEvents));
   }, [likedEvents]);
@@ -49,42 +82,38 @@ export default function EventsPage() {
   }, [goingEvents]);
 
   const handleLikeEvent = (eventId: string, eventDetails: any) => {
-    setLikedEvents(prev => {
-      const newLiked = prev.includes(eventId) 
-        ? prev.filter(id => id !== eventId)
-        : [...prev, eventId];
-      return newLiked;
-    });
+    const newLiked = likedEvents.includes(eventId) 
+      ? likedEvents.filter(id => id !== eventId)
+      : [...likedEvents, eventId];
+    
+    const newLikedDetails = likedEventDetails.some(event => event.id === eventId)
+      ? likedEventDetails.filter(event => event.id !== eventId)
+      : [...likedEventDetails, eventDetails];
 
-    setLikedEventDetails(prev => {
-      const isAlreadyLiked = prev.some(event => event.id === eventId);
-      if (isAlreadyLiked) {
-        return prev.filter(event => event.id !== eventId);
-      } else {
-        return [...prev, eventDetails];
-      }
-    });
+    setLikedEvents(newLiked);
+    setLikedEventDetails(newLikedDetails);
+
+    // Save to database
+    saveUserPreferences(newLiked, goingEvents, newLikedDetails, goingEventDetails);
   };
 
   const handleGoingEvent = (eventId: string, eventDetails: any) => {
-    setGoingEvents(prev => {
-      const newGoing = prev.includes(eventId) 
-        ? prev.filter(id => id !== eventId)
-        : [...prev, eventId];
-      return newGoing;
-    });
+    const newGoing = goingEvents.includes(eventId) 
+      ? goingEvents.filter(id => id !== eventId)
+      : [...goingEvents, eventId];
+    
+    const newGoingDetails = goingEventDetails.some(event => event.id === eventId)
+      ? goingEventDetails.filter(event => event.id !== eventId)
+      : [...goingEventDetails, eventDetails];
 
-    setGoingEventDetails(prev => {
-      const isAlreadyGoing = prev.some(event => event.id === eventId);
-      if (isAlreadyGoing) {
-        return prev.filter(event => event.id !== eventId);
-      } else {
-        return [...prev, eventDetails];
-      }
-    });
+    setGoingEvents(newGoing);
+    setGoingEventDetails(newGoingDetails);
+
+    // Save to database
+    saveUserPreferences(likedEvents, newGoing, likedEventDetails, newGoingDetails);
   };
 
-  // Save event details to localStorage whenever they change
+  // Save event details to localStorage as backup
   useEffect(() => {
     localStorage.setItem('likedEventDetails', JSON.stringify(likedEventDetails));
   }, [likedEventDetails]);

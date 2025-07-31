@@ -13,6 +13,10 @@ export type User = {
   friends: string[];
   groups: string[];
   avatarUrl?: string;
+  likedEvents?: string[];
+  goingEvents?: string[];
+  likedEventDetails?: any[];
+  goingEventDetails?: any[];
 };
 export type Group = {
   id: string;
@@ -63,6 +67,10 @@ async function seed() {
     friends: [],
     groups: [],
     avatarUrl: '',
+    likedEvents: [],
+    goingEvents: [],
+    likedEventDetails: [],
+    goingEventDetails: [],
   };
   const user2: User = {
     id: uuidv4(),
@@ -72,6 +80,10 @@ async function seed() {
     friends: [],
     groups: [],
     avatarUrl: '',
+    likedEvents: [],
+    goingEvents: [],
+    likedEventDetails: [],
+    goingEventDetails: [],
   };
   const user3: User = {
     id: uuidv4(),
@@ -81,6 +93,10 @@ async function seed() {
     friends: [],
     groups: [],
     avatarUrl: '',
+    likedEvents: [],
+    goingEvents: [],
+    likedEventDetails: [],
+    goingEventDetails: [],
   };
   user1.friends = [user2.id, user3.id];
   user2.friends = [user1.id];

@@ -8,6 +8,7 @@ export default function Navbar() {
   const [user, setUser] = useState<any>(null);
   const [friendRequests, setFriendRequests] = useState<any[]>([]);
   const [groupInvites, setGroupInvites] = useState<any[]>([]);
+  const [eventInvites, setEventInvites] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const isAuthenticated = !!session;
   const notificationsRef = useRef<HTMLDivElement>(null);
@@ -47,6 +48,13 @@ export default function Navbar() {
           if (groupRes.ok) {
             const groupData = await groupRes.json();
             setGroupInvites(groupData.invites || []);
+          }
+
+          // Fetch event invitations
+          const eventRes = await fetch('/api/events/invite');
+          if (eventRes.ok) {
+            const eventData = await eventRes.json();
+            setEventInvites(eventData || []);
           }
         } catch (error) {
           console.error('Failed to fetch notifications:', error);
@@ -126,7 +134,37 @@ export default function Navbar() {
         setGroupInvites(prev => prev.filter(invite => invite.id !== inviteId));
       }
     } catch (error) {
-      console.error('Failed to reject group invitation:', error);
+      console.error('Failed to reject group invite:', error);
+    }
+  };
+
+  const handleAcceptEventInvite = async (inviteId: string) => {
+    try {
+      const res = await fetch('/api/events/invite', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inviteId, action: 'accept' }),
+      });
+      if (res.ok) {
+        setEventInvites(prev => prev.filter(invite => invite.id !== inviteId));
+      }
+    } catch (error) {
+      console.error('Failed to accept event invite:', error);
+    }
+  };
+
+  const handleRejectEventInvite = async (inviteId: string) => {
+    try {
+      const res = await fetch('/api/events/invite', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inviteId, action: 'reject' }),
+      });
+      if (res.ok) {
+        setEventInvites(prev => prev.filter(invite => invite.id !== inviteId));
+      }
+    } catch (error) {
+      console.error('Failed to reject event invite:', error);
     }
   };
 
@@ -135,7 +173,7 @@ export default function Navbar() {
     return null;
   }
 
-  const totalNotifications = friendRequests.length + groupInvites.length;
+  const totalNotifications = friendRequests.length + groupInvites.length + eventInvites.length;
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 px-6 py-4 flex items-center justify-between z-50 shadow-lg">
@@ -318,6 +356,58 @@ export default function Navbar() {
                           </button>
                           <button
                             onClick={() => handleRejectGroupInvite(invite.id)}
+                            className="px-3 py-1.5 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600 transition-colors duration-200 font-medium shadow-sm"
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                    {eventInvites.map((invite) => (
+                      <div key={invite.id} className="flex items-center space-x-4 p-4 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg border border-orange-200 hover:shadow-md transition-all duration-200">
+                        {/* Profile Picture */}
+                        <div className="flex-shrink-0">
+                          <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center overflow-hidden shadow-lg">
+                            {invite.sender?.avatarUrl ? (
+                              <img 
+                                src={invite.sender.avatarUrl} 
+                                alt="Profile" 
+                                className="w-12 h-12 rounded-full object-cover"
+                              />
+                            ) : (
+                              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                              </svg>
+                            )}
+                          </div>
+                        </div>
+                        
+                        {/* User Info */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900">
+                            <span className="font-semibold">{invite.sender?.name}</span> invited you to an event: <span className="font-semibold">{invite.eventName}</span>
+                          </p>
+                          <p className="text-xs text-gray-500 truncate">{invite.sender?.email}</p>
+                          <p className="text-xs text-gray-400 mt-1">
+                            {new Date(invite.createdAt).toLocaleDateString('pl-PL', {
+                              day: 'numeric',
+                              month: 'short',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </p>
+                        </div>
+                        
+                        {/* Action Buttons */}
+                        <div className="flex flex-col space-y-2 flex-shrink-0">
+                          <button
+                            onClick={() => handleAcceptEventInvite(invite.id)}
+                            className="px-3 py-1.5 bg-orange-500 text-white text-xs rounded-lg hover:bg-orange-600 transition-colors duration-200 font-medium shadow-sm"
+                          >
+                            Accept
+                          </button>
+                          <button
+                            onClick={() => handleRejectEventInvite(invite.id)}
                             className="px-3 py-1.5 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600 transition-colors duration-200 font-medium shadow-sm"
                           >
                             Reject

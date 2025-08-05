@@ -20,6 +20,8 @@ export type User = {
   receivedFriendRequests?: string[];
   sentGroupInvites?: string[];
   receivedGroupInvites?: string[];
+  sentEventInvites?: string[];
+  receivedEventInvites?: string[];
 };
 
 export type FriendRequest = {
@@ -35,6 +37,16 @@ export type GroupInvite = {
   fromUserId: string;
   toUserId: string;
   groupId: string;
+  status: 'pending' | 'accepted' | 'rejected';
+  createdAt: string;
+};
+
+export type EventInvite = {
+  id: string;
+  fromUserId: string;
+  toUserId: string;
+  eventId: string;
+  eventName: string;
   status: 'pending' | 'accepted' | 'rejected';
   createdAt: string;
 };
@@ -104,8 +116,9 @@ export type DB = {
   comments: Comment[];
   friendRequests: FriendRequest[];
   groupInvites: GroupInvite[];
+  eventInvites: EventInvite[];
 };
 
 const file = join(process.cwd(), 'src', 'app', 'api', 'db.json');
 const adapter = new JSONFile<DB>(file);
-export const db = new Low<DB>(adapter, { users: [], groups: [], events: [], comments: [], friendRequests: [], groupInvites: [] });
+export const db = new Low<DB>(adapter, { users: [], groups: [], events: [], comments: [], friendRequests: [], groupInvites: [], eventInvites: [] });

@@ -24,3 +24,145 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Hide Next.js development overlay elements */
+[data-nextjs-dialog-overlay] {
+  display: none !important;
+}
+
+[data-nextjs-toast] {
+  display: none !important;
+}
+
+/* Hide any Next.js development bars */
+[data-nextjs-portal] {
+  display: none !important;
+}
+
+/* Hide React DevTools overlay */
+#react-devtools-root {
+  display: none !important;
+}
+
+/* Hide Next.js development elements more comprehensively */
+[data-nextjs-dialog-overlay],
+[data-nextjs-toast],
+[data-nextjs-portal],
+#react-devtools-root,
+[data-nextjs-error-overlay],
+[data-nextjs-error-dialog],
+[data-nextjs-error-toast],
+[data-nextjs-error-portal],
+[data-nextjs-warning-overlay],
+[data-nextjs-warning-dialog],
+[data-nextjs-warning-toast],
+[data-nextjs-warning-portal] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide any potential black bars or side elements */
+[data-nextjs-sidebar],
+[data-nextjs-header],
+[data-nextjs-footer],
+[data-nextjs-banner],
+[data-nextjs-ribbon],
+[data-nextjs-badge],
+[data-nextjs-logo],
+[data-nextjs-branding] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide any elements with Next.js branding text */
+*[class*="nextjs"],
+*[id*="nextjs"],
+*[data-*="nextjs"] {
+  display: none !important;
+}
+
+/* Ensure no horizontal scrollbars from development elements */
+html, body {
+  overflow-x: hidden;
+}
+
+/* Hide any potential development toolbars or overlays */
+[class*="devtools"],
+[id*="devtools"],
+[data-*="devtools"],
+[class*="debug"],
+[id*="debug"],
+[data-*="debug"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Additional comprehensive hiding for any potential black bars or branding */
+[class*="next"],
+[id*="next"],
+[data-*="next"],
+[class*="create"],
+[id*="create"],
+[data-*="create"],
+[class*="app"],
+[id*="app"],
+[data-*="app"] {
+  display: none !important;
+}
+
+/* Hide any potential black bars on sides */
+[class*="sidebar"],
+[id*="sidebar"],
+[data-*="sidebar"],
+[class*="panel"],
+[id*="panel"],
+[data-*="panel"],
+[class*="bar"],
+[id*="bar"],
+[data-*="bar"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Ensure body and html have no unwanted margins or padding */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow-x: hidden !important;
+}
+
+/* Hide any potential overlay elements */
+[class*="overlay"],
+[id*="overlay"],
+[data-*="overlay"],
+[class*="modal"],
+[id*="modal"],
+[data-*="modal"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide any potential branding elements */
+[class*="brand"],
+[id*="brand"],
+[data-*="brand"],
+[class*="logo"],
+[id*="logo"],
+[data-*="logo"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

@@ -1,47 +1,81 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db, User, Group } from '../db';
-import { getToken } from 'next-auth/jwt';
-import { v4 as uuidv4 } from 'uuid';
-
-async function getSessionUser(req: NextRequest) {
-  const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-  if (!token?.email) return null;
-  await db.read();
-  return db.data?.users.find((u: User) => u.email === token.email) || null;
-}
+import { getServerSession } from 'next-auth';
+import { authOptions } from '../auth/[...nextauth]/route';
+import { db, GroupMember } from '../db';
 
 export async function GET(req: NextRequest) {
-  const user = await getSessionUser(req);
-  if (!user) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const groups = db.data?.groups.filter((g: Group) => g.members.includes(user.id)) || [];
-  return NextResponse.json(groups);
+
+  try {
+    await db.read();
+    const currentUser = db.data.users.find(u => u.email === session.user!.email);
+    
+    if (!currentUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    // Get groups where the current user is a member (handle both old and new structures)
+    const userGroups = db.data.groups.filter(group => 
+      group.members.some(member => {
+        if ('userId' in member) {
+          return member.userId === currentUser.id;
+        } else {
+          return member.id === currentUser.id;
+        }
+      })
+    );
+
+    return NextResponse.json(userGroups);
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
 }
 
 export async function POST(req: NextRequest) {
-  const user = await getSessionUser(req);
-  if (!user) {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const { name, memberEmails } = await req.json();
-  if (!name || !Array.isArray(memberEmails)) {
-    return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
-  }
-  const members = db.data?.users.filter((u: User) => memberEmails.includes(u.email)).map(u => u.id) || [];
-  if (!members.includes(user.id)) members.push(user.id);
-  const group: Group = {
-    id: uuidv4(),
-    name,
-    members,
-    events: [],
-  };
-  db.data?.groups.push(group);
-  db.data?.users.forEach(u => {
-    if (members.includes(u.id) && !u.groups.includes(group.id)) {
-      u.groups.push(group.id);
+
+  try {
+    const { name, description } = await req.json();
+    
+    if (!name || name.trim().length === 0) {
+      return NextResponse.json({ error: 'Group name is required' }, { status: 400 });
     }
-  });
-  await db.write();
-  return NextResponse.json(group);
+
+    await db.read();
+    const currentUser = db.data.users.find(u => u.email === session.user!.email);
+    
+    if (!currentUser) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+    }
+
+    // Create new group with founder role
+    const founderMember: GroupMember = {
+      userId: currentUser.id,
+      role: 'founder',
+      joinedAt: new Date().toISOString()
+    };
+
+    const newGroup = {
+      id: Date.now().toString(),
+      name: name.trim(),
+      description: description?.trim() || '',
+      imageUrl: undefined,
+      members: [founderMember],
+      createdAt: new Date().toISOString(),
+      createdBy: currentUser.id
+    };
+
+    db.data.groups.push(newGroup);
+    await db.write();
+
+    return NextResponse.json(newGroup);
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
 } 

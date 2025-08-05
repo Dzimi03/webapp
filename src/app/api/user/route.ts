@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db, User } from '../db';
-import { getServerSession } from 'next-auth/next';
+import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
 
 export async function GET(req: NextRequest) {
@@ -26,7 +26,7 @@ export async function PUT(req: NextRequest) {
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const { name, avatarUrl, likedEvents, goingEvents, likedEventDetails, goingEventDetails } = await req.json();
+  const { name, avatarUrl, residence, description, likedEvents, goingEvents, likedEventDetails, goingEventDetails } = await req.json();
   await db.read();
   if (!session.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -38,6 +38,8 @@ export async function PUT(req: NextRequest) {
   }
   if (name) user.name = name;
   if (avatarUrl) user.avatarUrl = avatarUrl;
+  if (residence !== undefined) user.residence = residence;
+  if (description !== undefined) user.description = description;
   if (likedEvents !== undefined) user.likedEvents = likedEvents;
   if (goingEvents !== undefined) user.goingEvents = goingEvents;
   if (likedEventDetails !== undefined) user.likedEventDetails = likedEventDetails;

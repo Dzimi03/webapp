@@ -1,16 +1,16 @@
 {
   "users": [
     {
-      "id": "c1f1aeb8-55ed-4117-a094-4ff96dfb0fd8",
+      "id": "6c5ec5fb-6840-45b0-9ea0-b1598243ba8f",
       "name": "Alice",
       "email": "alice@example.com",
-      "password": "$2b$10$UMziZdunmTIxEQhy1juhzedbGap0EtDvF7Sc.qURX3e1EBRMHZmba",
+      "password": "$2b$10$DoJinj5t0N4WbsZmBoBFoOJZoeIIErgkCPid2JDdtgMfARRR/d69i",
       "friends": [
-        "958085a2-da19-4d9e-8ede-2aa741a6c32d",
-        "e47045b6-da01-4447-b012-3d885a0e726c"
+        "473fc2ff-0f1f-4a00-adb6-980203601a9c",
+        "8a4c720e-713a-4611-87c0-688395ff61be"
       ],
       "groups": [
-        "d815b05f-4266-45f1-929f-8e322bc94de6"
+        "f651c45c-090f-4626-92e7-5772a173ee3b"
       ],
       "avatarUrl": "",
       "likedEvents": [],
@@ -19,15 +19,15 @@
       "goingEventDetails": []
     },
     {
-      "id": "958085a2-da19-4d9e-8ede-2aa741a6c32d",
+      "id": "473fc2ff-0f1f-4a00-adb6-980203601a9c",
       "name": "Bob",
       "email": "bob@example.com",
-      "password": "$2b$10$UMziZdunmTIxEQhy1juhzedbGap0EtDvF7Sc.qURX3e1EBRMHZmba",
+      "password": "$2b$10$DoJinj5t0N4WbsZmBoBFoOJZoeIIErgkCPid2JDdtgMfARRR/d69i",
       "friends": [
-        "c1f1aeb8-55ed-4117-a094-4ff96dfb0fd8"
+        "6c5ec5fb-6840-45b0-9ea0-b1598243ba8f"
       ],
       "groups": [
-        "d815b05f-4266-45f1-929f-8e322bc94de6"
+        "f651c45c-090f-4626-92e7-5772a173ee3b"
       ],
       "avatarUrl": "",
       "likedEvents": [],
@@ -36,15 +36,15 @@
       "goingEventDetails": []
     },
     {
-      "id": "e47045b6-da01-4447-b012-3d885a0e726c",
+      "id": "8a4c720e-713a-4611-87c0-688395ff61be",
       "name": "Charlie",
       "email": "charlie@example.com",
-      "password": "$2b$10$UMziZdunmTIxEQhy1juhzedbGap0EtDvF7Sc.qURX3e1EBRMHZmba",
+      "password": "$2b$10$DoJinj5t0N4WbsZmBoBFoOJZoeIIErgkCPid2JDdtgMfARRR/d69i",
       "friends": [
-        "c1f1aeb8-55ed-4117-a094-4ff96dfb0fd8"
+        "6c5ec5fb-6840-45b0-9ea0-b1598243ba8f"
       ],
       "groups": [
-        "d815b05f-4266-45f1-929f-8e322bc94de6"
+        "f651c45c-090f-4626-92e7-5772a173ee3b"
       ],
       "avatarUrl": "",
       "likedEvents": [],
@@ -53,30 +53,59 @@
       "goingEventDetails": []
     },
     {
-      "id": "83653f28-0a44-44f6-8717-d6212c51719f",
-      "name": "dzimi",
-      "email": "dzimi@dzimi",
-      "password": "$2b$10$NQIwfZGcbDq5q/8G5PCR4.8PtJVsGiqCxNeXQ.7DERNzoadsTjQnu",
+      "id": "42b055e8-867b-4558-8594-0c55270ea3c8",
+      "name": "test",
+      "email": "test@test.pl",
+      "password": "$2b$10$jVORDG4c9c4yqjIBx.rXQ.ZciLFwvgEvi1ha8BgOTliAbUf6HcVlS",
       "friends": [],
-      "groups": [],
+      "groups": [
+        "2116f747-a793-4690-9ccc-5b4c77229e65"
+      ],
       "avatarUrl": "",
+      "likedEvents": [],
+      "goingEvents": [],
+      "likedEventDetails": [],
+      "goingEventDetails": []
+    },
+    {
+      "id": "808b6754-9569-46ca-ad50-99fb22e93f3d",
+      "name": "to_add",
+      "email": "to_add@gmail.com",
+      "password": "$2b$10$xRtJ5UfEKBVJewGdPNjqfu.KMu.aL5J288sc17hbEesA2nhTKei5W",
+      "friends": [],
+      "groups": [
+        "2116f747-a793-4690-9ccc-5b4c77229e65"
+      ],
+      "avatarUrl": "",
+      "likedEvents": [],
+      "goingEvents": [],
+      "likedEventDetails": [],
+      "goingEventDetails": []
+    },
+    {
+      "id": "0d859552-69bd-4384-bafb-3e057518738c",
+      "name": "Jan Wiela",
+      "email": "janwiela@gmail.com",
+      "password": "$2b$10$oy0BvUmwnRM/SK33iIf4Q.sJ26q0PF.E8dkIj4XdAYLLPE8DZAzfe",
+      "friends": [
+        "fdd63866-5ad0-4882-960f-b8a597c5b774",
+        "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73"
+      ],
+      "groups": [],
+      "avatarUrl": "/uploads/avatar_janwiela@gmail.com_1754404843090.jpg",
       "likedEvents": [
-        "Z698xZQpZ16v3Auove",
-        "Z698xZQpZ16v0yjZrZ"
+        "Z698xZQpZ1kok1fk4"
       ],
       "goingEvents": [
-        "Z698xZQpZ16vPx00rf",
-        "Z698xZQpZ1kAbZ-pF",
-        "Z698xZQpZ1kfzP_PJ",
-        "Z698xZQpZ1kQaqM4v"
+        "Z698xZQpZ1kuEqaAp"
       ],
       "likedEventDetails": [
         {
-          "name": "18.LAJ - 18.Letnia Akademia Jazzu - karnet",
+          "name": "18.LAJ Polskie Kompozytorki Młodego Pokolenia",
           "type": "event",
-          "id": "Z698xZQpZ16v3Auove",
+          "id": "Z698xZQpZ1kok1fk4",
           "test": false,
-          "url": "https://www.ticketmaster.pl/event/18laj-18letnia-akademia-jazzu-karnet-tickets/1485351042?language=en-us",
+          "url": "https://www.ticketmaster.pl/event/18laj-polskie-kompozytorki-modego-pokolenia-tickets/446294195?language=en-us",
           "locale": "en-us",
           "images": [
             {
@@ -159,25 +188,27 @@
           ],
           "sales": {
             "public": {
-              "startDateTime": "2025-05-05T11:08:00Z",
+              "startDateTime": "2025-05-23T12:20:00Z",
               "startTBD": false,
               "startTBA": false,
-              "endDateTime": "2025-07-31T12:00:00Z"
+              "endDateTime": "2025-08-07T21:59:00Z"
             }
           },
           "dates": {
             "start": {
-              "localDate": "2025-07-31",
+              "localDate": "2025-08-07",
+              "localTime": "19:00:00",
+              "dateTime": "2025-08-07T17:00:00Z",
               "dateTBD": false,
               "dateTBA": false,
-              "timeTBA": true,
+              "timeTBA": false,
               "noSpecificTime": false
             },
             "timezone": "Europe/Warsaw",
             "status": {
-              "code": "offsale"
+              "code": "onsale"
             },
-            "spanMultipleDays": true
+            "spanMultipleDays": false
           },
           "classifications": [
             {
@@ -208,7 +239,7 @@
             }
           ],
           "seatmap": {
-            "staticUrl": "https://media.ticketmaster.eu/poland/f6c5de1d3dedd8cab9b1324af09c4a3a.jpg",
+            "staticUrl": "https://media.ticketmaster.eu/poland/fc31dbe82d94a4e4185a652bf4099aaa.jpg",
             "id": "seatmap"
           },
           "ticketing": {
@@ -219,7 +250,7 @@
           },
           "_links": {
             "self": {
-              "href": "/discovery/v2/events/Z698xZQpZ16v3Auove?locale=en-us"
+              "href": "/discovery/v2/events/Z698xZQpZ1kok1fk4?locale=en-us"
             },
             "attractions": [
               {
@@ -264,8 +295,8 @@
                   "latitude": "51.75729"
                 },
                 "upcomingEvents": {
-                  "mfx-pl": 22,
-                  "_total": 22,
+                  "mfx-pl": 20,
+                  "_total": 20,
                   "_filtered": 0
                 },
                 "_links": {
@@ -389,8 +420,8 @@
                   }
                 ],
                 "upcomingEvents": {
-                  "mfx-pl": 9,
-                  "_total": 9,
+                  "mfx-pl": 6,
+                  "_total": 6,
                   "_filtered": 0
                 },
                 "_links": {
@@ -512,8 +543,8 @@
                   }
                 ],
                 "upcomingEvents": {
-                  "mfx-pl": 12,
-                  "_total": 12,
+                  "mfx-pl": 11,
+                  "_total": 11,
                   "_filtered": 0
                 },
                 "_links": {
@@ -524,588 +555,90 @@
               }
             ]
           }
-        },
-        {
-          "name": "Infinity Song World Tour II",
-          "type": "event",
-          "id": "Z698xZQpZ16v0yjZrZ",
-          "test": false,
-          "url": "https://www.ticketmaster.pl/event/infinity-song-world-tour-ii-tickets/1939700780?language=en-us",
-          "locale": "en-us",
-          "images": [
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_SOURCE",
-              "width": 2426,
-              "height": 1365,
-              "fallback": false
-            },
-            {
-              "ratio": "4_3",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_CUSTOM.jpg",
-              "width": 305,
-              "height": 225,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_TABLET_LANDSCAPE_3_2.jpg",
-              "width": 1024,
-              "height": 683,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_EVENT_DETAIL_PAGE_16_9.jpg",
-              "width": 205,
-              "height": 115,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_RETINA_PORTRAIT_3_2.jpg",
-              "width": 640,
-              "height": 427,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-              "width": 2048,
-              "height": 1152,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/606/b2b3c421-c9b2-416c-b82a-e0f68c97f606_SOURCE",
-              "width": 2426,
-              "height": 1617,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_RETINA_PORTRAIT_16_9.jpg",
-              "width": 640,
-              "height": 360,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_ARTIST_PAGE_3_2.jpg",
-              "width": 305,
-              "height": 203,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_RECOMENDATION_16_9.jpg",
-              "width": 100,
-              "height": 56,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_TABLET_LANDSCAPE_16_9.jpg",
-              "width": 1024,
-              "height": 576,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_RETINA_LANDSCAPE_16_9.jpg",
-              "width": 1136,
-              "height": 639,
-              "fallback": false
-            }
-          ],
-          "sales": {
-            "public": {
-              "startDateTime": "2025-03-20T11:00:00Z",
-              "startTBD": false,
-              "startTBA": false,
-              "endDateTime": "2025-08-01T18:00:00Z"
-            }
-          },
-          "dates": {
-            "start": {
-              "localDate": "2025-08-01",
-              "localTime": "18:00:00",
-              "dateTime": "2025-08-01T16:00:00Z",
-              "dateTBD": false,
-              "dateTBA": false,
-              "timeTBA": false,
-              "noSpecificTime": false
-            },
-            "timezone": "Europe/Warsaw",
-            "status": {
-              "code": "onsale"
-            },
-            "spanMultipleDays": false
-          },
-          "classifications": [
-            {
-              "primary": true,
-              "segment": {
-                "id": "KZFzniwnSyZfZ7v7nJ",
-                "name": "Music"
-              },
-              "genre": {
-                "id": "KnvZfZ7vAv1",
-                "name": "Hip-Hop/Rap"
-              },
-              "subGenre": {
-                "id": "KZazBEonSMnZfZ7vkvl",
-                "name": "Hip-Hop/Rap"
-              },
-              "family": false
-            },
-            {
-              "primary": false,
-              "segment": {
-                "id": "KZFzniwnSyZfZ7v7nJ",
-                "name": "Music"
-              },
-              "genre": {
-                "id": "KnvZfZ7vAeA",
-                "name": "Rock"
-              },
-              "subGenre": {
-                "id": "KZazBEonSMnZfZ7v6F1",
-                "name": "Pop"
-              },
-              "family": false
-            }
-          ],
-          "promoter": {
-            "id": "31",
-            "name": "Live Nation Sp. z o.o."
-          },
-          "promoters": [
-            {
-              "id": "31",
-              "name": "Live Nation Sp. z o.o."
-            }
-          ],
-          "seatmap": {
-            "staticUrl": "https://media.ticketmaster.eu/poland/e68dd38b1f94c38d25b3b8f3b073ab39.jpg",
-            "id": "seatmap"
-          },
-          "ticketing": {
-            "safeTix": {
-              "enabled": false
-            },
-            "id": "ticketing"
-          },
-          "_links": {
-            "self": {
-              "href": "/discovery/v2/events/Z698xZQpZ16v0yjZrZ?locale=en-us"
-            },
-            "attractions": [
-              {
-                "href": "/discovery/v2/attractions/K8vZ917bwJf?locale=en-us"
-              },
-              {
-                "href": "/discovery/v2/attractions/K8vZ917rquV?locale=en-us"
-              }
-            ],
-            "venues": [
-              {
-                "href": "/discovery/v2/venues/Z198xZQpZeae?locale=en-us"
-              }
-            ]
-          },
-          "_embedded": {
-            "venues": [
-              {
-                "name": "Klub Hybrydy",
-                "type": "venue",
-                "id": "Z198xZQpZeae",
-                "test": false,
-                "url": "https://www.ticketmaster.pl/venue/klub-hybrydy-warszawa--bilety/hyb/105",
-                "locale": "en-us",
-                "postalCode": "00-019",
-                "timezone": "Europe/Warsaw",
-                "city": {
-                  "name": "Warsaw"
-                },
-                "state": {
-                  "name": "Mazowieckie"
-                },
-                "country": {
-                  "name": "Poland",
-                  "countryCode": "PL"
-                },
-                "address": {
-                  "line1": "ul. Złota 7/9"
-                },
-                "location": {
-                  "longitude": "21.0115",
-                  "latitude": "52.23274"
-                },
-                "upcomingEvents": {
-                  "mfx-pl": 10,
-                  "_total": 10,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/venues/Z198xZQpZeae?locale=en-us"
-                  }
-                }
-              }
-            ],
-            "attractions": [
-              {
-                "name": "Infinity Song",
-                "type": "attraction",
-                "id": "K8vZ917bwJf",
-                "test": false,
-                "url": "https://www.ticketmaster.com/infinity-song-tickets/artist/2732697",
-                "locale": "en-us",
-                "externalLinks": {
-                  "musicbrainz": [
-                    {
-                      "id": "a7794091-fa04-458b-b3c9-913c0e025fdf",
-                      "url": "https://musicbrainz.org/artist/a7794091-fa04-458b-b3c9-913c0e025fdf"
-                    }
-                  ]
-                },
-                "images": [
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_SOURCE",
-                    "width": 2426,
-                    "height": 1365,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/606/b2b3c421-c9b2-416c-b82a-e0f68c97f606_SOURCE",
-                    "width": 2426,
-                    "height": 1617,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a76/5f55a212-02ac-40ff-bf05-133cbcb7ba76_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": false
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAvE",
-                      "name": "Jazz"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7vkda",
-                      "name": "Jazz"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7l1",
-                      "name": "Group"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vA71",
-                      "name": "Band"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-dk": 1,
-                  "tmr": 7,
-                  "ticketmaster": 13,
-                  "ticketweb": 3,
-                  "mfx-de": 1,
-                  "mfx-pl": 1,
-                  "_total": 26,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917bwJf?locale=en-us"
-                  }
-                }
-              },
-              {
-                "name": "Welur",
-                "type": "attraction",
-                "id": "K8vZ917rquV",
-                "test": false,
-                "url": "https://www.ticketmaster.com/welur-tickets/artist/3847959",
-                "locale": "en-us",
-                "images": [
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_SOURCE",
-                    "width": 2426,
-                    "height": 1365,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/294/3fe337e8-3403-465f-829d-549e682f0294_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": false
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAee",
-                      "name": "R&B"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7vknE",
-                      "name": "Soul"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7la",
-                      "name": "Individual"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vAd7",
-                      "name": "Musician"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 1,
-                  "_total": 1,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917rquV?locale=en-us"
-                  }
-                }
-              }
-            ]
-          }
         }
       ],
       "goingEventDetails": [
         {
-          "name": "30. Summer Jazz Festival Kraków: Marcin Ślusarczyk feat. Pavel Vlosok",
+          "name": "RETRO WARSZAWA – PODRÓŻ DO MIASTA SPRZED 100 LAT",
           "type": "event",
-          "id": "Z698xZQpZ16vPx00rf",
+          "id": "Z698xZQpZ1kuEqaAp",
           "test": false,
-          "url": "https://www.ticketmaster.pl/event/30-summer-jazz-festival-krakow-marcin-slusarczyk-feat-pavel-vlosok-tickets/1962924794?language=en-us",
+          "url": "https://www.ticketmaster.pl/event/retro-warszawa--podroz-do-miasta-sprzed-100-lat-tickets/367749156?language=en-us",
           "locale": "en-us",
           "images": [
             {
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_SOURCE",
-              "width": 1700,
-              "height": 1200,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_PORTRAIT_3_2.jpg",
-              "width": 640,
-              "height": 427,
-              "fallback": false
-            },
-            {
               "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_LANDSCAPE_16_9.jpg",
-              "width": 1136,
-              "height": 639,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_PORTRAIT_16_9.jpg",
-              "width": 640,
-              "height": 360,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_ARTIST_PAGE_3_2.jpg",
-              "width": 305,
-              "height": 203,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_EVENT_DETAIL_PAGE_16_9.jpg",
-              "width": 205,
-              "height": 115,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-              "width": 2048,
-              "height": 1152,
-              "fallback": true
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_TABLET_LANDSCAPE_16_9.jpg",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_16_9.jpg",
               "width": 1024,
               "height": 576,
               "fallback": false
             },
             {
               "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RECOMENDATION_16_9.jpg",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_SOURCE",
+              "width": 2311,
+              "height": 1300,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_LANDSCAPE_16_9.jpg",
+              "width": 1136,
+              "height": 639,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+              "width": 2048,
+              "height": 1152,
+              "fallback": false
+            },
+            {
+              "ratio": "3_2",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_PORTRAIT_3_2.jpg",
+              "width": 640,
+              "height": 427,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_EVENT_DETAIL_PAGE_16_9.jpg",
+              "width": 205,
+              "height": 115,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_PORTRAIT_16_9.jpg",
+              "width": 640,
+              "height": 360,
+              "fallback": false
+            },
+            {
+              "ratio": "3_2",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_ARTIST_PAGE_3_2.jpg",
+              "width": 305,
+              "height": 203,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RECOMENDATION_16_9.jpg",
               "width": 100,
               "height": 56,
               "fallback": false
             },
             {
               "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_TABLET_LANDSCAPE_3_2.jpg",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_3_2.jpg",
               "width": 1024,
               "height": 683,
               "fallback": false
             },
             {
               "ratio": "4_3",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_CUSTOM.jpg",
+              "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_CUSTOM.jpg",
               "width": 305,
               "height": 225,
               "fallback": false
@@ -1113,606 +646,18 @@
           ],
           "sales": {
             "public": {
-              "startDateTime": "2025-05-12T09:06:00Z",
+              "startDateTime": "2025-02-27T07:00:00Z",
               "startTBD": false,
               "startTBA": false,
-              "endDateTime": "2025-07-31T19:00:00Z"
+              "endDateTime": "2025-08-10T17:30:00Z"
             }
           },
           "dates": {
             "start": {
-              "localDate": "2025-07-31",
-              "localTime": "21:30:00",
-              "dateTime": "2025-07-31T19:30:00Z",
+              "localDate": "2025-08-10",
               "dateTBD": false,
               "dateTBA": false,
-              "timeTBA": false,
-              "noSpecificTime": false
-            },
-            "timezone": "Europe/Warsaw",
-            "status": {
-              "code": "onsale"
-            },
-            "spanMultipleDays": false
-          },
-          "classifications": [
-            {
-              "primary": false,
-              "segment": {
-                "id": "KZFzniwnSyZfZ7v7nJ",
-                "name": "Music"
-              },
-              "genre": {
-                "id": "KnvZfZ7vAvd",
-                "name": "Blues"
-              },
-              "subGenre": {
-                "id": "KZazBEonSMnZfZ7vAk6",
-                "name": "Jazz Blues"
-              },
-              "family": false
-            },
-            {
-              "primary": true,
-              "segment": {
-                "id": "KZFzniwnSyZfZ7v7nJ",
-                "name": "Music"
-              },
-              "genre": {
-                "id": "KnvZfZ7vAvE",
-                "name": "Jazz"
-              },
-              "subGenre": {
-                "id": "KZazBEonSMnZfZ7vkda",
-                "name": "Jazz"
-              },
-              "family": false
-            }
-          ],
-          "promoter": {
-            "id": "1097",
-            "name": "Fundacja My Polish Heart"
-          },
-          "promoters": [
-            {
-              "id": "1097",
-              "name": "Fundacja My Polish Heart"
-            }
-          ],
-          "ticketing": {
-            "safeTix": {
-              "enabled": false
-            },
-            "id": "ticketing"
-          },
-          "_links": {
-            "self": {
-              "href": "/discovery/v2/events/Z698xZQpZ16vPx00rf?locale=en-us"
-            },
-            "attractions": [
-              {
-                "href": "/discovery/v2/attractions/K8vZ917pWR0?locale=en-us"
-              },
-              {
-                "href": "/discovery/v2/attractions/K8vZ917QLOV?locale=en-us"
-              },
-              {
-                "href": "/discovery/v2/attractions/K8vZ917QO30?locale=en-us"
-              }
-            ],
-            "venues": [
-              {
-                "href": "/discovery/v2/venues/Z598xZQpZev17?locale=en-us"
-              }
-            ]
-          },
-          "_embedded": {
-            "venues": [
-              {
-                "name": "Harris Piano Jazz Bar",
-                "type": "venue",
-                "id": "Z598xZQpZev17",
-                "test": false,
-                "url": "https://www.ticketmaster.pl/venue/harris-piano-jazz-bar-krakow--bilety/pjb/101",
-                "locale": "en-us",
-                "postalCode": "31-000",
-                "timezone": "Europe/Warsaw",
-                "city": {
-                  "name": "Krakow"
-                },
-                "state": {
-                  "name": "Małopolskie"
-                },
-                "country": {
-                  "name": "Poland",
-                  "countryCode": "PL"
-                },
-                "address": {
-                  "line1": "Rynek Główny 28"
-                },
-                "location": {
-                  "longitude": "19.93558",
-                  "latitude": "50.06172"
-                },
-                "upcomingEvents": {
-                  "mfx-pl": 3,
-                  "_total": 3,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/venues/Z598xZQpZev17?locale=en-us"
-                  }
-                }
-              }
-            ],
-            "attractions": [
-              {
-                "name": "Summer Jazz Festival Kraków",
-                "type": "attraction",
-                "id": "K8vZ917pWR0",
-                "test": false,
-                "url": "https://www.ticketmaster.com/summer-jazz-festival-krakow-tickets/artist/2490273",
-                "locale": "en-us",
-                "externalLinks": {
-                  "homepage": [
-                    {
-                      "url": "https://www.cracjazz.com/pl/"
-                    }
-                  ]
-                },
-                "images": [
-                  {
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_SOURCE",
-                    "width": 1700,
-                    "height": 1200,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": false
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAvE",
-                      "name": "Jazz"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7vkda",
-                      "name": "Jazz"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7lt",
-                      "name": "Event Style"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vA6E",
-                      "name": "Festival"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 20,
-                  "_total": 20,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917pWR0?locale=en-us"
-                  }
-                }
-              },
-              {
-                "name": "Marcin Slusarczyk",
-                "type": "attraction",
-                "id": "K8vZ917QLOV",
-                "test": false,
-                "url": "https://www.ticketmaster.com/marcin-slusarczyk-tickets/artist/2894977",
-                "locale": "en-us",
-                "images": [
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": true
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAvE",
-                      "name": "Jazz"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7vkda",
-                      "name": "Jazz"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7la",
-                      "name": "Individual"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vAd7",
-                      "name": "Musician"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 1,
-                  "_total": 1,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917QLOV?locale=en-us"
-                  }
-                }
-              },
-              {
-                "name": "Pavel Wlosok",
-                "type": "attraction",
-                "id": "K8vZ917QO30",
-                "test": false,
-                "url": "https://www.ticketmaster.com/pavel-wlosok-tickets/artist/2894978",
-                "locale": "en-us",
-                "images": [
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": true
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAvE",
-                      "name": "Jazz"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7vkda",
-                      "name": "Jazz"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7la",
-                      "name": "Individual"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vAd7",
-                      "name": "Musician"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 2,
-                  "_total": 2,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917QO30?locale=en-us"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        {
-          "name": "Alfons Mucha - toast dla sztuki - Oprowadzanie dla dorosłych",
-          "type": "event",
-          "id": "Z698xZQpZ1kAbZ-pF",
-          "test": false,
-          "url": "https://www.ticketmaster.pl/event/alfons-mucha-toast-dla-sztuki-oprowadzanie-dla-dorosych-tickets/158021588?language=en-us",
-          "locale": "en-us",
-          "images": [
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_TABLET_LANDSCAPE_16_9.jpg",
-              "width": 1024,
-              "height": 576,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_ARTIST_PAGE_3_2.jpg",
-              "width": 305,
-              "height": 203,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_RETINA_LANDSCAPE_16_9.jpg",
-              "width": 1136,
-              "height": 639,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_RETINA_PORTRAIT_16_9.jpg",
-              "width": 640,
-              "height": 360,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/c/6f4/e1c4766b-fa7f-4fb4-a539-6638fd7856f4_106171_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-              "width": 2048,
-              "height": 1152,
-              "fallback": true
-            },
-            {
-              "ratio": "1_1",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_SOURCE",
-              "width": 2000,
-              "height": 2000,
-              "fallback": false
-            },
-            {
-              "ratio": "4_3",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_CUSTOM.jpg",
-              "width": 305,
-              "height": 225,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_TABLET_LANDSCAPE_3_2.jpg",
-              "width": 1024,
-              "height": 683,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_RECOMENDATION_16_9.jpg",
-              "width": 100,
-              "height": 56,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_EVENT_DETAIL_PAGE_16_9.jpg",
-              "width": 205,
-              "height": 115,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_RETINA_PORTRAIT_3_2.jpg",
-              "width": 640,
-              "height": 427,
-              "fallback": false
-            }
-          ],
-          "sales": {
-            "public": {
-              "startDateTime": "2025-03-04T10:56:27Z",
-              "startTBD": false,
-              "startTBA": false,
-              "endDateTime": "2025-08-01T17:30:00Z"
-            }
-          },
-          "dates": {
-            "start": {
-              "localDate": "2025-08-01",
-              "localTime": "19:00:00",
-              "dateTime": "2025-08-01T17:00:00Z",
-              "dateTBD": false,
-              "dateTBA": false,
-              "timeTBA": false,
+              "timeTBA": true,
               "noSpecificTime": false
             },
             "timezone": "Europe/Warsaw",
@@ -1756,17 +701,17 @@
             }
           ],
           "promoter": {
-            "id": "1937",
-            "name": "Art Box Gallery S.A. - warsztaty"
+            "id": "1925",
+            "name": "Art Box Gallery S.A."
           },
           "promoters": [
             {
-              "id": "1937",
-              "name": "Art Box Gallery S.A. - warsztaty"
+              "id": "1925",
+              "name": "Art Box Gallery S.A."
             }
           ],
           "seatmap": {
-            "staticUrl": "https://media.ticketmaster.eu/poland/907e27a0ac05a16ba0b1878d82bfb87c.jpg",
+            "staticUrl": "https://media.ticketmaster.eu/poland/5d8b419c5596c329aa1c5d6e3b60a695.jpg",
             "id": "seatmap"
           },
           "ticketing": {
@@ -1777,14 +722,11 @@
           },
           "_links": {
             "self": {
-              "href": "/discovery/v2/events/Z698xZQpZ1kAbZ-pF?locale=en-us"
+              "href": "/discovery/v2/events/Z698xZQpZ1kuEqaAp?locale=en-us"
             },
             "attractions": [
               {
-                "href": "/discovery/v2/attractions/K8vZ917qDl0?locale=en-us"
-              },
-              {
-                "href": "/discovery/v2/attractions/K8vZ917qB00?locale=en-us"
+                "href": "/discovery/v2/attractions/K8vZ917_XN0?locale=en-us"
               },
               {
                 "href": "/discovery/v2/attractions/K8vZ917_XNf?locale=en-us"
@@ -1825,8 +767,8 @@
                   "latitude": "52.23229"
                 },
                 "upcomingEvents": {
-                  "mfx-pl": 149,
-                  "_total": 149,
+                  "mfx-pl": 139,
+                  "_total": 139,
                   "_filtered": 0
                 },
                 "_links": {
@@ -1838,88 +780,88 @@
             ],
             "attractions": [
               {
-                "name": "ALFONS MUCHA - TOAST DLA SZTUKI - OPROWADZANIE DLA DOROSŁYCH",
+                "name": "RETRO WARSZAWA - wystawa multisensoryczna w Art Box Experience",
                 "type": "attraction",
-                "id": "K8vZ917qDl0",
+                "id": "K8vZ917_XN0",
                 "test": false,
-                "url": "https://www.ticketmaster.com/alfons-mucha-toast-dla-sztuki-oprowadzanie-tickets/artist/3532949",
+                "url": "https://www.ticketmaster.com/retro-warszawa-wystawa-multisensoryczna-w-art-tickets/artist/2850405",
                 "locale": "en-us",
                 "images": [
                   {
                     "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_TABLET_LANDSCAPE_16_9.jpg",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_16_9.jpg",
                     "width": 1024,
                     "height": 576,
                     "fallback": false
                   },
                   {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_SOURCE",
+                    "width": 2311,
+                    "height": 1300,
                     "fallback": false
                   },
                   {
                     "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_RETINA_LANDSCAPE_16_9.jpg",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_LANDSCAPE_16_9.jpg",
                     "width": 1136,
                     "height": 639,
                     "fallback": false
                   },
                   {
                     "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/6f4/e1c4766b-fa7f-4fb4-a539-6638fd7856f4_106171_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_LARGE_16_9.jpg",
                     "width": 2048,
                     "height": 1152,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "1_1",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_SOURCE",
-                    "width": 2000,
-                    "height": 2000,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
                     "fallback": false
                   },
                   {
                     "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_PORTRAIT_3_2.jpg",
+                    "width": 640,
+                    "height": 427,
                     "fallback": false
                   },
                   {
                     "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_EVENT_DETAIL_PAGE_16_9.jpg",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_EVENT_DETAIL_PAGE_16_9.jpg",
                     "width": 205,
                     "height": 115,
                     "fallback": false
                   },
                   {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/4b0/670ab171-58f1-4a18-af0e-da2c769794b0_RETINA_PORTRAIT_3_2.jpg",
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_PORTRAIT_16_9.jpg",
                     "width": 640,
-                    "height": 427,
+                    "height": 360,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "3_2",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_ARTIST_PAGE_3_2.jpg",
+                    "width": 305,
+                    "height": 203,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RECOMENDATION_16_9.jpg",
+                    "width": 100,
+                    "height": 56,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "3_2",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_3_2.jpg",
+                    "width": 1024,
+                    "height": 683,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "4_3",
+                    "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_CUSTOM.jpg",
+                    "width": 305,
+                    "height": 225,
                     "fallback": false
                   }
                 ],
@@ -1927,158 +869,36 @@
                   {
                     "primary": true,
                     "segment": {
-                      "id": "KZFzniwnSyZfZ7v7na",
-                      "name": "Arts & Theatre"
+                      "id": "KZFzniwnSyZfZ7v7n1",
+                      "name": "Miscellaneous"
                     },
                     "genre": {
-                      "id": "KnvZfZ7v7nl",
-                      "name": "Fine Art"
+                      "id": "KnvZfZ7vA1n",
+                      "name": "Family"
                     },
                     "subGenre": {
-                      "id": "KZazBEonSMnZfZ7v7ld",
-                      "name": "Fine Art"
+                      "id": "KZazBEonSMnZfZ7vaav",
+                      "name": "Other"
                     },
                     "type": {
                       "id": "KZAyXgnZfZ7v7lt",
                       "name": "Event Style"
                     },
                     "subType": {
-                      "id": "KZFzBErXgnZfZ7vA6I",
-                      "name": "Exhibit"
+                      "id": "KZFzBErXgnZfZ7vA6k",
+                      "name": "Expo"
                     },
                     "family": false
                   }
                 ],
                 "upcomingEvents": {
-                  "mfx-pl": 7,
-                  "_total": 7,
+                  "mfx-pl": 29,
+                  "_total": 29,
                   "_filtered": 0
                 },
                 "_links": {
                   "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917qDl0?locale=en-us"
-                  }
-                }
-              },
-              {
-                "name": "Alfons Mucha - Magia Secesji",
-                "type": "attraction",
-                "id": "K8vZ917qB00",
-                "test": false,
-                "url": "https://www.ticketmaster.com/alfons-mucha-magia-secesji-tickets/artist/3525684",
-                "locale": "en-us",
-                "images": [
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/76d/bb47c98b-5ff9-47c2-9e0a-bc6d1f80d76d_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/76d/bb47c98b-5ff9-47c2-9e0a-bc6d1f80d76d_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/6f4/e1c4766b-fa7f-4fb4-a539-6638fd7856f4_106171_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": true
-                  },
-                  {
-                    "url": "https://s1.ticketm.net/dam/a/76d/bb47c98b-5ff9-47c2-9e0a-bc6d1f80d76d_SOURCE",
-                    "width": 1000,
-                    "height": 1500,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/76d/bb47c98b-5ff9-47c2-9e0a-bc6d1f80d76d_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/76d/bb47c98b-5ff9-47c2-9e0a-bc6d1f80d76d_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/a/76d/bb47c98b-5ff9-47c2-9e0a-bc6d1f80d76d_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/6f4/e1c4766b-fa7f-4fb4-a539-6638fd7856f4_106171_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/6f4/e1c4766b-fa7f-4fb4-a539-6638fd7856f4_106171_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/6f4/e1c4766b-fa7f-4fb4-a539-6638fd7856f4_106171_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/76d/bb47c98b-5ff9-47c2-9e0a-bc6d1f80d76d_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": false
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7na",
-                      "name": "Arts & Theatre"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7v7nl",
-                      "name": "Fine Art"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7v7ld",
-                      "name": "Fine Art"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7la",
-                      "name": "Individual"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vAdn",
-                      "name": "Artist"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 55,
-                  "_total": 55,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917qB00?locale=en-us"
+                    "href": "/discovery/v2/attractions/K8vZ917_XN0?locale=en-us"
                   }
                 }
               },
@@ -2195,8 +1015,8 @@
                   }
                 ],
                 "upcomingEvents": {
-                  "mfx-pl": 149,
-                  "_total": 149,
+                  "mfx-pl": 139,
+                  "_total": 139,
                   "_filtered": 0
                 },
                 "_links": {
@@ -2207,982 +1027,879 @@
               }
             ]
           }
-        },
-        {
-          "name": "30. Summer Jazz Festival Kraków: M.Sikała / W.Pulcyn / S.Frankiewicz",
-          "type": "event",
-          "id": "Z698xZQpZ1kfzP_PJ",
-          "test": false,
-          "url": "https://www.ticketmaster.pl/event/30-summer-jazz-festival-krakow-msikaa-wpulcyn-sfrankiewicz-tickets/538959966?language=en-us",
-          "locale": "en-us",
-          "images": [
-            {
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_SOURCE",
-              "width": 1700,
-              "height": 1200,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_PORTRAIT_3_2.jpg",
-              "width": 640,
-              "height": 427,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_LANDSCAPE_16_9.jpg",
-              "width": 1136,
-              "height": 639,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_PORTRAIT_16_9.jpg",
-              "width": 640,
-              "height": 360,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_ARTIST_PAGE_3_2.jpg",
-              "width": 305,
-              "height": 203,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_EVENT_DETAIL_PAGE_16_9.jpg",
-              "width": 205,
-              "height": 115,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-              "width": 2048,
-              "height": 1152,
-              "fallback": true
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_TABLET_LANDSCAPE_16_9.jpg",
-              "width": 1024,
-              "height": 576,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RECOMENDATION_16_9.jpg",
-              "width": 100,
-              "height": 56,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_TABLET_LANDSCAPE_3_2.jpg",
-              "width": 1024,
-              "height": 683,
-              "fallback": false
-            },
-            {
-              "ratio": "4_3",
-              "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_CUSTOM.jpg",
-              "width": 305,
-              "height": 225,
-              "fallback": false
-            }
-          ],
-          "sales": {
-            "public": {
-              "startDateTime": "2025-05-09T10:39:00Z",
-              "startTBD": false,
-              "startTBA": false,
-              "endDateTime": "2025-07-31T18:30:00Z"
-            }
-          },
-          "dates": {
-            "start": {
-              "localDate": "2025-07-31",
-              "localTime": "21:00:00",
-              "dateTime": "2025-07-31T19:00:00Z",
-              "dateTBD": false,
-              "dateTBA": false,
-              "timeTBA": false,
-              "noSpecificTime": false
-            },
-            "timezone": "Europe/Warsaw",
-            "status": {
-              "code": "onsale"
-            },
-            "spanMultipleDays": false
-          },
-          "classifications": [
-            {
-              "primary": false,
-              "segment": {
-                "id": "KZFzniwnSyZfZ7v7nJ",
-                "name": "Music"
-              },
-              "genre": {
-                "id": "KnvZfZ7vAvd",
-                "name": "Blues"
-              },
-              "subGenre": {
-                "id": "KZazBEonSMnZfZ7vAk6",
-                "name": "Jazz Blues"
-              },
-              "family": false
-            },
-            {
-              "primary": true,
-              "segment": {
-                "id": "KZFzniwnSyZfZ7v7nJ",
-                "name": "Music"
-              },
-              "genre": {
-                "id": "KnvZfZ7vAvE",
-                "name": "Jazz"
-              },
-              "subGenre": {
-                "id": "KZazBEonSMnZfZ7vkda",
-                "name": "Jazz"
-              },
-              "family": false
-            }
-          ],
-          "promoter": {
-            "id": "1097",
-            "name": "Fundacja My Polish Heart"
-          },
-          "promoters": [
-            {
-              "id": "1097",
-              "name": "Fundacja My Polish Heart"
-            }
-          ],
-          "ticketing": {
-            "safeTix": {
-              "enabled": false
-            },
-            "id": "ticketing"
-          },
-          "_links": {
-            "self": {
-              "href": "/discovery/v2/events/Z698xZQpZ1kfzP_PJ?locale=en-us"
-            },
-            "attractions": [
-              {
-                "href": "/discovery/v2/attractions/K8vZ917pWR0?locale=en-us"
-              },
-              {
-                "href": "/discovery/v2/attractions/K8vZ9178TCf?locale=en-us"
-              }
-            ],
-            "venues": [
-              {
-                "href": "/discovery/v2/venues/Z598xZQpZevAe?locale=en-us"
-              }
-            ]
-          },
-          "_embedded": {
-            "venues": [
-              {
-                "name": "Piwnica pod Baranami",
-                "type": "venue",
-                "id": "Z598xZQpZevAe",
-                "test": false,
-                "url": "https://www.ticketmaster.pl/venue/piwnica-pod-baranami-krakow--bilety/pbb/101",
-                "locale": "en-us",
-                "postalCode": "30-001",
-                "timezone": "Europe/Warsaw",
-                "city": {
-                  "name": "Krakow"
-                },
-                "state": {
-                  "name": "Małopolskie"
-                },
-                "country": {
-                  "name": "Poland",
-                  "countryCode": "PL"
-                },
-                "address": {
-                  "line1": "Rynek Główny 27"
-                },
-                "location": {
-                  "longitude": "19.93464",
-                  "latitude": "50.06155"
-                },
-                "upcomingEvents": {
-                  "mfx-pl": 2,
-                  "_total": 2,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/venues/Z598xZQpZevAe?locale=en-us"
-                  }
-                }
-              }
-            ],
-            "attractions": [
-              {
-                "name": "Summer Jazz Festival Kraków",
-                "type": "attraction",
-                "id": "K8vZ917pWR0",
-                "test": false,
-                "url": "https://www.ticketmaster.com/summer-jazz-festival-krakow-tickets/artist/2490273",
-                "locale": "en-us",
-                "externalLinks": {
-                  "homepage": [
-                    {
-                      "url": "https://www.cracjazz.com/pl/"
-                    }
-                  ]
-                },
-                "images": [
-                  {
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_SOURCE",
-                    "width": 1700,
-                    "height": 1200,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/a/a20/599001e7-5c64-42da-9615-419ea7814a20_1333661_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": false
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAvE",
-                      "name": "Jazz"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7vkda",
-                      "name": "Jazz"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7lt",
-                      "name": "Event Style"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vA6E",
-                      "name": "Festival"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 20,
-                  "_total": 20,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917pWR0?locale=en-us"
-                  }
-                }
-              },
-              {
-                "name": "MacIej Sikala",
-                "type": "attraction",
-                "id": "K8vZ9178TCf",
-                "test": false,
-                "url": "https://www.ticketmaster.com/maciej-sikala-tickets/artist/1845741",
-                "locale": "en-us",
-                "images": [
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/c/bea/03d47f66-d37b-4aca-aa17-0135be64dbea_105801_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": true
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAvE",
-                      "name": "Jazz"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7vkda",
-                      "name": "Jazz"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7nI",
-                      "name": "Undefined"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7v7lJ",
-                      "name": "Undefined"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 1,
-                  "_total": 1,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ9178TCf?locale=en-us"
-                  }
-                }
-              }
-            ]
-          }
-        },
-        {
-          "name": "18.LAJ Unleashed Cooperation & Anna Gadt „Trust” I Bluish Landscapes",
-          "type": "event",
-          "id": "Z698xZQpZ1kQaqM4v",
-          "test": false,
-          "url": "https://www.ticketmaster.pl/event/18laj-unleashed-cooperation--anna-gadt-trust-i-bluish-landscapes-tickets/689777541?language=en-us",
-          "locale": "en-us",
-          "images": [
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_TABLET_LANDSCAPE_3_2.jpg",
-              "width": 1024,
-              "height": 683,
-              "fallback": false
-            },
-            {
-              "ratio": "4_3",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_CUSTOM.jpg",
-              "width": 305,
-              "height": 225,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_RETINA_LANDSCAPE_16_9.jpg",
-              "width": 1136,
-              "height": 639,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-              "width": 2048,
-              "height": 1152,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_RETINA_PORTRAIT_3_2.jpg",
-              "width": 640,
-              "height": 427,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_RETINA_PORTRAIT_16_9.jpg",
-              "width": 640,
-              "height": 360,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_TABLET_LANDSCAPE_16_9.jpg",
-              "width": 1024,
-              "height": 576,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_EVENT_DETAIL_PAGE_16_9.jpg",
-              "width": 205,
-              "height": 115,
-              "fallback": false
-            },
-            {
-              "ratio": "3_2",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_ARTIST_PAGE_3_2.jpg",
-              "width": 305,
-              "height": 203,
-              "fallback": false
-            },
-            {
-              "ratio": "16_9",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_RECOMENDATION_16_9.jpg",
-              "width": 100,
-              "height": 56,
-              "fallback": false
-            },
-            {
-              "ratio": "1_1",
-              "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_SOURCE",
-              "width": 2500,
-              "height": 2500,
-              "fallback": false
-            }
-          ],
-          "sales": {
-            "public": {
-              "startDateTime": "2025-05-15T12:51:00Z",
-              "startTBD": false,
-              "startTBA": false,
-              "endDateTime": "2025-07-31T21:59:00Z"
-            }
-          },
-          "dates": {
-            "start": {
-              "localDate": "2025-07-31",
-              "localTime": "19:00:00",
-              "dateTime": "2025-07-31T17:00:00Z",
-              "dateTBD": false,
-              "dateTBA": false,
-              "timeTBA": false,
-              "noSpecificTime": false
-            },
-            "timezone": "Europe/Warsaw",
-            "status": {
-              "code": "onsale"
-            },
-            "spanMultipleDays": false
-          },
-          "classifications": [
-            {
-              "primary": true,
-              "segment": {
-                "id": "KZFzniwnSyZfZ7v7nJ",
-                "name": "Music"
-              },
-              "genre": {
-                "id": "KnvZfZ7vAvd",
-                "name": "Blues"
-              },
-              "subGenre": {
-                "id": "KZazBEonSMnZfZ7vAk6",
-                "name": "Jazz Blues"
-              },
-              "family": false
-            }
-          ],
-          "promoter": {
-            "id": "983",
-            "name": "Film Hotel"
-          },
-          "promoters": [
-            {
-              "id": "983",
-              "name": "Film Hotel"
-            }
-          ],
-          "seatmap": {
-            "staticUrl": "https://media.ticketmaster.eu/poland/d06706d1845fe9ca2de73a00dde9784b.jpg",
-            "id": "seatmap"
-          },
-          "ticketing": {
-            "safeTix": {
-              "enabled": false
-            },
-            "id": "ticketing"
-          },
-          "_links": {
-            "self": {
-              "href": "/discovery/v2/events/Z698xZQpZ1kQaqM4v?locale=en-us"
-            },
-            "attractions": [
-              {
-                "href": "/discovery/v2/attractions/K8vZ91791A7?locale=en-us"
-              },
-              {
-                "href": "/discovery/v2/attractions/K8vZ917bt9V?locale=en-us"
-              }
-            ],
-            "venues": [
-              {
-                "href": "/discovery/v2/venues/Z198xZQpZ7v1?locale=en-us"
-              }
-            ]
-          },
-          "_embedded": {
-            "venues": [
-              {
-                "name": "Klub Wytwórnia",
-                "type": "venue",
-                "id": "Z198xZQpZ7v1",
-                "test": false,
-                "url": "https://www.ticketmaster.pl/venue/klub-wytwornia-lodz--bilety/wy1/101",
-                "locale": "en-us",
-                "postalCode": "90-554",
-                "timezone": "Europe/Warsaw",
-                "city": {
-                  "name": "Łódź "
-                },
-                "state": {
-                  "name": "Łódzkie"
-                },
-                "country": {
-                  "name": "Poland",
-                  "countryCode": "PL"
-                },
-                "address": {
-                  "line1": "ul. Łąkowa 29"
-                },
-                "location": {
-                  "longitude": "19.44291",
-                  "latitude": "51.75729"
-                },
-                "upcomingEvents": {
-                  "mfx-pl": 22,
-                  "_total": 22,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/venues/Z198xZQpZ7v1?locale=en-us"
-                  }
-                }
-              }
-            ],
-            "attractions": [
-              {
-                "name": "Letnia Akademia Jazzu",
-                "type": "attraction",
-                "id": "K8vZ91791A7",
-                "test": false,
-                "url": "https://www.ticketmaster.com/letnia-akademia-jazzu-tickets/artist/2510712",
-                "locale": "en-us",
-                "images": [
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "1_1",
-                    "url": "https://s1.ticketm.net/dam/a/bf9/e6c82e8d-6c97-48d3-9475-48147ae53bf9_SOURCE",
-                    "width": 2500,
-                    "height": 2500,
-                    "fallback": false
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAvE",
-                      "name": "Jazz"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7vk76",
-                      "name": "Classic Jazz"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7l1",
-                      "name": "Group"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vA76",
-                      "name": "Group"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 9,
-                  "_total": 9,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ91791A7?locale=en-us"
-                  }
-                }
-              },
-              {
-                "name": "Klub Wytwórnia",
-                "type": "attraction",
-                "id": "K8vZ917bt9V",
-                "test": false,
-                "url": "https://www.ticketmaster.com/klub-wytwornia-tickets/artist/2706294",
-                "locale": "en-us",
-                "images": [
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/49d/0a7d0649-cfda-45e8-b17f-ae768638449d_1215751_RETINA_PORTRAIT_16_9.jpg",
-                    "width": 640,
-                    "height": 360,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/49d/0a7d0649-cfda-45e8-b17f-ae768638449d_1215751_EVENT_DETAIL_PAGE_16_9.jpg",
-                    "width": 205,
-                    "height": 115,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/ab4/6367448e-7474-4650-bd2d-02a8f7166ab4_106161_TABLET_LANDSCAPE_LARGE_16_9.jpg",
-                    "width": 2048,
-                    "height": 1152,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/49d/0a7d0649-cfda-45e8-b17f-ae768638449d_1215751_RETINA_PORTRAIT_3_2.jpg",
-                    "width": 640,
-                    "height": 427,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/a/49d/0a7d0649-cfda-45e8-b17f-ae768638449d_1215751_RECOMENDATION_16_9.jpg",
-                    "width": 100,
-                    "height": 56,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "4_3",
-                    "url": "https://s1.ticketm.net/dam/a/49d/0a7d0649-cfda-45e8-b17f-ae768638449d_1215751_CUSTOM.jpg",
-                    "width": 305,
-                    "height": 225,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/a/49d/0a7d0649-cfda-45e8-b17f-ae768638449d_1215751_ARTIST_PAGE_3_2.jpg",
-                    "width": 305,
-                    "height": 203,
-                    "fallback": false
-                  },
-                  {
-                    "ratio": "3_2",
-                    "url": "https://s1.ticketm.net/dam/c/ab4/6367448e-7474-4650-bd2d-02a8f7166ab4_106161_TABLET_LANDSCAPE_3_2.jpg",
-                    "width": 1024,
-                    "height": 683,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/ab4/6367448e-7474-4650-bd2d-02a8f7166ab4_106161_TABLET_LANDSCAPE_16_9.jpg",
-                    "width": 1024,
-                    "height": 576,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "16_9",
-                    "url": "https://s1.ticketm.net/dam/c/ab4/6367448e-7474-4650-bd2d-02a8f7166ab4_106161_RETINA_LANDSCAPE_16_9.jpg",
-                    "width": 1136,
-                    "height": 639,
-                    "fallback": true
-                  },
-                  {
-                    "ratio": "1_1",
-                    "url": "https://s1.ticketm.net/dam/a/49d/0a7d0649-cfda-45e8-b17f-ae768638449d_SOURCE",
-                    "width": 720,
-                    "height": 720,
-                    "fallback": false
-                  }
-                ],
-                "classifications": [
-                  {
-                    "primary": true,
-                    "segment": {
-                      "id": "KZFzniwnSyZfZ7v7nJ",
-                      "name": "Music"
-                    },
-                    "genre": {
-                      "id": "KnvZfZ7vAe6",
-                      "name": "Undefined"
-                    },
-                    "subGenre": {
-                      "id": "KZazBEonSMnZfZ7v6JI",
-                      "name": "Undefined"
-                    },
-                    "type": {
-                      "id": "KZAyXgnZfZ7v7n1",
-                      "name": "Venue Based"
-                    },
-                    "subType": {
-                      "id": "KZFzBErXgnZfZ7vAFA",
-                      "name": "Club"
-                    },
-                    "family": false
-                  }
-                ],
-                "upcomingEvents": {
-                  "mfx-pl": 12,
-                  "_total": 12,
-                  "_filtered": 0
-                },
-                "_links": {
-                  "self": {
-                    "href": "/discovery/v2/attractions/K8vZ917bt9V?locale=en-us"
-                  }
-                }
-              }
-            ]
-          }
         }
+      ],
+      "residence": "Poznań",
+      "description": "kox elo 5",
+      "sentFriendRequests": [
+        "fr_1754407052809_xvbux1djc",
+        "fr_1754407264056_ppvia2dql",
+        "fr_1754414770620_t0utvjctq"
+      ],
+      "receivedFriendRequests": [
+        "fr_1754407149094_7yxg5drb9",
+        "fr_1754407981789_qezyqeohw",
+        "fr_1754408069771_7qb9hr6jv",
+        "fr_1754408092464_pa4zrbmrt"
+      ],
+      "sentGroupInvites": [
+        "gi_1754412628732_boj4p0tbr",
+        "gi_1754413055607_unzkrog0w",
+        "gi_1754414567977_7y8mkg6l7"
+      ]
+    },
+    {
+      "id": "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+      "name": "Tymon Zieliński",
+      "email": "tymonziolo@gmail.com",
+      "password": "$2b$10$Z.1SL9H5ai5Ym0OkXfUCdOFNRXQbhnz6pm25SuXM0kEcE3VybYIgy",
+      "friends": [
+        "fdd63866-5ad0-4882-960f-b8a597c5b774",
+        "0d859552-69bd-4384-bafb-3e057518738c"
+      ],
+      "groups": [],
+      "avatarUrl": "/uploads/avatar_tymonziolo@gmail.com_1754406033193.jpeg",
+      "likedEvents": [],
+      "goingEvents": [],
+      "likedEventDetails": [],
+      "goingEventDetails": [],
+      "residence": "Poznań",
+      "description": "chuj \n",
+      "sentFriendRequests": [
+        "fr_1754407509388_i839j2tuu",
+        "fr_1754408092464_pa4zrbmrt"
+      ],
+      "receivedFriendRequests": [
+        "fr_1754407994003_gvhoznmw7",
+        "fr_1754414770620_t0utvjctq"
+      ],
+      "receivedGroupInvites": [
+        "gi_1754413055607_unzkrog0w"
+      ]
+    },
+    {
+      "id": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "name": "Marcel Dzimira",
+      "email": "marceldzimira@gmail.com",
+      "password": "$2b$10$n5KbilKhTIxMblkR3DPp0OAZ9wte6MEnlR7GjjDD4aALarDQjOCXW",
+      "friends": [
+        "0d859552-69bd-4384-bafb-3e057518738c",
+        "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73"
+      ],
+      "groups": [],
+      "avatarUrl": "/uploads/avatar_marceldzimira@gmail.com_1754406182555.jpg",
+      "likedEvents": [],
+      "goingEvents": [],
+      "likedEventDetails": [],
+      "goingEventDetails": [],
+      "residence": "Poznań",
+      "description": "chuj ",
+      "receivedFriendRequests": [
+        "fr_1754407052809_xvbux1djc",
+        "fr_1754407264056_ppvia2dql",
+        "fr_1754407509388_i839j2tuu"
+      ],
+      "sentFriendRequests": [
+        "fr_1754407149094_7yxg5drb9",
+        "fr_1754407981789_qezyqeohw",
+        "fr_1754407994003_gvhoznmw7",
+        "fr_1754408069771_7qb9hr6jv"
+      ],
+      "receivedGroupInvites": [
+        "gi_1754412628732_boj4p0tbr",
+        "gi_1754414567977_7y8mkg6l7"
       ]
     }
   ],
   "groups": [
     {
-      "id": "d815b05f-4266-45f1-929f-8e322bc94de6",
+      "id": "f651c45c-090f-4626-92e7-5772a173ee3b",
       "name": "Best Friends",
+      "description": "A group for the best friends",
+      "imageUrl": null,
       "members": [
-        "c1f1aeb8-55ed-4117-a094-4ff96dfb0fd8",
-        "958085a2-da19-4d9e-8ede-2aa741a6c32d",
-        "e47045b6-da01-4447-b012-3d885a0e726c"
+        {
+          "id": "6c5ec5fb-6840-45b0-9ea0-b1598243ba8f",
+          "name": "Alice",
+          "email": "alice@example.com",
+          "password": "$2b$10$DoJinj5t0N4WbsZmBoBFoOJZoeIIErgkCPid2JDdtgMfARRR/d69i",
+          "friends": [
+            "473fc2ff-0f1f-4a00-adb6-980203601a9c",
+            "8a4c720e-713a-4611-87c0-688395ff61be"
+          ],
+          "groups": [
+            "f651c45c-090f-4626-92e7-5772a173ee3b"
+          ],
+          "avatarUrl": "",
+          "likedEvents": [],
+          "goingEvents": [],
+          "likedEventDetails": [],
+          "goingEventDetails": []
+        },
+        {
+          "id": "473fc2ff-0f1f-4a00-adb6-980203601a9c",
+          "name": "Bob",
+          "email": "bob@example.com",
+          "password": "$2b$10$DoJinj5t0N4WbsZmBoBFoOJZoeIIErgkCPid2JDdtgMfARRR/d69i",
+          "friends": [
+            "6c5ec5fb-6840-45b0-9ea0-b1598243ba8f"
+          ],
+          "groups": [
+            "f651c45c-090f-4626-92e7-5772a173ee3b"
+          ],
+          "avatarUrl": "",
+          "likedEvents": [],
+          "goingEvents": [],
+          "likedEventDetails": [],
+          "goingEventDetails": []
+        },
+        {
+          "id": "8a4c720e-713a-4611-87c0-688395ff61be",
+          "name": "Charlie",
+          "email": "charlie@example.com",
+          "password": "$2b$10$DoJinj5t0N4WbsZmBoBFoOJZoeIIErgkCPid2JDdtgMfARRR/d69i",
+          "friends": [
+            "6c5ec5fb-6840-45b0-9ea0-b1598243ba8f"
+          ],
+          "groups": [
+            "f651c45c-090f-4626-92e7-5772a173ee3b"
+          ],
+          "avatarUrl": "",
+          "likedEvents": [],
+          "goingEvents": [],
+          "likedEventDetails": [],
+          "goingEventDetails": []
+        }
       ],
-      "events": [
-        "19fab610-bb0e-4caa-a73f-0c59d6f92478"
-      ]
+      "createdAt": "2025-01-05T07:42:16.093Z"
+    },
+    {
+      "id": "2116f747-a793-4690-9ccc-5b4c77229e65",
+      "name": "test",
+      "description": "Test group",
+      "imageUrl": null,
+      "members": [
+        {
+          "id": "808b6754-9569-46ca-ad50-99fb22e93f3d",
+          "name": "to_add",
+          "email": "to_add@gmail.com",
+          "password": "$2b$10$xRtJ5UfEKBVJewGdPNjqfu.KMu.aL5J288sc17hbEesA2nhTKei5W",
+          "friends": [],
+          "groups": [
+            "2116f747-a793-4690-9ccc-5b4c77229e65"
+          ],
+          "avatarUrl": "",
+          "likedEvents": [],
+          "goingEvents": [],
+          "likedEventDetails": [],
+          "goingEventDetails": []
+        },
+        {
+          "id": "42b055e8-867b-4558-8594-0c55270ea3c8",
+          "name": "test",
+          "email": "test@test.pl",
+          "password": "$2b$10$jVORDG4c9c4yqjIBx.rXQ.ZciLFwvgEvi1ha8BgOTliAbUf6HcVlS",
+          "friends": [],
+          "groups": [
+            "2116f747-a793-4690-9ccc-5b4c77229e65"
+          ],
+          "avatarUrl": "",
+          "likedEvents": [],
+          "goingEvents": [],
+          "likedEventDetails": [],
+          "goingEventDetails": []
+        }
+      ],
+      "createdAt": "2025-01-05T07:42:16.093Z"
+    },
+    {
+      "id": "1754410786759",
+      "name": "test",
+      "description": "grupa testowa",
+      "members": [
+        {
+          "id": "0d859552-69bd-4384-bafb-3e057518738c",
+          "name": "Jan Wiela",
+          "email": "janwiela@gmail.com",
+          "password": "$2b$10$oy0BvUmwnRM/SK33iIf4Q.sJ26q0PF.E8dkIj4XdAYLLPE8DZAzfe",
+          "friends": [
+            "fdd63866-5ad0-4882-960f-b8a597c5b774",
+            "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73"
+          ],
+          "groups": [],
+          "avatarUrl": "/uploads/avatar_janwiela@gmail.com_1754404843090.jpg",
+          "likedEvents": [],
+          "goingEvents": [
+            "Z698xZQpZ1kuEqaAp"
+          ],
+          "likedEventDetails": [],
+          "goingEventDetails": [
+            {
+              "name": "RETRO WARSZAWA – PODRÓŻ DO MIASTA SPRZED 100 LAT",
+              "type": "event",
+              "id": "Z698xZQpZ1kuEqaAp",
+              "test": false,
+              "url": "https://www.ticketmaster.pl/event/retro-warszawa--podroz-do-miasta-sprzed-100-lat-tickets/367749156?language=en-us",
+              "locale": "en-us",
+              "images": [
+                {
+                  "ratio": "16_9",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_16_9.jpg",
+                  "width": 1024,
+                  "height": 576,
+                  "fallback": false
+                },
+                {
+                  "ratio": "16_9",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_SOURCE",
+                  "width": 2311,
+                  "height": 1300,
+                  "fallback": false
+                },
+                {
+                  "ratio": "16_9",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_LANDSCAPE_16_9.jpg",
+                  "width": 1136,
+                  "height": 639,
+                  "fallback": false
+                },
+                {
+                  "ratio": "16_9",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+                  "width": 2048,
+                  "height": 1152,
+                  "fallback": false
+                },
+                {
+                  "ratio": "3_2",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_PORTRAIT_3_2.jpg",
+                  "width": 640,
+                  "height": 427,
+                  "fallback": false
+                },
+                {
+                  "ratio": "16_9",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_EVENT_DETAIL_PAGE_16_9.jpg",
+                  "width": 205,
+                  "height": 115,
+                  "fallback": false
+                },
+                {
+                  "ratio": "16_9",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_PORTRAIT_16_9.jpg",
+                  "width": 640,
+                  "height": 360,
+                  "fallback": false
+                },
+                {
+                  "ratio": "3_2",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_ARTIST_PAGE_3_2.jpg",
+                  "width": 305,
+                  "height": 203,
+                  "fallback": false
+                },
+                {
+                  "ratio": "16_9",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RECOMENDATION_16_9.jpg",
+                  "width": 100,
+                  "height": 56,
+                  "fallback": false
+                },
+                {
+                  "ratio": "3_2",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_3_2.jpg",
+                  "width": 1024,
+                  "height": 683,
+                  "fallback": false
+                },
+                {
+                  "ratio": "4_3",
+                  "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_CUSTOM.jpg",
+                  "width": 305,
+                  "height": 225,
+                  "fallback": false
+                }
+              ],
+              "sales": {
+                "public": {
+                  "startDateTime": "2025-02-27T07:00:00Z",
+                  "startTBD": false,
+                  "startTBA": false,
+                  "endDateTime": "2025-08-10T17:30:00Z"
+                }
+              },
+              "dates": {
+                "start": {
+                  "localDate": "2025-08-10",
+                  "dateTBD": false,
+                  "dateTBA": false,
+                  "timeTBA": true,
+                  "noSpecificTime": false
+                },
+                "timezone": "Europe/Warsaw",
+                "status": {
+                  "code": "onsale"
+                },
+                "spanMultipleDays": false
+              },
+              "classifications": [
+                {
+                  "primary": false,
+                  "segment": {
+                    "id": "KZFzniwnSyZfZ7v7na",
+                    "name": "Arts & Theatre"
+                  },
+                  "genre": {
+                    "id": "KnvZfZ7v7l1",
+                    "name": "Theatre"
+                  },
+                  "subGenre": {
+                    "id": "KZazBEonSMnZfZ7v7ll",
+                    "name": "Miscellaneous"
+                  },
+                  "family": false
+                },
+                {
+                  "primary": true,
+                  "segment": {
+                    "id": "KZFzniwnSyZfZ7v7n1",
+                    "name": "Miscellaneous"
+                  },
+                  "genre": {
+                    "id": "KnvZfZ7vA1n",
+                    "name": "Family"
+                  },
+                  "subGenre": {
+                    "id": "KZazBEonSMnZfZ7vaav",
+                    "name": "Other"
+                  },
+                  "family": false
+                }
+              ],
+              "promoter": {
+                "id": "1925",
+                "name": "Art Box Gallery S.A."
+              },
+              "promoters": [
+                {
+                  "id": "1925",
+                  "name": "Art Box Gallery S.A."
+                }
+              ],
+              "seatmap": {
+                "staticUrl": "https://media.ticketmaster.eu/poland/5d8b419c5596c329aa1c5d6e3b60a695.jpg",
+                "id": "seatmap"
+              },
+              "ticketing": {
+                "safeTix": {
+                  "enabled": false
+                },
+                "id": "ticketing"
+              },
+              "_links": {
+                "self": {
+                  "href": "/discovery/v2/events/Z698xZQpZ1kuEqaAp?locale=en-us"
+                },
+                "attractions": [
+                  {
+                    "href": "/discovery/v2/attractions/K8vZ917_XN0?locale=en-us"
+                  },
+                  {
+                    "href": "/discovery/v2/attractions/K8vZ917_XNf?locale=en-us"
+                  }
+                ],
+                "venues": [
+                  {
+                    "href": "/discovery/v2/venues/Z598xZQpZde7e?locale=en-us"
+                  }
+                ]
+              },
+              "_embedded": {
+                "venues": [
+                  {
+                    "name": "Art Box Experience",
+                    "type": "venue",
+                    "id": "Z598xZQpZde7e",
+                    "test": false,
+                    "url": "https://www.ticketmaster.pl/venue/art-box-experience-warszawa--bilety/nor/101",
+                    "locale": "en-us",
+                    "postalCode": "00-841",
+                    "timezone": "Europe/Warsaw",
+                    "city": {
+                      "name": "Warsaw"
+                    },
+                    "state": {
+                      "name": "Mazowieckie"
+                    },
+                    "country": {
+                      "name": "Poland",
+                      "countryCode": "PL"
+                    },
+                    "address": {
+                      "line1": "ul. Żelazna 51/53"
+                    },
+                    "location": {
+                      "longitude": "20.99014",
+                      "latitude": "52.23229"
+                    },
+                    "upcomingEvents": {
+                      "mfx-pl": 139,
+                      "_total": 139,
+                      "_filtered": 0
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/discovery/v2/venues/Z598xZQpZde7e?locale=en-us"
+                      }
+                    }
+                  }
+                ],
+                "attractions": [
+                  {
+                    "name": "RETRO WARSZAWA - wystawa multisensoryczna w Art Box Experience",
+                    "type": "attraction",
+                    "id": "K8vZ917_XN0",
+                    "test": false,
+                    "url": "https://www.ticketmaster.com/retro-warszawa-wystawa-multisensoryczna-w-art-tickets/artist/2850405",
+                    "locale": "en-us",
+                    "images": [
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_16_9.jpg",
+                        "width": 1024,
+                        "height": 576,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_SOURCE",
+                        "width": 2311,
+                        "height": 1300,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_LANDSCAPE_16_9.jpg",
+                        "width": 1136,
+                        "height": 639,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+                        "width": 2048,
+                        "height": 1152,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "3_2",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_PORTRAIT_3_2.jpg",
+                        "width": 640,
+                        "height": 427,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_EVENT_DETAIL_PAGE_16_9.jpg",
+                        "width": 205,
+                        "height": 115,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RETINA_PORTRAIT_16_9.jpg",
+                        "width": 640,
+                        "height": 360,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "3_2",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_ARTIST_PAGE_3_2.jpg",
+                        "width": 305,
+                        "height": 203,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_RECOMENDATION_16_9.jpg",
+                        "width": 100,
+                        "height": 56,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "3_2",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_3_2.jpg",
+                        "width": 1024,
+                        "height": 683,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "4_3",
+                        "url": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_CUSTOM.jpg",
+                        "width": 305,
+                        "height": 225,
+                        "fallback": false
+                      }
+                    ],
+                    "classifications": [
+                      {
+                        "primary": true,
+                        "segment": {
+                          "id": "KZFzniwnSyZfZ7v7n1",
+                          "name": "Miscellaneous"
+                        },
+                        "genre": {
+                          "id": "KnvZfZ7vA1n",
+                          "name": "Family"
+                        },
+                        "subGenre": {
+                          "id": "KZazBEonSMnZfZ7vaav",
+                          "name": "Other"
+                        },
+                        "type": {
+                          "id": "KZAyXgnZfZ7v7lt",
+                          "name": "Event Style"
+                        },
+                        "subType": {
+                          "id": "KZFzBErXgnZfZ7vA6k",
+                          "name": "Expo"
+                        },
+                        "family": false
+                      }
+                    ],
+                    "upcomingEvents": {
+                      "mfx-pl": 29,
+                      "_total": 29,
+                      "_filtered": 0
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/discovery/v2/attractions/K8vZ917_XN0?locale=en-us"
+                      }
+                    }
+                  },
+                  {
+                    "name": "Art Box Experience",
+                    "type": "attraction",
+                    "id": "K8vZ917_XNf",
+                    "test": false,
+                    "url": "https://www.ticketmaster.com/art-box-experience-tickets/artist/2850404",
+                    "locale": "en-us",
+                    "images": [
+                      {
+                        "ratio": "3_2",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_RETINA_PORTRAIT_3_2.jpg",
+                        "width": 640,
+                        "height": 427,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/c/368/b70b1d5a-ce61-4ca9-a3c7-3381694ae368_105351_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+                        "width": 2048,
+                        "height": 1152,
+                        "fallback": true
+                      },
+                      {
+                        "ratio": "3_2",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_ARTIST_PAGE_3_2.jpg",
+                        "width": 305,
+                        "height": 203,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_TABLET_LANDSCAPE_16_9.jpg",
+                        "width": 1024,
+                        "height": 576,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_EVENT_DETAIL_PAGE_16_9.jpg",
+                        "width": 205,
+                        "height": 115,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_RETINA_PORTRAIT_16_9.jpg",
+                        "width": 640,
+                        "height": 360,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "4_3",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_CUSTOM.jpg",
+                        "width": 305,
+                        "height": 225,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_RECOMENDATION_16_9.jpg",
+                        "width": 100,
+                        "height": 56,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "3_2",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_SOURCE",
+                        "width": 1025,
+                        "height": 684,
+                        "fallback": false
+                      },
+                      {
+                        "ratio": "16_9",
+                        "url": "https://s1.ticketm.net/dam/c/368/b70b1d5a-ce61-4ca9-a3c7-3381694ae368_105351_RETINA_LANDSCAPE_16_9.jpg",
+                        "width": 1136,
+                        "height": 639,
+                        "fallback": true
+                      },
+                      {
+                        "ratio": "3_2",
+                        "url": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_TABLET_LANDSCAPE_3_2.jpg",
+                        "width": 1024,
+                        "height": 683,
+                        "fallback": false
+                      }
+                    ],
+                    "classifications": [
+                      {
+                        "primary": true,
+                        "segment": {
+                          "id": "KZFzniwnSyZfZ7v7n1",
+                          "name": "Miscellaneous"
+                        },
+                        "genre": {
+                          "id": "KnvZfZ7vA1n",
+                          "name": "Family"
+                        },
+                        "subGenre": {
+                          "id": "KZazBEonSMnZfZ7vaav",
+                          "name": "Other"
+                        },
+                        "type": {
+                          "id": "KZAyXgnZfZ7v7lt",
+                          "name": "Event Style"
+                        },
+                        "subType": {
+                          "id": "KZFzBErXgnZfZ7vA6k",
+                          "name": "Expo"
+                        },
+                        "family": false
+                      }
+                    ],
+                    "upcomingEvents": {
+                      "mfx-pl": 139,
+                      "_total": 139,
+                      "_filtered": 0
+                    },
+                    "_links": {
+                      "self": {
+                        "href": "/discovery/v2/attractions/K8vZ917_XNf?locale=en-us"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "residence": "Poznań",
+          "description": "kox elo 5",
+          "sentFriendRequests": [
+            "fr_1754407052809_xvbux1djc",
+            "fr_1754407264056_ppvia2dql"
+          ],
+          "receivedFriendRequests": [
+            "fr_1754407149094_7yxg5drb9",
+            "fr_1754407981789_qezyqeohw",
+            "fr_1754408069771_7qb9hr6jv",
+            "fr_1754408092464_pa4zrbmrt"
+          ]
+        },
+        {
+          "id": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+          "name": "Marcel Dzimira",
+          "email": "marceldzimira@gmail.com",
+          "password": "$2b$10$n5KbilKhTIxMblkR3DPp0OAZ9wte6MEnlR7GjjDD4aALarDQjOCXW",
+          "friends": [
+            "0d859552-69bd-4384-bafb-3e057518738c"
+          ],
+          "groups": [],
+          "avatarUrl": "/uploads/avatar_marceldzimira@gmail.com_1754406182555.jpg",
+          "likedEvents": [],
+          "goingEvents": [],
+          "likedEventDetails": [],
+          "goingEventDetails": [],
+          "residence": "Poznań",
+          "description": "chuj ",
+          "receivedFriendRequests": [
+            "fr_1754407052809_xvbux1djc",
+            "fr_1754407264056_ppvia2dql",
+            "fr_1754407509388_i839j2tuu"
+          ],
+          "sentFriendRequests": [
+            "fr_1754407149094_7yxg5drb9",
+            "fr_1754407981789_qezyqeohw",
+            "fr_1754407994003_gvhoznmw7",
+            "fr_1754408069771_7qb9hr6jv"
+          ],
+          "receivedGroupInvites": [
+            "gi_1754412628732_boj4p0tbr"
+          ]
+        },
+        {
+          "userId": "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+          "role": "member",
+          "joinedAt": "2025-08-05T17:27:06.196Z"
+        }
+      ],
+      "createdAt": "2025-08-05T16:19:46.759Z",
+      "imageUrl": "/uploads/group_1754410786759_1754411613480.jpg"
+    },
+    {
+      "id": "1754414487776",
+      "name": "testgrupa3",
+      "description": "grupa testowa",
+      "members": [
+        {
+          "userId": "0d859552-69bd-4384-bafb-3e057518738c",
+          "role": "founder",
+          "joinedAt": "2025-08-05T17:21:27.776Z"
+        }
+      ],
+      "createdAt": "2025-08-05T17:21:27.776Z",
+      "createdBy": "0d859552-69bd-4384-bafb-3e057518738c"
     }
   ],
   "events": [
     {
-      "id": "ad4f3643-2ee5-45a5-8e98-2a4b7d13915b",
+      "id": "b9686c9a-fb5c-4f66-b97a-a6d689775a5d",
       "title": "Public Concert",
       "description": "A fun public concert!",
-      "date": "2025-08-01T14:15:42.285Z",
+      "date": "2025-08-06T07:42:16.093Z",
       "isPublic": true,
       "budget": 0,
       "participants": [],
       "comments": []
     },
     {
-      "id": "19fab610-bb0e-4caa-a73f-0c59d6f92478",
+      "id": "9440cdd5-f135-4b42-9fe4-81629dd75789",
       "title": "Private Dinner",
       "description": "Dinner with friends",
-      "date": "2025-08-02T14:15:42.286Z",
+      "date": "2025-08-07T07:42:16.095Z",
       "isPublic": false,
-      "groupId": "d815b05f-4266-45f1-929f-8e322bc94de6",
+      "groupId": "f651c45c-090f-4626-92e7-5772a173ee3b",
       "budget": 120,
       "participants": [
-        "c1f1aeb8-55ed-4117-a094-4ff96dfb0fd8",
-        "958085a2-da19-4d9e-8ede-2aa741a6c32d",
-        "e47045b6-da01-4447-b012-3d885a0e726c"
+        "6c5ec5fb-6840-45b0-9ea0-b1598243ba8f",
+        "473fc2ff-0f1f-4a00-adb6-980203601a9c",
+        "8a4c720e-713a-4611-87c0-688395ff61be"
       ],
       "comments": [
-        "24c2f936-2506-4d0c-b7e4-993d6f6924e8"
+        "5ccc2633-c044-4ee8-b57f-b0f71da300fc"
       ]
     }
   ],
   "comments": [
     {
-      "id": "24c2f936-2506-4d0c-b7e4-993d6f6924e8",
-      "eventId": "19fab610-bb0e-4caa-a73f-0c59d6f92478",
-      "userId": "c1f1aeb8-55ed-4117-a094-4ff96dfb0fd8",
+      "id": "5ccc2633-c044-4ee8-b57f-b0f71da300fc",
+      "eventId": "9440cdd5-f135-4b42-9fe4-81629dd75789",
+      "userId": "6c5ec5fb-6840-45b0-9ea0-b1598243ba8f",
       "text": "Looking forward to it!",
-      "createdAt": "2025-07-31T14:15:42.286Z"
+      "createdAt": "2025-08-05T07:42:16.095Z"
+    }
+  ],
+  "friendRequests": [
+    {
+      "id": "fr_1754407052809_xvbux1djc",
+      "fromUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "toUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "status": "accepted",
+      "createdAt": "2025-08-05T15:17:32.809Z"
+    },
+    {
+      "id": "fr_1754407149094_7yxg5drb9",
+      "fromUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "toUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "status": "rejected",
+      "createdAt": "2025-08-05T15:19:09.094Z"
+    },
+    {
+      "id": "fr_1754407264056_ppvia2dql",
+      "fromUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "toUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "status": "accepted",
+      "createdAt": "2025-08-05T15:21:04.056Z"
+    },
+    {
+      "id": "fr_1754407509388_i839j2tuu",
+      "fromUserId": "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+      "toUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "status": "accepted",
+      "createdAt": "2025-08-05T15:25:09.388Z"
+    },
+    {
+      "id": "fr_1754407981789_qezyqeohw",
+      "fromUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "toUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "status": "accepted",
+      "createdAt": "2025-08-05T15:33:01.789Z"
+    },
+    {
+      "id": "fr_1754407994003_gvhoznmw7",
+      "fromUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "toUserId": "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+      "status": "accepted",
+      "createdAt": "2025-08-05T15:33:14.003Z"
+    },
+    {
+      "id": "fr_1754408069771_7qb9hr6jv",
+      "fromUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "toUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "status": "accepted",
+      "createdAt": "2025-08-05T15:34:29.771Z"
+    },
+    {
+      "id": "fr_1754408092464_pa4zrbmrt",
+      "fromUserId": "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+      "toUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "status": "accepted",
+      "createdAt": "2025-08-05T15:34:52.464Z"
+    },
+    {
+      "id": "fr_1754414770620_t0utvjctq",
+      "fromUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "toUserId": "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+      "status": "accepted",
+      "createdAt": "2025-08-05T17:26:10.620Z"
+    }
+  ],
+  "groupInvites": [
+    {
+      "id": "gi_1754412628732_boj4p0tbr",
+      "fromUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "toUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "groupId": "1754410786759",
+      "status": "accepted",
+      "createdAt": "2025-08-05T16:50:28.842Z"
+    },
+    {
+      "id": "gi_1754413055607_unzkrog0w",
+      "fromUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "toUserId": "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+      "groupId": "1754410786759",
+      "status": "accepted",
+      "createdAt": "2025-08-05T16:57:35.715Z"
+    },
+    {
+      "id": "gi_1754414567977_7y8mkg6l7",
+      "fromUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "toUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "groupId": "1754414487776",
+      "status": "pending",
+      "createdAt": "2025-08-05T17:22:48.152Z"
     }
   ]
 }

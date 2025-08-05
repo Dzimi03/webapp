@@ -1652,9 +1652,565 @@
       "groups": [],
       "avatarUrl": "/uploads/avatar_marceldzimira@gmail.com_1754406182555.jpg",
       "likedEvents": [],
-      "goingEvents": [],
+      "goingEvents": [
+        "Z698xZQpZ16vbVosva"
+      ],
       "likedEventDetails": [],
-      "goingEventDetails": [],
+      "goingEventDetails": [
+        {
+          "name": "Grand National Tour: Kendrick Lamar and SZA",
+          "type": "event",
+          "id": "Z698xZQpZ16vbVosva",
+          "test": false,
+          "url": "https://www.ticketmaster.pl/event/grand-national-tour-kendrick-lamar-and-sza-tickets/1634471049?language=en-us",
+          "locale": "en-us",
+          "images": [
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_TABLET_LANDSCAPE_16_9.jpg",
+              "width": 1024,
+              "height": 576,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_RECOMENDATION_16_9.jpg",
+              "width": 100,
+              "height": 56,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+              "width": 2048,
+              "height": 1152,
+              "fallback": false
+            },
+            {
+              "ratio": "3_2",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_RETINA_PORTRAIT_3_2.jpg",
+              "width": 640,
+              "height": 427,
+              "fallback": false
+            },
+            {
+              "ratio": "3_2",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_TABLET_LANDSCAPE_3_2.jpg",
+              "width": 1024,
+              "height": 683,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_EVENT_DETAIL_PAGE_16_9.jpg",
+              "width": 205,
+              "height": 115,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_RETINA_PORTRAIT_16_9.jpg",
+              "width": 640,
+              "height": 360,
+              "fallback": false
+            },
+            {
+              "ratio": "4_3",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_CUSTOM.jpg",
+              "width": 305,
+              "height": 225,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/f7c/00abe3c8-7939-4399-8f3c-a65c89fb9f7c_SOURCE",
+              "width": 2426,
+              "height": 1365,
+              "fallback": false
+            },
+            {
+              "ratio": "3_2",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_ARTIST_PAGE_3_2.jpg",
+              "width": 305,
+              "height": 203,
+              "fallback": false
+            },
+            {
+              "ratio": "16_9",
+              "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_RETINA_LANDSCAPE_16_9.jpg",
+              "width": 1136,
+              "height": 639,
+              "fallback": false
+            }
+          ],
+          "sales": {
+            "public": {
+              "startDateTime": "2025-02-14T08:00:00Z",
+              "startTBD": false,
+              "startTBA": false,
+              "endDateTime": "2025-08-06T18:30:00Z"
+            }
+          },
+          "dates": {
+            "start": {
+              "localDate": "2025-08-06",
+              "localTime": "17:00:00",
+              "dateTime": "2025-08-06T15:00:00Z",
+              "dateTBD": false,
+              "dateTBA": false,
+              "timeTBA": false,
+              "noSpecificTime": false
+            },
+            "timezone": "Europe/Warsaw",
+            "status": {
+              "code": "onsale"
+            },
+            "spanMultipleDays": false
+          },
+          "classifications": [
+            {
+              "primary": true,
+              "segment": {
+                "id": "KZFzniwnSyZfZ7v7nJ",
+                "name": "Music"
+              },
+              "genre": {
+                "id": "KnvZfZ7vAv1",
+                "name": "Hip-Hop/Rap"
+              },
+              "subGenre": {
+                "id": "KZazBEonSMnZfZ7vkvl",
+                "name": "Hip-Hop/Rap"
+              },
+              "family": false
+            }
+          ],
+          "promoter": {
+            "id": "1863",
+            "name": "Live Nation Sp. z o.o."
+          },
+          "promoters": [
+            {
+              "id": "1863",
+              "name": "Live Nation Sp. z o.o."
+            }
+          ],
+          "seatmap": {
+            "staticUrl": "https://media.ticketmaster.eu/poland/4be85af45a8af0f0ecec060488861497.png",
+            "id": "seatmap"
+          },
+          "ticketing": {
+            "safeTix": {
+              "enabled": false
+            },
+            "id": "ticketing"
+          },
+          "_links": {
+            "self": {
+              "href": "/discovery/v2/events/Z698xZQpZ16vbVosva?locale=en-us"
+            },
+            "attractions": [
+              {
+                "href": "/discovery/v2/attractions/K8vZ917GSg0?locale=en-us"
+              },
+              {
+                "href": "/discovery/v2/attractions/K8vZ917o6G0?locale=en-us"
+              }
+            ],
+            "venues": [
+              {
+                "href": "/discovery/v2/venues/Z198xZQpZeke?locale=en-us"
+              }
+            ]
+          },
+          "_embedded": {
+            "venues": [
+              {
+                "name": "PGE Narodowy",
+                "type": "venue",
+                "id": "Z198xZQpZeke",
+                "test": false,
+                "url": "https://www.ticketmaster.pl/venue/pge-narodowy-warszawa--bilety/stn/105",
+                "locale": "en-us",
+                "postalCode": "03-901",
+                "timezone": "Europe/Warsaw",
+                "city": {
+                  "name": "Warsaw"
+                },
+                "state": {
+                  "name": "Mazowieckie"
+                },
+                "country": {
+                  "name": "Poland",
+                  "countryCode": "PL"
+                },
+                "address": {
+                  "line1": "Al. Ks. J. Poniatowskiego 1"
+                },
+                "location": {
+                  "longitude": "21.04598",
+                  "latitude": "52.23958"
+                },
+                "upcomingEvents": {
+                  "mfx-pl": 5,
+                  "_total": 5,
+                  "_filtered": 0
+                },
+                "_links": {
+                  "self": {
+                    "href": "/discovery/v2/venues/Z198xZQpZeke?locale=en-us"
+                  }
+                }
+              }
+            ],
+            "attractions": [
+              {
+                "name": "Kendrick Lamar",
+                "type": "attraction",
+                "id": "K8vZ917GSg0",
+                "test": false,
+                "url": "https://www.ticketmaster.com/kendrick-lamar-tickets/artist/1480454",
+                "locale": "en-us",
+                "externalLinks": {
+                  "youtube": [
+                    {
+                      "url": "https://www.youtube.com/channel/UC3lBXcrKFnFAFkfVk5WuKcQ/videos"
+                    }
+                  ],
+                  "twitter": [
+                    {
+                      "url": "https://twitter.com/kendricklamar"
+                    }
+                  ],
+                  "itunes": [
+                    {
+                      "url": "https://music.apple.com/us/artist/kendrick-lamar/368183298"
+                    }
+                  ],
+                  "lastfm": [
+                    {
+                      "url": "http://www.last.fm/music/Kendrick+Lamar"
+                    }
+                  ],
+                  "spotify": [
+                    {
+                      "url": "https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg"
+                    }
+                  ],
+                  "wiki": [
+                    {
+                      "url": "https://en.wikipedia.org/wiki/Kendrick_Lamar"
+                    }
+                  ],
+                  "facebook": [
+                    {
+                      "url": "https://www.facebook.com/kendricklamar"
+                    }
+                  ],
+                  "musicbrainz": [
+                    {
+                      "id": "381086ea-f511-4aba-bdf9-71c753dc5077",
+                      "url": "https://musicbrainz.org/artist/381086ea-f511-4aba-bdf9-71c753dc5077"
+                    }
+                  ],
+                  "instagram": [
+                    {
+                      "url": "http://instagram.com/kendricklamar"
+                    }
+                  ],
+                  "homepage": [
+                    {
+                      "url": "http://www.kendricklamar.com/"
+                    }
+                  ]
+                },
+                "images": [
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_TABLET_LANDSCAPE_16_9.jpg",
+                    "width": 1024,
+                    "height": 576,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_RECOMENDATION_16_9.jpg",
+                    "width": 100,
+                    "height": 56,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+                    "width": 2048,
+                    "height": 1152,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "3_2",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_RETINA_PORTRAIT_3_2.jpg",
+                    "width": 640,
+                    "height": 427,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "3_2",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_TABLET_LANDSCAPE_3_2.jpg",
+                    "width": 1024,
+                    "height": 683,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_EVENT_DETAIL_PAGE_16_9.jpg",
+                    "width": 205,
+                    "height": 115,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_RETINA_PORTRAIT_16_9.jpg",
+                    "width": 640,
+                    "height": 360,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "4_3",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_CUSTOM.jpg",
+                    "width": 305,
+                    "height": 225,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/f7c/00abe3c8-7939-4399-8f3c-a65c89fb9f7c_SOURCE",
+                    "width": 2426,
+                    "height": 1365,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "3_2",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_ARTIST_PAGE_3_2.jpg",
+                    "width": 305,
+                    "height": 203,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/84d/74619327-6dbc-40f7-b4ea-9d61a81a584d_RETINA_LANDSCAPE_16_9.jpg",
+                    "width": 1136,
+                    "height": 639,
+                    "fallback": false
+                  }
+                ],
+                "classifications": [
+                  {
+                    "primary": true,
+                    "segment": {
+                      "id": "KZFzniwnSyZfZ7v7nJ",
+                      "name": "Music"
+                    },
+                    "genre": {
+                      "id": "KnvZfZ7vAv1",
+                      "name": "Hip-Hop/Rap"
+                    },
+                    "subGenre": {
+                      "id": "KZazBEonSMnZfZ7vkdA",
+                      "name": "Urban"
+                    },
+                    "type": {
+                      "id": "KZAyXgnZfZ7v7nI",
+                      "name": "Undefined"
+                    },
+                    "subType": {
+                      "id": "KZFzBErXgnZfZ7v7lJ",
+                      "name": "Undefined"
+                    },
+                    "family": false
+                  }
+                ],
+                "upcomingEvents": {
+                  "mfx-se": 1,
+                  "ticketmaster": 1,
+                  "moshtix": 4,
+                  "mfx-it": 2,
+                  "mfx-pl": 1,
+                  "crowder": 2,
+                  "_total": 11,
+                  "_filtered": 0
+                },
+                "_links": {
+                  "self": {
+                    "href": "/discovery/v2/attractions/K8vZ917GSg0?locale=en-us"
+                  }
+                }
+              },
+              {
+                "name": "SZA",
+                "type": "attraction",
+                "id": "K8vZ917o6G0",
+                "test": false,
+                "url": "https://www.ticketmaster.com/sza-tickets/artist/1858419",
+                "locale": "en-us",
+                "externalLinks": {
+                  "youtube": [
+                    {
+                      "url": "https://www.youtube.com/channel/UCO5IQ70V7l-XpHW40HwaGsw"
+                    }
+                  ],
+                  "twitter": [
+                    {
+                      "url": "https://twitter.com/sza?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"
+                    }
+                  ],
+                  "itunes": [
+                    {
+                      "url": "https://music.apple.com/us/artist/sza/605800394"
+                    }
+                  ],
+                  "facebook": [
+                    {
+                      "url": "https://www.facebook.com/sza/"
+                    }
+                  ],
+                  "spotify": [
+                    {
+                      "url": "https://open.spotify.com/artist/7tYKF4w9nC0nq9CsPZTHyP?autoplay=true"
+                    }
+                  ],
+                  "wiki": [
+                    {
+                      "url": "https://en.wikipedia.org/wiki/SZA_(singer)"
+                    }
+                  ],
+                  "instagram": [
+                    {
+                      "url": "https://www.instagram.com/sza/?hl=en"
+                    }
+                  ],
+                  "musicbrainz": [
+                    {
+                      "id": "272989c8-5535-492d-a25c-9f58803e027f",
+                      "url": "https://musicbrainz.org/artist/272989c8-5535-492d-a25c-9f58803e027f"
+                    }
+                  ]
+                },
+                "images": [
+                  {
+                    "ratio": "3_2",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_RETINA_PORTRAIT_3_2.jpg",
+                    "width": 640,
+                    "height": 427,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_TABLET_LANDSCAPE_LARGE_16_9.jpg",
+                    "width": 2048,
+                    "height": 1152,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_EVENT_DETAIL_PAGE_16_9.jpg",
+                    "width": 205,
+                    "height": 115,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_RETINA_PORTRAIT_16_9.jpg",
+                    "width": 640,
+                    "height": 360,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "4_3",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_CUSTOM.jpg",
+                    "width": 305,
+                    "height": 225,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "3_2",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_TABLET_LANDSCAPE_3_2.jpg",
+                    "width": 1024,
+                    "height": 683,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_RECOMENDATION_16_9.jpg",
+                    "width": 100,
+                    "height": 56,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "3_2",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_ARTIST_PAGE_3_2.jpg",
+                    "width": 305,
+                    "height": 203,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_TABLET_LANDSCAPE_16_9.jpg",
+                    "width": 1024,
+                    "height": 576,
+                    "fallback": false
+                  },
+                  {
+                    "ratio": "16_9",
+                    "url": "https://s1.ticketm.net/dam/a/c95/26a72793-9a09-4a84-9cc0-8e5070462c95_RETINA_LANDSCAPE_16_9.jpg",
+                    "width": 1136,
+                    "height": 639,
+                    "fallback": false
+                  }
+                ],
+                "classifications": [
+                  {
+                    "primary": true,
+                    "segment": {
+                      "id": "KZFzniwnSyZfZ7v7nJ",
+                      "name": "Music"
+                    },
+                    "genre": {
+                      "id": "KnvZfZ7vAee",
+                      "name": "R&B"
+                    },
+                    "subGenre": {
+                      "id": "KZazBEonSMnZfZ7vkIt",
+                      "name": "R&B"
+                    },
+                    "type": {
+                      "id": "KZAyXgnZfZ7v7nI",
+                      "name": "Undefined"
+                    },
+                    "subType": {
+                      "id": "KZFzBErXgnZfZ7v7lJ",
+                      "name": "Undefined"
+                    },
+                    "family": false
+                  }
+                ],
+                "upcomingEvents": {
+                  "mfx-se": 1,
+                  "ticketmaster": 1,
+                  "mfx-it": 1,
+                  "mfx-pl": 1,
+                  "_total": 4,
+                  "_filtered": 0
+                },
+                "_links": {
+                  "self": {
+                    "href": "/discovery/v2/attractions/K8vZ917o6G0?locale=en-us"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ],
       "residence": "Poznań",
       "description": "chuj ",
       "receivedFriendRequests": [

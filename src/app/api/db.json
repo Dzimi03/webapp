@@ -5317,6 +5317,79 @@
         "fdd63866-5ad0-4882-960f-b8a597c5b774"
       ],
       "createdAt": "2025-08-06T20:46:15.495Z"
+    },
+    {
+      "id": "1754513731357",
+      "groupId": "1754507723990",
+      "name": "test",
+      "description": "test",
+      "amount": 30,
+      "currency": "PLN",
+      "paidByUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "splitBetweenUserIds": [
+        "0d859552-69bd-4384-bafb-3e057518738c",
+        "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+        "fdd63866-5ad0-4882-960f-b8a597c5b774"
+      ],
+      "createdAt": "2025-08-06T20:55:31.357Z"
+    },
+    {
+      "id": "1754513763160",
+      "groupId": "1754507723990",
+      "name": "test2",
+      "description": "test2",
+      "amount": 100,
+      "currency": "PLN",
+      "paidByUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "splitBetweenUserIds": [
+        "0d859552-69bd-4384-bafb-3e057518738c",
+        "fdd63866-5ad0-4882-960f-b8a597c5b774"
+      ],
+      "createdAt": "2025-08-06T20:56:03.160Z"
+    },
+    {
+      "id": "1754513879229",
+      "groupId": "1754507723990",
+      "name": "test3",
+      "description": "test3",
+      "amount": 65,
+      "currency": "PLN",
+      "paidByUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "splitBetweenUserIds": [
+        "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+        "fdd63866-5ad0-4882-960f-b8a597c5b774"
+      ],
+      "createdAt": "2025-08-06T20:57:59.229Z"
+    },
+    {
+      "id": "1754513939949",
+      "groupId": "1754507723990",
+      "name": "test4",
+      "description": "test4",
+      "amount": 200,
+      "currency": "PLN",
+      "paidByUserId": "fdd63866-5ad0-4882-960f-b8a597c5b774",
+      "splitBetweenUserIds": [
+        "0d859552-69bd-4384-bafb-3e057518738c",
+        "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+        "fdd63866-5ad0-4882-960f-b8a597c5b774"
+      ],
+      "createdAt": "2025-08-06T20:58:59.949Z"
+    },
+    {
+      "id": "1754514273270",
+      "groupId": "1754507723990",
+      "name": "test5",
+      "description": "test5",
+      "amount": 90,
+      "currency": "PLN",
+      "paidByUserId": "0d859552-69bd-4384-bafb-3e057518738c",
+      "splitBetweenUserIds": [
+        "0d859552-69bd-4384-bafb-3e057518738c",
+        "6e3ad6aa-91fd-4149-9e42-fc7a37d18f73",
+        "fdd63866-5ad0-4882-960f-b8a597c5b774"
+      ],
+      "createdAt": "2025-08-06T21:04:33.270Z"
     }
   ]
 }

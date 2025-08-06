@@ -69,7 +69,11 @@ export default function GroupDetailPage() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [balance, setBalance] = useState<BalanceEntry[]>([]);
   const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
+  const [showEditExpenseModal, setShowEditExpenseModal] = useState(false);
   const [isAddingExpense, setIsAddingExpense] = useState(false);
+  const [isEditingExpense, setIsEditingExpense] = useState(false);
+  const [isDeletingExpense, setIsDeletingExpense] = useState<string | null>(null);
+  const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [newExpense, setNewExpense] = useState({
     name: '',
     description: '',
@@ -353,6 +357,86 @@ export default function GroupDetailPage() {
         ? prev.splitBetweenUserIds.filter(id => id !== userId)
         : [...prev.splitBetweenUserIds, userId]
     }));
+  };
+
+  const handleEditExpense = (expense: Expense) => {
+    setEditingExpense(expense);
+    setShowEditExpenseModal(true);
+  };
+
+  const handleUpdateExpense = async () => {
+    if (!editingExpense || !group) return;
+
+    setIsEditingExpense(true);
+    try {
+      const response = await fetch(`/api/groups/${group.id}/expenses/${editingExpense.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: editingExpense.name,
+          description: editingExpense.description,
+          amount: editingExpense.amount,
+          currency: editingExpense.currency,
+          paidByUserId: editingExpense.paidByUserId,
+          splitBetweenUserIds: editingExpense.splitBetweenUserIds,
+        }),
+      });
+
+      if (response.ok) {
+        await fetchExpenses();
+        await fetchBalance();
+        setShowEditExpenseModal(false);
+        setEditingExpense(null);
+      } else {
+        const error = await response.json();
+        alert(`Failed to update expense: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error updating expense:', error);
+      alert('Failed to update expense');
+    } finally {
+      setIsEditingExpense(false);
+    }
+  };
+
+  const handleDeleteExpense = async (expenseId: string) => {
+    if (!group) return;
+
+    setIsDeletingExpense(expenseId);
+    try {
+      const response = await fetch(`/api/groups/${group.id}/expenses/${expenseId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        await fetchExpenses();
+        await fetchBalance();
+      } else {
+        const error = await response.json();
+        alert(`Failed to delete expense: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error deleting expense:', error);
+      alert('Failed to delete expense');
+    } finally {
+      setIsDeletingExpense(null);
+    }
+  };
+
+  const handleEditSplitUserToggle = (userId: string) => {
+    if (!editingExpense) return;
+    
+    setEditingExpense(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        splitBetweenUserIds: prev.splitBetweenUserIds.includes(userId)
+          ? prev.splitBetweenUserIds.filter(id => id !== userId)
+          : [...prev.splitBetweenUserIds, userId]
+      };
+    });
   };
 
   if (!session?.user?.email) {
@@ -680,23 +764,38 @@ export default function GroupDetailPage() {
                          <p className="text-gray-500">No expenses yet</p>
                        </div>
                      ) : (
-                       expenses.map((expense) => (
-                         <div key={expense.id} className="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-200">
-                           <div className="flex items-center justify-between mb-2">
-                             <h3 className="font-semibold text-gray-900">{expense.name}</h3>
-                             <span className="text-lg font-bold text-green-600">
-                               {expense.amount} {expense.currency}
-                             </span>
-                           </div>
-                           {expense.description && (
-                             <p className="text-sm text-gray-600 mb-3">{expense.description}</p>
-                           )}
-                           <div className="flex items-center justify-between text-sm">
-                             <span className="text-gray-500">Paid by: <span className="font-medium">{expense.paidByUser?.name}</span></span>
-                             <span className="text-gray-500">Split between: {expense.splitBetweenUsers?.length} people</span>
-                           </div>
-                         </div>
-                       ))
+                                               expenses.map((expense) => (
+                          <div key={expense.id} className="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-200 hover:shadow-md transition-shadow cursor-pointer" onClick={() => handleEditExpense(expense)}>
+                            <div className="flex items-center justify-between mb-2">
+                              <h3 className="font-semibold text-gray-900">{expense.name}</h3>
+                              <div className="flex items-center space-x-2">
+                                <span className="text-lg font-bold text-green-600">
+                                  {expense.amount} {expense.currency}
+                                </span>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteExpense(expense.id);
+                                  }}
+                                  disabled={isDeletingExpense === expense.id}
+                                  className="text-red-500 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors p-1"
+                                  title="Delete expense"
+                                >
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                            {expense.description && (
+                              <p className="text-sm text-gray-600 mb-3">{expense.description}</p>
+                            )}
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-gray-500">Paid by: <span className="font-medium">{expense.paidByUser?.name}</span></span>
+                              <span className="text-gray-500">Split between: {expense.splitBetweenUsers?.length} people</span>
+                            </div>
+                          </div>
+                        ))
                      )}
                    </div>
 
@@ -995,8 +1094,162 @@ export default function GroupDetailPage() {
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
-} 
+                 </div>
+       )}
+
+       {/* Edit Expense Modal */}
+       {showEditExpenseModal && editingExpense && (
+         <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50 p-4">
+           <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+             <div className="flex items-center justify-between mb-6">
+               <h3 className="text-2xl font-bold text-gray-900">Edit Expense</h3>
+               <button
+                 onClick={() => {
+                   setShowEditExpenseModal(false);
+                   setEditingExpense(null);
+                 }}
+                 className="text-gray-400 hover:text-gray-600 transition-colors"
+               >
+                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                 </svg>
+               </button>
+             </div>
+
+             <div className="space-y-4">
+               {/* Expense Name */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Expense Name *
+                 </label>
+                 <input
+                   type="text"
+                   value={editingExpense.name}
+                   onChange={(e) => setEditingExpense(prev => prev ? { ...prev, name: e.target.value } : null)}
+                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                   placeholder="e.g., Dinner, Gas, Rent"
+                 />
+               </div>
+
+               {/* Description */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Description
+                 </label>
+                 <textarea
+                   value={editingExpense.description || ''}
+                   onChange={(e) => setEditingExpense(prev => prev ? { ...prev, description: e.target.value } : null)}
+                   rows={3}
+                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900"
+                   placeholder="Optional description..."
+                 />
+               </div>
+
+               {/* Amount and Currency */}
+               <div className="grid grid-cols-2 gap-4">
+                 <div>
+                   <label className="block text-sm font-semibold text-gray-700 mb-2">
+                     Amount *
+                   </label>
+                   <input
+                     type="number"
+                     step="0.01"
+                     value={editingExpense.amount}
+                     onChange={(e) => setEditingExpense(prev => prev ? { ...prev, amount: parseFloat(e.target.value) || 0 } : null)}
+                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                     placeholder="0.00"
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-sm font-semibold text-gray-700 mb-2">
+                     Currency
+                   </label>
+                   <select
+                     value={editingExpense.currency}
+                     onChange={(e) => setEditingExpense(prev => prev ? { ...prev, currency: e.target.value } : null)}
+                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                   >
+                     <option value="PLN">PLN</option>
+                     <option value="EUR">EUR</option>
+                     <option value="USD">USD</option>
+                     <option value="GBP">GBP</option>
+                   </select>
+                 </div>
+               </div>
+
+               {/* Paid By */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Paid By *
+                 </label>
+                 <select
+                   value={editingExpense.paidByUserId}
+                   onChange={(e) => setEditingExpense(prev => prev ? { ...prev, paidByUserId: e.target.value } : null)}
+                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                 >
+                   <option value="">Select who paid</option>
+                   {group.members.map((member) => (
+                     <option key={member.id} value={member.id}>
+                       {member.name}
+                     </option>
+                   ))}
+                 </select>
+               </div>
+
+               {/* Split Between */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Split Between *
+                 </label>
+                 <div className="space-y-2 max-h-32 overflow-y-auto">
+                   {group.members.map((member) => (
+                     <label key={member.id} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                       <input
+                         type="checkbox"
+                         checked={editingExpense.splitBetweenUserIds.includes(member.id)}
+                         onChange={() => handleEditSplitUserToggle(member.id)}
+                         className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                       />
+                       <div className="flex items-center space-x-3">
+                         <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                           {member.avatarUrl ? (
+                             <img src={member.avatarUrl} alt="Avatar" className="w-8 h-8 rounded-full object-cover" />
+                           ) : (
+                             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                             </svg>
+                           )}
+                         </div>
+                         <span className="text-sm font-medium text-gray-900">{member.name}</span>
+                       </div>
+                     </label>
+                   ))}
+                 </div>
+               </div>
+
+               {/* Action Buttons */}
+               <div className="flex space-x-3 pt-4">
+                 <button
+                   onClick={() => {
+                     setShowEditExpenseModal(false);
+                     setEditingExpense(null);
+                   }}
+                   className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-colors"
+                 >
+                   Cancel
+                 </button>
+                 <button
+                   onClick={handleUpdateExpense}
+                   disabled={isEditingExpense}
+                   className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors"
+                 >
+                   {isEditingExpense ? 'Updating...' : 'Update Expense'}
+                 </button>
+               </div>
+             </div>
+           </div>
+         </div>
+       )}
+     </div>
+   );
+ } 

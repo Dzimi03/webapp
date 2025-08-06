@@ -1,8 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../auth/[...nextauth]/route';
-import { db, GroupMember } from '../db';
+import { db } from '../db';
 
+// Helper function to migrate group members from old structure to new
+function migrateGroupMembers(members: any[]) {
+  return members.map(member => {
+    if ('userId' in member) {
+      // Old structure with roles - find the user and return full user object
+      const user = db.data.users.find(u => u.id === member.userId);
+      return user || { id: member.userId, name: 'Unknown User', email: 'unknown@example.com' };
+    } else {
+      // Already in new structure (full user object)
+      return member;
+    }
+  });
+}
+
+// GET - Get all groups for current user
 export async function GET(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
@@ -17,18 +32,24 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Get groups where the current user is a member (handle both old and new structures)
-    const userGroups = db.data.groups.filter(group => 
-      group.members.some(member => {
-        if ('userId' in member) {
-          return member.userId === currentUser.id;
-        } else {
-          return member.id === currentUser.id;
-        }
+    // Get groups where current user is a member and migrate them
+    const userGroups = db.data.groups
+      .filter(group => {
+        // Check if current user is a member (handle both old and new structures)
+        return group.members.some(member => {
+          if ('userId' in member) {
+            return member.userId === currentUser.id;
+          } else {
+            return member.id === currentUser.id;
+          }
+        });
       })
-    );
+      .map(group => ({
+        ...group,
+        members: migrateGroupMembers(group.members)
+      }));
 
-    return NextResponse.json(userGroups);
+    return NextResponse.json({ groups: userGroups });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
@@ -54,21 +75,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Create new group with founder role
-    const founderMember: GroupMember = {
-      userId: currentUser.id,
-      role: 'founder',
-      joinedAt: new Date().toISOString()
-    };
-
+    // Create new group with current user as member
     const newGroup = {
       id: Date.now().toString(),
       name: name.trim(),
       description: description?.trim() || '',
       imageUrl: undefined,
-      members: [founderMember],
-      createdAt: new Date().toISOString(),
-      createdBy: currentUser.id
+      members: [currentUser],
+      createdAt: new Date().toISOString()
     };
 
     db.data.groups.push(newGroup);

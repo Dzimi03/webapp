@@ -67,7 +67,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     // Generate unique filename
     const timestamp = Date.now();
     const fileExtension = file.name.split('.').pop();
-    const filename = `group_${id}_${timestamp}.${fileExtension}`;
+    const filename = `group_background_${id}_${timestamp}.${fileExtension}`;
     const filepath = join(uploadsDir, filename);
 
     // Convert file to buffer and save
@@ -75,15 +75,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     const buffer = Buffer.from(bytes);
     await writeFile(filepath, buffer);
 
-    // Update group image URL
+    // Update group background image URL
     const imageUrl = `/uploads/${filename}`;
-    db.data.groups[groupIndex].imageUrl = imageUrl;
+    db.data.groups[groupIndex].backgroundImageUrl = imageUrl;
     
     await db.write();
 
     return NextResponse.json({ imageUrl });
   } catch (error) {
-    console.error('Error uploading group image:', error);
+    console.error('Error uploading group background image:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 } 

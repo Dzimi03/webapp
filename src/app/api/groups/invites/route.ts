@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
-import { db, GroupMember } from '../../db';
+import { db } from '../../db';
+import { createNotification } from '../../notifications/route';
 
 // GET - Get current user's group invitations
 export async function GET(req: NextRequest) {
@@ -88,18 +89,36 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
-    // Add user to group with member role
-    const newMember: GroupMember = {
-      userId: currentUser.id,
-      role: 'member',
-      joinedAt: new Date().toISOString()
-    };
-    db.data.groups[groupIndex].members.push(newMember);
+    // Check if user is already a member
+    const isAlreadyMember = db.data.groups[groupIndex].members.some(member => {
+      if ('userId' in member) {
+        return member.userId === currentUser.id;
+      } else {
+        return member.id === currentUser.id;
+      }
+    });
+
+    if (!isAlreadyMember) {
+      // Add user to group
+      db.data.groups[groupIndex].members.push(currentUser);
+    }
     
     // Update invitation status
     db.data.groupInvites[inviteIndex].status = 'accepted';
     
     await db.write();
+
+    // Create notification for the user who sent the invitation
+    const group = db.data.groups[groupIndex];
+    console.log('Creating notification for:', invite.fromUserId, 'about group:', group.name);
+    const notification = await createNotification(
+      invite.fromUserId,
+      'group_invite_accepted',
+      'Group Invitation Accepted',
+      `${currentUser.name} accepted your invitation to group: ${group.name}`,
+      group.id
+    );
+    console.log('Notification created:', notification);
 
     return NextResponse.json({ message: 'Group invitation accepted successfully' });
   } catch (error) {
@@ -151,6 +170,18 @@ export async function DELETE(req: NextRequest) {
     db.data.groupInvites[inviteIndex].status = 'rejected';
     
     await db.write();
+
+    // Create notification for the user who sent the invitation
+    const group = db.data.groups.find(g => g.id === invite.groupId);
+    if (group) {
+      await createNotification(
+        invite.fromUserId,
+        'group_invite_rejected',
+        'Group Invitation Rejected',
+        `${currentUser.name} rejected your invitation to group: ${group.name}`,
+        group.id
+      );
+    }
 
     return NextResponse.json({ message: 'Group invitation rejected successfully' });
   } catch (error) {

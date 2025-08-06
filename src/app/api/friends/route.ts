@@ -17,6 +17,7 @@ export async function GET(req: NextRequest) {
   }
   
   const friends = db.data?.users.filter((u: User) => user.friends.includes(u.id)).map(({ password, ...rest }) => rest) || [];
+  console.log('API /friends - User:', user.email, 'Friends count:', friends.length, 'Friends:', friends.map(f => f.name));
   return NextResponse.json(friends);
 }
 

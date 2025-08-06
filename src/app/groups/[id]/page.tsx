@@ -1,7 +1,47 @@
 "use client";
-import { useEffect, useState, useRef } from 'react';
-import { useSession } from 'next-auth/react';
+
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import Navbar from '../../Navbar';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl?: string;
+  residence?: string;
+}
+
+interface Group {
+  id: string;
+  name: string;
+  description?: string;
+  imageUrl?: string;
+  backgroundImageUrl?: string;
+  members: User[];
+  createdAt: string;
+}
+
+interface Expense {
+  id: string;
+  groupId: string;
+  name: string;
+  description?: string;
+  amount: number;
+  currency: string;
+  paidByUserId: string;
+  splitBetweenUserIds: string[];
+  createdAt: string;
+  paidByUser?: User;
+  splitBetweenUsers?: User[];
+}
+
+interface BalanceEntry {
+  user: User;
+  balance: number;
+  currency: string;
+}
 
 export default function GroupDetailPage() {
   const { data: session } = useSession();
@@ -9,251 +49,256 @@ export default function GroupDetailPage() {
   const router = useRouter();
   const groupId = params.id as string;
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const searchRef = useRef<HTMLDivElement>(null);
-  
-  const [group, setGroup] = useState<any>(null);
-  const [currentUserRole, setCurrentUserRole] = useState<string>('');
+
+  const [group, setGroup] = useState<Group | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  
-  // Form states
   const [groupName, setGroupName] = useState('');
   const [groupDescription, setGroupDescription] = useState('');
   const [isSaving, setIsSaving] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-
-  // Invite members states
+  const [isRemovingMember, setIsRemovingMember] = useState<string | null>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [showInviteModal, setShowInviteModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [showSearchResults, setShowSearchResults] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
   const [isInviting, setIsInviting] = useState(false);
-
-  // Role management states
-  const [isChangingRole, setIsChangingRole] = useState(false);
+  const [invitingUserId, setInvitingUserId] = useState<string | null>(null);
+  const [invitedUsers, setInvitedUsers] = useState<Set<string>>(new Set());
+  const [friends, setFriends] = useState<User[]>([]);
+  const [filteredFriends, setFilteredFriends] = useState<User[]>([]);
+  const [activeTab, setActiveTab] = useState<'members' | 'expenses' | 'balance'>('members');
+  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [balance, setBalance] = useState<BalanceEntry[]>([]);
+  const [showAddExpenseModal, setShowAddExpenseModal] = useState(false);
+  const [isAddingExpense, setIsAddingExpense] = useState(false);
+  const [newExpense, setNewExpense] = useState({
+    name: '',
+    description: '',
+    amount: '',
+    currency: 'PLN',
+    paidByUserId: '',
+    splitBetweenUserIds: [] as string[]
+  });
 
   useEffect(() => {
     if (session?.user?.email && groupId) {
       fetchGroup();
+      fetchFriends();
     }
   }, [session, groupId]);
 
-  // Handle click outside search results
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-        setShowSearchResults(false);
-      }
+    if (group) {
+      fetchExistingInvites();
+      fetchExpenses();
+      fetchBalance();
     }
+  }, [group]);
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  // Search friends as user types
   useEffect(() => {
-    const searchFriends = async () => {
-      if (searchQuery.trim().length < 2) {
-        setSearchResults([]);
-        setShowSearchResults(false);
-        return;
-      }
-
-      setIsSearching(true);
-      try {
-        const res = await fetch(`/api/friends`);
-        if (res.ok) {
-          const friends = await res.json();
-          const filteredFriends = friends.filter((friend: any) => 
-            friend.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-            !group?.members?.some((member: any) => member.userId === friend.id)
-          );
-          setSearchResults(filteredFriends);
-          setShowSearchResults(true);
-        }
-      } catch (error) {
-        console.error('Search failed:', error);
-      } finally {
-        setIsSearching(false);
-      }
-    };
-
-    const timeoutId = setTimeout(searchFriends, 300); // Debounce search
-    return () => clearTimeout(timeoutId);
-  }, [searchQuery, group?.members]);
+    if (searchQuery.trim() === '') {
+      setFilteredFriends(friends);
+    } else {
+      const filtered = friends.filter(friend =>
+        friend.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        friend.email.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      console.log('Filtering friends:', { searchQuery, friendsCount: friends.length, filteredCount: filtered.length });
+      setFilteredFriends(filtered);
+    }
+  }, [searchQuery, friends]);
 
   const fetchGroup = async () => {
     try {
-      const res = await fetch(`/api/groups/${groupId}`);
-      if (res.ok) {
-        const data = await res.json();
+      const response = await fetch(`/api/groups/${groupId}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Fetched group data:', data);
+        console.log('Background image URL:', data.backgroundImageUrl);
         setGroup(data);
-        setCurrentUserRole(data.currentUserRole);
         setGroupName(data.name);
         setGroupDescription(data.description || '');
       } else {
-        setError('Group not found');
+        console.error('Failed to fetch group');
       }
     } catch (error) {
-      setError('Failed to load group');
-    } finally {
-      setIsLoading(false);
+      console.error('Error fetching group:', error);
+    }
+  };
+
+  const fetchFriends = async () => {
+    try {
+      const response = await fetch('/api/friends');
+      if (response.ok) {
+        const data = await response.json();
+        // API zwraca bezpośrednio tablicę znajomych, nie obiekt z friends
+        const friendsList = Array.isArray(data) ? data : [];
+        console.log('Fetched friends:', friendsList);
+        setFriends(friendsList);
+        setFilteredFriends(friendsList);
+      }
+    } catch (error) {
+      console.error('Error fetching friends:', error);
+    }
+  };
+
+  const fetchExistingInvites = async () => {
+    if (!group) return;
+    
+    try {
+      // Pobierz wszystkie pending zaproszenia dla tej grupy
+      const response = await fetch(`/api/groups/${group.id}/invites`);
+      if (response.ok) {
+        const data = await response.json();
+        // Dodaj ID użytkowników którzy mają pending zaproszenia do set
+        const invitedUserIds = new Set<string>(data.invites?.map((invite: any) => invite.toUserId) || []);
+        setInvitedUsers(invitedUserIds);
+      }
+    } catch (error) {
+      console.error('Error fetching existing invites:', error);
+    }
+  };
+
+  const fetchExpenses = async () => {
+    if (!group) return;
+    
+    try {
+      const response = await fetch(`/api/groups/${group.id}/expenses`);
+      if (response.ok) {
+        const data = await response.json();
+        setExpenses(data.expenses || []);
+      }
+    } catch (error) {
+      console.error('Error fetching expenses:', error);
+    }
+  };
+
+  const fetchBalance = async () => {
+    if (!group) return;
+    
+    try {
+      const response = await fetch(`/api/groups/${group.id}/expenses/balance`);
+      if (response.ok) {
+        const data = await response.json();
+        setBalance(data.balance || []);
+      }
+    } catch (error) {
+      console.error('Error fetching balance:', error);
     }
   };
 
   const handleSaveChanges = async () => {
-    setIsSaving(true);
-    setError('');
-    setSuccess('');
+    if (!group) return;
 
+    setIsSaving(true);
     try {
-      const res = await fetch(`/api/groups/${groupId}`, {
+      const response = await fetch(`/api/groups/${groupId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          name: groupName.trim(),
-          description: groupDescription.trim(),
+          name: groupName,
+          description: groupDescription,
         }),
       });
 
-      if (res.ok) {
-        setSuccess('Group updated successfully!');
+      if (response.ok) {
+        await fetchGroup();
         setIsEditing(false);
-        fetchGroup();
       } else {
-        const data = await res.json();
-        setError(data.error || 'Error updating group');
+        console.error('Failed to update group');
       }
     } catch (error) {
-      setError('Error updating group');
+      console.error('Error updating group:', error);
     } finally {
       setIsSaving(false);
     }
   };
 
-  const handleCancelEdit = () => {
-    setGroupName(group?.name || '');
-    setGroupDescription(group?.description || '');
-    setIsEditing(false);
-  };
-
-  const handleInviteMember = async (friendId: string) => {
-    setIsInviting(true);
-    setError('');
-    setSuccess('');
-
-    try {
-      const res = await fetch(`/api/groups/${groupId}/invite`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: friendId }),
-      });
-
-      if (res.ok) {
-        setSuccess('Group invitation sent successfully!');
-        setSearchQuery('');
-        setShowSearchResults(false);
-        fetchGroup();
-      } else {
-        const data = await res.json();
-        setError(data.error || 'Error sending invitation');
-      }
-    } catch (error) {
-      setError('Error sending invitation');
-    } finally {
-      setIsInviting(false);
-    }
-  };
-
   const handleRemoveMember = async (memberId: string) => {
-    setError('');
-    setSuccess('');
+    if (!group) return;
 
+    setIsRemovingMember(memberId);
     try {
-      const res = await fetch(`/api/groups/${groupId}/members/${memberId}`, {
+      const response = await fetch(`/api/groups/${groupId}/members/${memberId}`, {
         method: 'DELETE',
       });
 
-      if (res.ok) {
-        setSuccess('Member removed successfully!');
-        fetchGroup();
+      if (response.ok) {
+        await fetchGroup();
       } else {
-        const data = await res.json();
-        setError(data.error || 'Error removing member');
+        console.error('Failed to remove member');
       }
     } catch (error) {
-      setError('Error removing member');
-    }
-  };
-
-  const handleChangeRole = async (memberId: string, newRole: string) => {
-    try {
-      setIsChangingRole(true);
-      const res = await fetch(`/api/groups/${groupId}/members/${memberId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ role: newRole }),
-      });
-
-      if (res.ok) {
-        setSuccess('Member role updated successfully');
-        fetchGroup(); // Refresh group data
-      } else {
-        const errorData = await res.json();
-        setError(errorData.error || 'Failed to update member role');
-      }
-    } catch (error) {
-      setError('Failed to update member role');
+      console.error('Error removing member:', error);
     } finally {
-      setIsChangingRole(false);
+      setIsRemovingMember(null);
     }
   };
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
+  const handleImageUpload = async (type: 'profile' | 'background') => {
+    if (!selectedImage || !group) return;
 
-    // Validate file type and size
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      setError('Image size must be less than 5MB');
-      return;
-    }
-
-    setIsUploading(true);
-    setError('');
-    setSuccess('');
-
-    const formData = new FormData();
-    formData.append('image', file);
-
+    setIsUploadingImage(true);
     try {
-      const res = await fetch(`/api/groups/${groupId}/upload-image`, {
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+
+      const endpoint = type === 'profile' 
+        ? `/api/groups/${groupId}/upload-image`
+        : `/api/groups/${groupId}/upload-background`;
+
+      const response = await fetch(endpoint, {
         method: 'POST',
         body: formData,
       });
 
-      if (res.ok) {
-        setSuccess('Group image updated successfully!');
-        fetchGroup();
+      if (response.ok) {
+        await fetchGroup();
+        setSelectedImage(null);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        alert(`${type === 'profile' ? 'Profile picture' : 'Background image'} uploaded successfully!`);
       } else {
-        const data = await res.json();
-        setError(data.error || 'Error uploading image');
+        console.error(`Failed to upload ${type} image`);
+        alert(`Failed to upload ${type === 'profile' ? 'profile picture' : 'background image'}`);
       }
     } catch (error) {
-      setError('Error uploading image');
+      console.error(`Error uploading ${type} image:`, error);
+      alert(`Failed to upload ${type === 'profile' ? 'profile picture' : 'background image'}`);
     } finally {
-      setIsUploading(false);
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleInviteUser = async (friendId: string) => {
+    if (!group) return;
+
+    setIsInviting(true);
+    setInvitingUserId(friendId);
+    try {
+      const response = await fetch(`/api/groups/${groupId}/invite`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: friendId,
+        }),
+      });
+
+      if (response.ok) {
+        setInvitedUsers(prev => new Set([...prev, friendId]));
+      } else {
+        const error = await response.json();
+        console.error('Failed to send invitation:', error.error);
+      }
+    } catch (error) {
+      console.error('Error inviting user:', error);
+    } finally {
+      setIsInviting(false);
+      setInvitingUserId(null);
     }
   };
 
@@ -261,407 +306,698 @@ export default function GroupDetailPage() {
     fileInputRef.current?.click();
   };
 
-  if (!session) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center">
-      <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-8 text-center border border-white/20">
-        <div className="w-20 h-20 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-          <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-          </svg>
-        </div>
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">Please Log In</h2>
-        <p className="text-gray-600 text-lg">You need to be logged in to view group details.</p>
-      </div>
-    </div>
-  );
+  const handleAddExpense = async () => {
+    if (!group || !newExpense.name || !newExpense.amount || !newExpense.paidByUserId || newExpense.splitBetweenUserIds.length === 0) {
+      alert('Please fill in all required fields');
+      return;
+    }
 
-  if (isLoading) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pt-20">
-      <div className="container mx-auto px-6 py-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="animate-spin w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full mx-auto"></div>
-          <p className="mt-6 text-gray-600 text-xl font-semibold">Loading group...</p>
-        </div>
-      </div>
-    </div>
-  );
+    setIsAddingExpense(true);
+    try {
+      const response = await fetch(`/api/groups/${group.id}/expenses`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newExpense),
+      });
 
-  if (error && !group) return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pt-20">
-      <div className="container mx-auto px-6 py-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-white/20">
-            <div className="w-20 h-20 bg-gradient-to-r from-red-500 via-pink-500 to-rose-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
-              <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 via-pink-600 to-rose-600 bg-clip-text text-transparent mb-4">Error</h2>
-            <p className="text-gray-600 text-lg mb-6">{error}</p>
-            <button
-              onClick={() => router.back()}
-              className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:from-blue-700 hover:via-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105 shadow-xl"
-            >
-              Go Back
-            </button>
+      if (response.ok) {
+        await fetchExpenses();
+        await fetchBalance();
+        setShowAddExpenseModal(false);
+        setNewExpense({
+          name: '',
+          description: '',
+          amount: '',
+          currency: 'PLN',
+          paidByUserId: '',
+          splitBetweenUserIds: []
+        });
+        alert('Expense added successfully!');
+      } else {
+        const error = await response.json();
+        alert(`Failed to add expense: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error adding expense:', error);
+      alert('Failed to add expense');
+    } finally {
+      setIsAddingExpense(false);
+    }
+  };
+
+  const handleSplitUserToggle = (userId: string) => {
+    setNewExpense(prev => ({
+      ...prev,
+      splitBetweenUserIds: prev.splitBetweenUserIds.includes(userId)
+        ? prev.splitBetweenUserIds.filter(id => id !== userId)
+        : [...prev.splitBetweenUserIds, userId]
+    }));
+  };
+
+  if (!session?.user?.email) {
+    return (
+      <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-800 mb-4">Please log in to view this group</h1>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 
-  if (!group) return null;
+  if (!group) {
+    return (
+      <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+        <Navbar />
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <h1 className="text-2xl font-bold text-gray-800">Loading group...</h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 pt-20">
-      <div className="container mx-auto px-6 py-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Back Button */}
-          <div className="mb-8">
-            <button
-              onClick={() => router.back()}
-              className="flex items-center space-x-3 text-gray-600 hover:text-gray-900 transition-all duration-300 transform hover:scale-105 font-semibold text-lg"
-            >
-              <div className="w-10 h-10 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </div>
-              <span>Back to Groups</span>
-            </button>
-          </div>
-
-          {/* Group Header */}
-          <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200 mb-8">
-            <div className="flex items-start space-x-8">
-              {/* Group Image - Larger */}
-              <div className="flex-shrink-0">
-                <div className="w-32 h-32 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center overflow-hidden shadow-lg relative group">
-                  {group.imageUrl ? (
-                    <img 
-                      src={group.imageUrl} 
-                      alt="Group" 
-                      className="w-32 h-32 rounded-2xl object-cover"
-                    />
-                  ) : (
-                    <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                    </svg>
-                  )}
-                  {isEditing && (currentUserRole === 'founder' || currentUserRole === 'admin') && (
-                    <button
-                      onClick={triggerFileUpload}
-                      disabled={isUploading}
-                      className="absolute -bottom-1 -right-1 w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center text-white hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isUploading ? (
-                        <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                        </svg>
-                      ) : (
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                      )}
-                    </button>
-                  )}
-                </div>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileUpload}
-                  className="hidden"
+    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
+      <Navbar />
+      
+      <div className="container mx-auto px-4 py-8 pt-24">
+        {/* Hero Section with Group Image and Info */}
+        <div className="relative mb-8">
+          {/* Background Image */}
+          <div className="h-64 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl relative overflow-hidden">
+            {group.backgroundImageUrl && (
+              <>
+                {console.log('Full image URL:', `${window.location.origin}${group.backgroundImageUrl}`)}
+                <img 
+                  src={`${window.location.origin}${group.backgroundImageUrl}`}
+                  alt="Group background" 
+                  className="w-full h-full object-cover"
+                  onError={(e) => console.error('Failed to load background image:', group.backgroundImageUrl)}
+                  onLoad={() => console.log('Background image loaded successfully:', group.backgroundImageUrl)}
                 />
-              </div>
-
-              {/* Group Info */}
-              <div className="flex-1">
-                <div className="flex items-center justify-between mb-6">
+              </>
+            )}
+            
+            {/* Group Info Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+              <div className="flex items-end justify-between">
+                <div className="flex items-end space-x-6">
+                  {/* Group Avatar */}
+                  <div className="w-24 h-24 bg-white rounded-2xl flex items-center justify-center shadow-xl">
+                    {group.imageUrl ? (
+                      <img src={group.imageUrl} alt="Group" className="w-24 h-24 rounded-2xl object-cover" />
+                    ) : (
+                      <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                      </svg>
+                    )}
+                  </div>
+                  
+                  {/* Group Details */}
                   <div>
-                    {isEditing && (currentUserRole === 'founder' || currentUserRole === 'admin') ? (
+                    {isEditing ? (
                       <input
                         type="text"
                         value={groupName}
                         onChange={(e) => setGroupName(e.target.value)}
-                        className="text-2xl font-bold text-gray-900 bg-transparent border-b-2 border-blue-500 focus:outline-none focus:border-blue-600 transition-all duration-300"
+                        className="text-4xl font-bold bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg px-4 py-2 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50"
                         placeholder="Group name"
                       />
                     ) : (
-                      <h1 className="text-2xl font-bold text-gray-900">{group.name}</h1>
+                      <h1 className="text-4xl font-bold">{group.name}</h1>
                     )}
-                    <p className="text-gray-600 text-base mt-2 font-medium">
-                      {group.members?.length || 0} members • Created {new Date(group.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                  
-                  {/* Action Buttons */}
-                  <div className="flex items-center space-x-3">
-                    {/* Show edit buttons only for founder and admin */}
-                    {(currentUserRole === 'founder' || currentUserRole === 'admin') && (
-                      !isEditing ? (
-                        <button
-                          onClick={() => setIsEditing(true)}
-                          className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-lg"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                          </svg>
-                          <span>Edit Group</span>
-                        </button>
-                      ) : (
-                        <div className="flex items-center space-x-3">
-                          <button
-                            onClick={handleCancelEdit}
-                            className="flex items-center space-x-2 px-6 py-3 bg-gray-500 text-white rounded-lg font-semibold hover:bg-gray-600 transition-all duration-200 transform hover:scale-105 shadow-lg"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                            <span>Cancel</span>
-                          </button>
-                          <button
-                            onClick={handleSaveChanges}
-                            disabled={isSaving}
-                            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-lg font-semibold hover:from-green-700 hover:to-emerald-700 transition-all duration-200 transform hover:scale-105 shadow-lg disabled:opacity-50"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
-                            <span>{isSaving ? 'Saving...' : 'Save Changes'}</span>
-                          </button>
-                        </div>
-                      )
-                    )}
-                    
-                    {/* Show role badge */}
-                    <div className="px-3 py-1 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-500 to-purple-600 text-white">
-                      {currentUserRole === 'founder' ? 'Founder' : currentUserRole === 'admin' ? 'Admin' : 'Member'}
-                    </div>
+                    <p className="text-white/80 mt-2">Created on {new Date(group.createdAt).toLocaleDateString()}</p>
                   </div>
                 </div>
-
-                {/* Group Description */}
-                <div className="space-y-4">
-                  {isEditing && (currentUserRole === 'founder' || currentUserRole === 'admin') ? (
-                    <div>
-                      <label className="block text-base font-semibold text-gray-700 mb-2">
-                        Description
-                      </label>
-                      <textarea
-                        value={groupDescription}
-                        onChange={(e) => setGroupDescription(e.target.value)}
-                        rows={3}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-200 resize-none"
-                        placeholder="Tell us what this group is about..."
-                      />
+                
+                {/* Edit Button */}
+                <div className="flex items-center space-x-3">
+                  {isEditing ? (
+                    <div className="flex space-x-2">
+                      <button
+                        onClick={handleSaveChanges}
+                        disabled={isSaving}
+                        className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-xl hover:bg-white/30 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-all duration-200 flex items-center space-x-2"
+                      >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>{isSaving ? 'Saving...' : 'Save'}</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIsEditing(false);
+                          setGroupName(group.name);
+                          setGroupDescription(group.description || '');
+                        }}
+                        className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-xl hover:bg-white/30 font-semibold transition-all duration-200"
+                      >
+                        Cancel
+                      </button>
                     </div>
                   ) : (
-                    group.description && (
-                      <div className="flex items-start space-x-3">
-                        <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mt-1 shadow-md">
-                          <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                          </svg>
-                        </div>
-                        <div className="flex-1">
-                          <p className="text-sm font-semibold text-gray-500 mb-1">About</p>
-                          <p className="text-gray-900 text-sm leading-relaxed">{group.description}</p>
-                        </div>
-                      </div>
-                    )
+                    <button
+                      onClick={() => setIsEditing(true)}
+                      className="bg-white/20 backdrop-blur-sm text-white px-6 py-3 rounded-xl hover:bg-white/30 font-semibold transition-all duration-200 flex items-center space-x-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                      <span>Edit Group</span>
+                    </button>
                   )}
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Invite Members - Only for founder and admin */}
-          {(currentUserRole === 'founder' || currentUserRole === 'admin') && (
-            <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200 mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Invite Members</h2>
-            
-            <div className="relative" ref={searchRef}>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Description and Image Upload */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Description Card */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">About this group</h2>
+              
+              {isEditing ? (
+                <div className="space-y-4">
+                  <label className="block text-sm font-semibold text-gray-700">
+                    Description
+                  </label>
+                  <textarea
+                    value={groupDescription}
+                    onChange={(e) => setGroupDescription(e.target.value)}
+                    rows={4}
+                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900"
+                    placeholder="Tell us about this group..."
+                  />
                 </div>
+              ) : (
+                <p className="text-gray-700 leading-relaxed">
+                  {group.description || 'No description provided for this group.'}
+                </p>
+              )}
+            </div>
+
+            {/* Image Upload Card */}
+            {isEditing && (
+              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Group Images</h3>
+                <div className="space-y-4">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setSelectedImage(e.target.files?.[0] || null)}
+                    className="hidden"
+                  />
+                  <button
+                    onClick={triggerFileUpload}
+                    className="w-full border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
+                  >
+                    <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <p className="text-gray-600 font-medium">Click to upload image</p>
+                    <p className="text-gray-400 text-sm mt-1">PNG, JPG up to 5MB</p>
+                  </button>
+                  
+                  {selectedImage && (
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl">
+                        <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-sm text-gray-600">{selectedImage.name}</span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3">
+                        <button
+                          onClick={() => handleImageUpload('profile')}
+                          disabled={isUploadingImage}
+                          className="bg-blue-600 text-white py-3 px-6 rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors flex items-center justify-center space-x-2"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-4 4v7m-4-4h8m-4-4v4" />
+                          </svg>
+                          <span>{isUploadingImage ? 'Uploading...' : 'Upload as Profile Picture'}</span>
+                        </button>
+                        
+                        <button
+                          onClick={() => handleImageUpload('background')}
+                          disabled={isUploadingImage}
+                          className="bg-purple-600 text-white py-3 px-6 rounded-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors flex items-center justify-center space-x-2"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          <span>{isUploadingImage ? 'Uploading...' : 'Upload as Background Image'}</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Column - Members */}
+          <div className="space-y-6">
+            {/* Members Card */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+              {/* Tabs */}
+              <div className="flex space-x-1 mb-6 bg-gray-100 p-1 rounded-xl">
+                <button
+                  onClick={() => setActiveTab('members')}
+                  className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-colors ${
+                    activeTab === 'members'
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Members
+                </button>
+                <button
+                  onClick={() => setActiveTab('expenses')}
+                  className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-colors ${
+                    activeTab === 'expenses'
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Expenses
+                </button>
+                <button
+                  onClick={() => setActiveTab('balance')}
+                  className={`flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-colors ${
+                    activeTab === 'balance'
+                      ? 'bg-white text-blue-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  Balance
+                </button>
+              </div>
+
+              {/* Members Tab */}
+              {activeTab === 'members' && (
+                <>
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900">Members</h2>
+                    <span className="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+                      {group.members.length}
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 mb-6">
+                    {group.members.map((member) => (
+                      <div key={member.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                            {member.avatarUrl ? (
+                              <img src={member.avatarUrl} alt="Avatar" className="w-10 h-10 rounded-full object-cover" />
+                            ) : (
+                              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                              </svg>
+                            )}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-gray-900 text-sm truncate">{member.name}</p>
+                            <p className="text-gray-500 text-xs truncate">{member.residence || member.email}</p>
+                          </div>
+                        </div>
+                        
+                        <button
+                          onClick={() => handleRemoveMember(member.id)}
+                          disabled={isRemovingMember === member.id}
+                          className="text-red-500 hover:text-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                          title="Remove member"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setShowInviteModal(true)}
+                    className="w-full bg-green-600 text-white py-3 px-6 rounded-xl hover:bg-green-700 font-semibold transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    <span>Invite Members</span>
+                  </button>
+                </>
+              )}
+
+              {/* Expenses Tab */}
+              {activeTab === 'expenses' && (
+                <>
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900">Expenses</h2>
+                    <span className="bg-green-100 text-green-800 text-sm font-semibold px-3 py-1 rounded-full">
+                      {expenses.length}
+                    </span>
+                  </div>
+
+                  <div className="space-y-3 mb-6">
+                    {expenses.length === 0 ? (
+                      <div className="text-center py-8">
+                        <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                        <p className="text-gray-500">No expenses yet</p>
+                      </div>
+                    ) : (
+                      expenses.map((expense) => (
+                        <div key={expense.id} className="p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-200">
+                          <div className="flex items-center justify-between mb-2">
+                            <h3 className="font-semibold text-gray-900">{expense.name}</h3>
+                            <span className="text-lg font-bold text-green-600">
+                              {expense.amount} {expense.currency}
+                            </span>
+                          </div>
+                          {expense.description && (
+                            <p className="text-sm text-gray-600 mb-3">{expense.description}</p>
+                          )}
+                          <div className="flex items-center justify-between text-sm">
+                            <span className="text-gray-500">Paid by: <span className="font-medium">{expense.paidByUser?.name}</span></span>
+                            <span className="text-gray-500">Split between: {expense.splitBetweenUsers?.length} people</span>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() => setShowAddExpenseModal(true)}
+                    className="w-full bg-blue-600 text-white py-3 px-6 rounded-xl hover:bg-blue-700 font-semibold transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                    </svg>
+                    <span>Add Expense</span>
+                  </button>
+                </>
+              )}
+
+              {/* Balance Tab */}
+              {activeTab === 'balance' && (
+                <>
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900">Balance</h2>
+                  </div>
+
+                  <div className="space-y-3">
+                    {balance.length === 0 ? (
+                      <div className="text-center py-8">
+                        <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                        <p className="text-gray-500">No balance to show</p>
+                      </div>
+                    ) : (
+                      balance.map((entry) => (
+                        <div key={entry.user.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                          <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                              {entry.user.avatarUrl ? (
+                                <img src={entry.user.avatarUrl} alt="Avatar" className="w-10 h-10 rounded-full object-cover" />
+                              ) : (
+                                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                              )}
+                            </div>
+                            <div>
+                              <p className="font-semibold text-gray-900">{entry.user.name}</p>
+                            </div>
+                          </div>
+                          <div className={`text-lg font-bold ${entry.balance > 0 ? 'text-green-600' : entry.balance < 0 ? 'text-red-600' : 'text-gray-600'}`}>
+                            {entry.balance > 0 ? '+' : ''}{entry.balance.toFixed(2)} {entry.currency}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Invite Modal */}
+      {showInviteModal && (
+        <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[80vh] overflow-y-auto shadow-2xl">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">Invite Members</h3>
+              <button
+                onClick={() => {
+                  setShowInviteModal(false);
+                  setSearchQuery('');
+                }}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Search friends
+                </label>
                 <input
                   type="text"
-                  placeholder="Search friends by name..."
                   value={searchQuery}
-                  onChange={e => setSearchQuery(e.target.value)}
-                  onFocus={() => setShowSearchResults(true)}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all duration-200"
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by name or email..."
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
                 />
-                {isSearching && (
-                  <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
-                    <svg className="animate-spin h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                  </div>
-                )}
               </div>
-              
-              {/* Search Results Dropdown */}
-              {showSearchResults && searchResults.length > 0 && (
-                <div className="absolute z-50 w-full mt-1 bg-white rounded-lg shadow-2xl border border-gray-200 max-h-96 overflow-y-auto">
-                  {searchResults.map((friend) => (
-                    <div 
-                      key={friend.id} 
-                      className="flex items-center justify-between p-4 hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-all duration-200"
-                    >
+
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {filteredFriends.length === 0 ? (
+                  <div className="text-center py-8">
+                    <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <p className="text-gray-500">
+                      {searchQuery ? 'No friends found matching your search.' : 'No friends available to invite.'}
+                    </p>
+                  </div>
+                ) : (
+                  filteredFriends.map((friend) => (
+                    <div key={friend.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
                       <div className="flex items-center space-x-3">
-                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center overflow-hidden">
+                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
                           {friend.avatarUrl ? (
-                            <img src={friend.avatarUrl} alt="avatar" className="w-10 h-10 rounded-full object-cover" />
+                            <img src={friend.avatarUrl} alt="Avatar" className="w-10 h-10 rounded-full object-cover" />
                           ) : (
                             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                           )}
                         </div>
-                        <div>
-                          <p className="font-semibold text-gray-900">{friend.name}</p>
-                          <p className="text-sm text-gray-600">{friend.residence || friend.email || 'No location'}</p>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => handleInviteMember(friend.id)}
-                        disabled={isInviting}
-                        className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg text-sm font-medium hover:from-green-600 hover:to-emerald-700 transition-all duration-200 disabled:opacity-50"
-                      >
-                        {isInviting ? 'Inviting...' : 'Invite'}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-          )}
-
-          {/* Members List */}
-          <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Members ({group.members?.length || 0})</h2>
-            
-            {!group.members || group.members.length === 0 ? (
-              <div className="text-center py-12">
-                <div className="w-16 h-16 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                </div>
-                <p className="text-gray-500 text-lg font-semibold mb-2">No members yet</p>
-                <p className="text-gray-400 text-base">
-                  {(currentUserRole === 'founder' || currentUserRole === 'admin') 
-                    ? 'Invite members using the search above! 👥' 
-                    : 'This group is empty. Contact the founder to invite members.'}
-                </p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {group.members.map((member: any, index: number) => (
-                  <div 
-                    key={member.userId} 
-                    className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-4 border border-blue-200 hover:border-blue-300 hover:shadow-md transition-all duration-300 transform hover:scale-105"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
-                        {member.user?.avatarUrl ? (
-                          <img src={member.user.avatarUrl} alt="Avatar" className="w-10 h-10 rounded-full object-cover" />
-                        ) : (
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                          </svg>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-bold text-gray-900 text-sm truncate">{member.user?.name}</p>
-                        <p className="text-gray-600 font-medium text-xs truncate">{member.user?.residence || member.user?.email}</p>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                            member.role === 'founder' 
-                              ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white' 
-                              : member.role === 'admin' 
-                              ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white' 
-                              : 'bg-gradient-to-r from-gray-500 to-gray-600 text-white'
-                          }`}>
-                            {member.role === 'founder' ? 'Founder' : member.role === 'admin' ? 'Admin' : 'Member'}
-                          </span>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-gray-900 text-sm truncate">{friend.name}</p>
+                          <p className="text-gray-500 text-xs truncate">{friend.email}</p>
                         </div>
                       </div>
                       
-                      {/* Action buttons - only for founder and admin */}
-                      {(currentUserRole === 'founder' || currentUserRole === 'admin') && (
-                        <div className="flex items-center space-x-1">
-                          {/* Role change dropdown - only for founder and admin, not for founder changing founder */}
-                          {(currentUserRole === 'founder' || (currentUserRole === 'admin' && member.role !== 'founder')) && (
-                            <select
-                              value={member.role}
-                              onChange={(e) => handleChangeRole(member.userId, e.target.value)}
-                              disabled={isChangingRole}
-                              className="text-xs bg-white border border-gray-300 rounded px-2 py-1 focus:outline-none focus:border-blue-500 disabled:opacity-50"
-                            >
-                              <option value="member">Member</option>
-                              <option value="admin">Admin</option>
-                              {currentUserRole === 'founder' && <option value="founder">Founder</option>}
-                            </select>
-                          )}
-                          
-                          {/* Remove button - only for founder and admin, not for founder removing founder */}
-                          {(currentUserRole === 'founder' || (currentUserRole === 'admin' && member.role !== 'founder')) && (
-                            <button
-                              onClick={() => handleRemoveMember(member.userId)}
-                              className="text-red-500 hover:text-red-700 transition-all duration-300 p-1 hover:bg-red-50 rounded-md"
-                              title="Remove member"
-                            >
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                              </svg>
-                            </button>
+                      <button
+                        onClick={() => handleInviteUser(friend.id)}
+                        disabled={isInviting || invitedUsers.has(friend.id) || group.members.some(member => member.id === friend.id)}
+                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                          group.members.some(member => member.id === friend.id)
+                            ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
+                            : invitedUsers.has(friend.id)
+                            ? 'bg-green-600 text-white cursor-not-allowed'
+                            : isInviting && invitingUserId === friend.id
+                            ? 'bg-blue-400 text-white cursor-not-allowed'
+                            : 'bg-blue-600 text-white hover:bg-blue-700'
+                        }`}
+                      >
+                        {group.members.some(member => member.id === friend.id)
+                          ? 'Member'
+                          : isInviting && invitingUserId === friend.id
+                          ? 'Sending...'
+                          : invitedUsers.has(friend.id)
+                          ? 'Invited'
+                          : 'Invite'}
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+             {/* Add Expense Modal */}
+       {showAddExpenseModal && (
+         <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">Add New Expense</h3>
+              <button
+                onClick={() => setShowAddExpenseModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {/* Expense Name */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Expense Name *
+                </label>
+                <input
+                  type="text"
+                  value={newExpense.name}
+                  onChange={(e) => setNewExpense(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  placeholder="e.g., Dinner, Gas, Rent"
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Description
+                </label>
+                <textarea
+                  value={newExpense.description}
+                  onChange={(e) => setNewExpense(prev => ({ ...prev, description: e.target.value }))}
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900"
+                  placeholder="Optional description..."
+                />
+              </div>
+
+              {/* Amount and Currency */}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Amount *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={newExpense.amount}
+                    onChange={(e) => setNewExpense(prev => ({ ...prev, amount: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                    placeholder="0.00"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Currency
+                  </label>
+                  <select
+                    value={newExpense.currency}
+                    onChange={(e) => setNewExpense(prev => ({ ...prev, currency: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                  >
+                    <option value="PLN">PLN</option>
+                    <option value="EUR">EUR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Paid By */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Paid By *
+                </label>
+                <select
+                  value={newExpense.paidByUserId}
+                  onChange={(e) => setNewExpense(prev => ({ ...prev, paidByUserId: e.target.value }))}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                >
+                  <option value="">Select who paid</option>
+                  {group.members.map((member) => (
+                    <option key={member.id} value={member.id}>
+                      {member.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Split Between */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Split Between *
+                </label>
+                <div className="space-y-2 max-h-32 overflow-y-auto">
+                  {group.members.map((member) => (
+                    <label key={member.id} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={newExpense.splitBetweenUserIds.includes(member.id)}
+                        onChange={() => handleSplitUserToggle(member.id)}
+                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      />
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                          {member.avatarUrl ? (
+                            <img src={member.avatarUrl} alt="Avatar" className="w-8 h-8 rounded-full object-cover" />
+                          ) : (
+                            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
                           )}
                         </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                        <span className="text-sm font-medium text-gray-900">{member.name}</span>
+                      </div>
+                    </label>
+                  ))}
+                </div>
               </div>
-            )}
-          </div>
 
-          {/* Messages */}
-          {error && (
-            <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4">
-              <div className="flex items-center">
-                <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center mr-3">
-                  <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <p className="text-red-700 font-semibold text-sm">{error}</p>
+              {/* Action Buttons */}
+              <div className="flex space-x-3 pt-4">
+                <button
+                  onClick={() => setShowAddExpenseModal(false)}
+                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleAddExpense}
+                  disabled={isAddingExpense}
+                  className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors"
+                >
+                  {isAddingExpense ? 'Adding...' : 'Add Expense'}
+                </button>
               </div>
             </div>
-          )}
-          {success && (
-            <div className="mt-6 bg-green-50 border border-green-200 rounded-lg p-4">
-              <div className="flex items-center">
-                <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center mr-3">
-                  <svg className="h-3 w-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <p className="text-green-700 font-semibold text-sm">{success}</p>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 } 

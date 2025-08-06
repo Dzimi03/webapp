@@ -9,6 +9,7 @@ export default function Navbar() {
   const [friendRequests, setFriendRequests] = useState<any[]>([]);
   const [groupInvites, setGroupInvites] = useState<any[]>([]);
   const [eventInvites, setEventInvites] = useState<any[]>([]);
+  const [notifications, setNotifications] = useState<any[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const isAuthenticated = !!session;
   const notificationsRef = useRef<HTMLDivElement>(null);
@@ -55,6 +56,13 @@ export default function Navbar() {
           if (eventRes.ok) {
             const eventData = await eventRes.json();
             setEventInvites(eventData || []);
+          }
+
+          // Fetch notifications
+          const notificationsRes = await fetch('/api/notifications');
+          if (notificationsRes.ok) {
+            const notificationsData = await notificationsRes.json();
+            setNotifications(notificationsData.notifications || []);
           }
         } catch (error) {
           console.error('Failed to fetch notifications:', error);
@@ -156,15 +164,47 @@ export default function Navbar() {
   const handleRejectEventInvite = async (inviteId: string) => {
     try {
       const res = await fetch('/api/events/invite', {
-        method: 'PUT',
+        method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ inviteId, action: 'reject' }),
+        body: JSON.stringify({ inviteId }),
       });
       if (res.ok) {
         setEventInvites(prev => prev.filter(invite => invite.id !== inviteId));
       }
     } catch (error) {
-      console.error('Failed to reject event invite:', error);
+      console.error('Failed to reject event invitation:', error);
+    }
+  };
+
+  const handleMarkNotificationAsRead = async (notificationId: string) => {
+    try {
+      const res = await fetch('/api/notifications', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ notificationId }),
+      });
+      if (res.ok) {
+        setNotifications(prev => prev.map(n => 
+          n.id === notificationId ? { ...n, isRead: true } : n
+        ));
+      }
+    } catch (error) {
+      console.error('Failed to mark notification as read:', error);
+    }
+  };
+
+  const handleOpenNotifications = () => {
+    const wasOpen = showNotifications;
+    setShowNotifications(!showNotifications);
+    
+    // Mark notifications as read when CLOSING the dropdown (not when opening)
+    if (wasOpen) {
+      const unreadNotifications = notifications.filter(n => !n.isRead);
+      if (unreadNotifications.length > 0) {
+        unreadNotifications.forEach(notification => {
+          handleMarkNotificationAsRead(notification.id);
+        });
+      }
     }
   };
 
@@ -173,7 +213,7 @@ export default function Navbar() {
     return null;
   }
 
-  const totalNotifications = friendRequests.length + groupInvites.length + eventInvites.length;
+  const totalNotifications = friendRequests.length + groupInvites.length + eventInvites.length + notifications.filter(n => !n.isRead).length;
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-md border-b border-gray-200 px-6 py-4 flex items-center justify-between z-50 shadow-lg">
@@ -227,7 +267,7 @@ export default function Navbar() {
         {/* Notifications */}
         <div className="relative" ref={notificationsRef}>
           <button
-            onClick={() => setShowNotifications(!showNotifications)}
+            onClick={handleOpenNotifications}
             className="flex items-center space-x-2 px-4 py-2 rounded-lg text-gray-700 hover:text-orange-600 hover:bg-orange-50 transition-all duration-200 group"
           >
             <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -412,6 +452,34 @@ export default function Navbar() {
                           >
                             Reject
                           </button>
+                        </div>
+                      </div>
+                    ))}
+                    {notifications.filter(n => !n.isRead).map((notification) => (
+                      <div key={notification.id} className="flex items-center space-x-4 p-4 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg border border-indigo-200 hover:shadow-md transition-all duration-200">
+                        {/* Icon */}
+                        <div className="flex-shrink-0">
+                          <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                          </div>
+                        </div>
+                        
+                        {/* Notification Info */}
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-gray-900">
+                            {notification.title}
+                          </p>
+                          <p className="text-xs text-gray-600 mt-1">{notification.message}</p>
+                          <p className="text-xs text-gray-400 mt-1">
+                            {new Date(notification.createdAt).toLocaleDateString('pl-PL', {
+                              day: 'numeric',
+                              month: 'short',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </p>
                         </div>
                       </div>
                     ))}

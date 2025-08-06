@@ -24,7 +24,7 @@ export default function GroupsPage() {
       const res = await fetch('/api/groups');
       if (res.ok) {
         const data = await res.json();
-        setGroups(data);
+        setGroups(data.groups || []);
       }
     } catch (error) {
       setError('Failed to load groups');

@@ -139,6 +139,7 @@ html, body {
   width: 100% !important;
   height: 100% !important;
   overflow-x: hidden !important;
+  overflow-y: auto !important;
 }
 
 /* Hide any potential overlay elements */

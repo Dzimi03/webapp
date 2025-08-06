@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../../auth/[...nextauth]/route';
 import { db } from '../../db';
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -11,7 +11,8 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
   try {
     await db.read();
-    const group = db.data.groups.find(g => g.id === params.id);
+    const { id } = await params;
+    const group = db.data.groups.find(g => g.id === id);
     
     if (!group) {
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
@@ -23,62 +24,45 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Handle both old and new member structures
-    const currentUserMember = group.members.find(member => {
+    const isMember = group.members.some(member => {
       if ('userId' in member) {
         return member.userId === currentUser.id;
       } else {
         return member.id === currentUser.id;
       }
     });
-    if (!currentUserMember) {
+    if (!isMember) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
-    // Enrich group with user details and current user's role
-    const enrichedGroup = {
-      ...group,
-      members: group.members.map(member => {
-        // Handle both old and new member structures
-        let userId: string;
-        let role: string;
-        let joinedAt: string;
-        
+    // Helper function to migrate group members from old structure to new
+    function migrateGroupMembers(members: any[]) {
+      return members.map(member => {
         if ('userId' in member) {
-          userId = member.userId;
-          role = member.role;
-          joinedAt = member.joinedAt;
+          // Old structure with roles - find the user and return full user object
+          const user = db.data.users.find(u => u.id === member.userId);
+          return user || { id: member.userId, name: 'Unknown User', email: 'unknown@example.com' };
         } else {
-          userId = member.id;
-          role = 'founder'; // Default to founder for old structure
-          joinedAt = group.createdAt || new Date().toISOString();
+          // Already in new structure (full user object)
+          return member;
         }
-        
-        const user = db.data.users.find(u => u.id === userId);
-        
-        return {
-          userId: userId,
-          role: role,
-          joinedAt: joinedAt,
-          user: user ? {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            avatarUrl: user.avatarUrl,
-            residence: user.residence
-          } : null
-        };
-      }),
-      currentUserRole: 'role' in currentUserMember ? currentUserMember.role : 'founder'
+      });
+    }
+
+    // Return group with migrated members
+    const migratedGroup = {
+      ...group,
+      members: migrateGroupMembers(group.members)
     };
 
-    return NextResponse.json(enrichedGroup);
+    return NextResponse.json(migratedGroup);
   } catch (error) {
+    console.error('Error in GET /api/groups/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -92,7 +76,8 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
     }
 
     await db.read();
-    const groupIndex = db.data.groups.findIndex(g => g.id === params.id);
+    const { id } = await params;
+    const groupIndex = db.data.groups.findIndex(g => g.id === id);
     
     if (groupIndex === -1) {
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
@@ -105,34 +90,47 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Check if current user is a member of the group with appropriate role
-    const currentUserMember = group.members.find(member => {
+    // Check if current user is a member of the group
+    const isMember = group.members.some(member => {
       if ('userId' in member) {
         return member.userId === currentUser.id;
       } else {
         return member.id === currentUser.id;
       }
     });
-    if (!currentUserMember) {
+    if (!isMember) {
       return NextResponse.json({ error: 'Access denied' }, { status: 403 });
     }
 
-    // Only founder and admin can edit group details
-    const userRole = 'role' in currentUserMember ? currentUserMember.role : 'founder'; // Default to founder for old structure
-    if (userRole !== 'founder' && userRole !== 'admin') {
-      return NextResponse.json({ error: 'Only founders and admins can edit group details' }, { status: 403 });
+    // Update group details
+    db.data.groups[groupIndex].name = name.trim();
+    db.data.groups[groupIndex].description = description?.trim() || '';
+    
+    await db.write();
+
+    // Helper function to migrate group members from old structure to new
+    function migrateGroupMembers(members: any[]) {
+      return members.map(member => {
+        if ('userId' in member) {
+          // Old structure with roles - find the user and return full user object
+          const user = db.data.users.find(u => u.id === member.userId);
+          return user || { id: member.userId, name: 'Unknown User', email: 'unknown@example.com' };
+        } else {
+          // Already in new structure (full user object)
+          return member;
+        }
+      });
     }
 
-    // Update group
-    db.data.groups[groupIndex] = {
-      ...group,
-      name: name.trim(),
-      description: description?.trim() || '',
+    // Return updated group with migrated members
+    const updatedGroup = {
+      ...db.data.groups[groupIndex],
+      members: migrateGroupMembers(db.data.groups[groupIndex].members)
     };
 
-    await db.write();
-    return NextResponse.json(db.data.groups[groupIndex]);
+    return NextResponse.json(updatedGroup);
   } catch (error) {
+    console.error('Error in PUT /api/groups/[id]:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 } 

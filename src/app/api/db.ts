@@ -51,46 +51,39 @@ export type EventInvite = {
   createdAt: string;
 };
 
-// Legacy member structure (old format)
-export type LegacyGroupMember = {
+export type Expense = {
   id: string;
+  groupId: string;
   name: string;
-  email: string;
-  password: string;
-  friends: string[];
-  groups: string[];
-  avatarUrl?: string;
-  residence?: string;
   description?: string;
-  likedEvents?: string[];
-  goingEvents?: string[];
-  likedEventDetails?: any[];
-  goingEventDetails?: any[];
-  sentFriendRequests?: string[];
-  receivedFriendRequests?: string[];
-  sentGroupInvites?: string[];
-  receivedGroupInvites?: string[];
+  amount: number;
+  currency: string;
+  paidByUserId: string;
+  splitBetweenUserIds: string[];
+  createdAt: string;
 };
 
-// New member structure
-export type GroupMember = {
+export type Notification = {
+  id: string;
   userId: string;
-  role: 'founder' | 'admin' | 'member';
-  joinedAt: string;
+  type: 'group_invite_accepted' | 'group_invite_rejected' | 'friend_request_accepted' | 'event_invite_accepted' | 'event_invite_rejected';
+  title: string;
+  message: string;
+  relatedId?: string; // groupId, eventId, etc.
+  isRead: boolean;
+  createdAt: string;
 };
-
-// Union type to handle both old and new structures
-export type GroupMemberUnion = GroupMember | LegacyGroupMember;
 
 export type Group = {
   id: string;
   name: string;
   description?: string;
   imageUrl?: string;
-  members: GroupMemberUnion[];
+  backgroundImageUrl?: string;
+  members: User[];
   createdAt: string;
-  createdBy?: string; // ID of the founder (optional for backward compatibility)
 };
+
 export type Event = {
   id: string;
   title: string;
@@ -102,6 +95,7 @@ export type Event = {
   participants: string[];
   comments: string[];
 };
+
 export type Comment = {
   id: string;
   eventId: string;
@@ -109,6 +103,7 @@ export type Comment = {
   text: string;
   createdAt: string;
 };
+
 export type DB = {
   users: User[];
   groups: Group[];
@@ -117,8 +112,10 @@ export type DB = {
   friendRequests: FriendRequest[];
   groupInvites: GroupInvite[];
   eventInvites: EventInvite[];
+  expenses: Expense[];
+  notifications: Notification[];
 };
 
 const file = join(process.cwd(), 'src', 'app', 'api', 'db.json');
 const adapter = new JSONFile<DB>(file);
-export const db = new Low<DB>(adapter, { users: [], groups: [], events: [], comments: [], friendRequests: [], groupInvites: [], eventInvites: [] });
+export const db = new Low<DB>(adapter, { users: [], groups: [], events: [], comments: [], friendRequests: [], groupInvites: [], eventInvites: [], expenses: [], notifications: [] });

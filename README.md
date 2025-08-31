@@ -45,6 +45,62 @@ npm run dev
 
 Visit [http://localhost:3000](http://localhost:3000)
 
+## Deployment
+
+### Option 1: Vercel (Recommended)
+
+1. **Push your code to GitHub**
+```bash
+git add .
+git commit -m "Initial commit"
+git push origin main
+```
+
+2. **Deploy to Vercel**
+- Go to [vercel.com](https://vercel.com)
+- Sign up with GitHub
+- Click "New Project"
+- Import your repository
+- Add environment variables:
+  - `NEXTAUTH_URL`: Your Vercel URL (e.g., https://your-app.vercel.app)
+  - `NEXTAUTH_SECRET`: Generate a random secret (e.g., `openssl rand -base64 32`)
+  - `NEXT_PUBLIC_TICKETMASTER_API_KEY`: Your Ticketmaster API key (optional)
+
+3. **Deploy**
+- Vercel will automatically build and deploy your app
+- Your app will be available at `https://your-app.vercel.app`
+
+### Option 2: Netlify
+
+1. **Build the app**
+```bash
+npm run build
+```
+
+2. **Deploy to Netlify**
+- Go to [netlify.com](https://netlify.com)
+- Drag and drop your `.next` folder
+- Or connect your GitHub repository
+
+### Option 3: Railway
+
+1. **Push to GitHub**
+2. **Connect to Railway**
+- Go to [railway.app](https://railway.app)
+- Connect your GitHub repository
+- Add environment variables
+- Deploy
+
+## Environment Variables
+
+Create a `.env.local` file with:
+
+```env
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-secret-key-here
+NEXT_PUBLIC_TICKETMASTER_API_KEY=your-ticketmaster-api-key
+```
+
 ## Main Pages
 - `/login` — Login
 - `/register` — Register
@@ -59,4 +115,5 @@ Visit [http://localhost:3000](http://localhost:3000)
 - All code is in `/src/app` (API routes and pages)
 
 ---
+
 MIT License

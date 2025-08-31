@@ -43,6 +43,19 @@ interface BalanceEntry {
   currency: string;
 }
 
+interface GroupEvent {
+  id: string;
+  name: string;
+  description?: string;
+  date: string;
+  time?: string;
+  location?: string;
+  ticketmasterEventId?: string;
+  ticketmasterEventUrl?: string;
+  imageUrl?: string;
+  createdAt: string;
+}
+
 export default function GroupDetailPage() {
   const { data: session } = useSession();
   const params = useParams();
@@ -82,6 +95,27 @@ export default function GroupDetailPage() {
     paidByUserId: '',
     splitBetweenUserIds: [] as string[]
   });
+  const [groupEvents, setGroupEvents] = useState<GroupEvent[]>([]);
+  const [showEventModal, setShowEventModal] = useState(false);
+  const [showEventBrowserModal, setShowEventBrowserModal] = useState(false);
+  const [isAddingEvent, setIsAddingEvent] = useState(false);
+  const [isEditingEvent, setIsEditingEvent] = useState(false);
+  const [newEvent, setNewEvent] = useState({
+    name: '',
+    description: '',
+    date: '',
+    time: '',
+    location: '',
+    ticketmasterEventId: '',
+    ticketmasterEventUrl: '',
+    imageUrl: ''
+  });
+  
+  // Event browser state (from Ticketmaster API)
+  const [tmEvents, setTmEvents] = useState<any[]>([]);
+  const [tmLoading, setTmLoading] = useState(false);
+  const [tmError, setTmError] = useState('');
+  const [selectedApiEvent, setSelectedApiEvent] = useState<any>(null);
 
   useEffect(() => {
     if (session?.user?.email && groupId) {
@@ -95,6 +129,7 @@ export default function GroupDetailPage() {
       fetchExistingInvites();
       fetchExpenses();
       fetchBalance();
+      fetchGroupEvents();
     }
   }, [group]);
 
@@ -187,6 +222,167 @@ export default function GroupDetailPage() {
       }
     } catch (error) {
       console.error('Error fetching balance:', error);
+    }
+  };
+
+  const fetchGroupEvents = async () => {
+    if (!group) return;
+    
+    try {
+      const response = await fetch(`/api/groups/${group.id}/events`);
+      if (response.ok) {
+        const data = await response.json();
+        setGroupEvents(data.events || []);
+      }
+    } catch (error) {
+      console.error('Error fetching group events:', error);
+    }
+  };
+
+  const fetchTicketmasterEvents = async () => {
+    setTmLoading(true);
+    setTmError('');
+    try {
+      const apiKey = process.env.NEXT_PUBLIC_TICKETMASTER_API_KEY;
+      if (!apiKey) {
+        setTmError('Ticketmaster API key not set.');
+        setTmLoading(false);
+        return;
+      }
+      const res = await fetch(
+        `https://app.ticketmaster.com/discovery/v2/events.json?countryCode=PL&size=30&apikey=${apiKey}`
+      );
+      if (!res.ok) throw new Error('Failed to fetch Ticketmaster events');
+      const data = await res.json();
+      setTmEvents(data._embedded?.events || []);
+    } catch (err: any) {
+      setTmError(err.message || 'Error fetching Ticketmaster events');
+    } finally {
+      setTmLoading(false);
+    }
+  };
+
+  const handleSelectApiEvent = async (event: any) => {
+    if (!group) return;
+    
+    // Auto-fill the form with event data
+    const eventData = {
+      name: event.name,
+      description: event.info || '',
+      date: event.dates?.start?.localDate || '',
+      time: event.dates?.start?.localTime || '',
+      location: event._embedded?.venues?.[0]?.name || '',
+      ticketmasterEventId: event.id,
+      ticketmasterEventUrl: event.url,
+      imageUrl: event.images?.[0]?.url || ''
+    };
+
+    setIsAddingEvent(true);
+    setShowEventBrowserModal(false);
+    
+    try {
+      const response = await fetch(`/api/groups/${group.id}/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(eventData),
+      });
+
+      if (response.ok) {
+        await fetchGroupEvents();
+      } else {
+        const error = await response.json();
+        alert(`Failed to add event: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error adding event:', error);
+      alert('Failed to add event');
+    } finally {
+      setIsAddingEvent(false);
+    }
+  };
+
+  const handleAddEvent = async () => {
+    if (!group || !newEvent.name || !newEvent.date) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    setIsAddingEvent(true);
+    try {
+      const response = await fetch(`/api/groups/${group.id}/events`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newEvent),
+      });
+
+      if (response.ok) {
+        await fetchGroupEvents();
+        setShowEventModal(false);
+        setNewEvent({
+          name: '',
+          description: '',
+          date: '',
+          time: '',
+          location: '',
+          ticketmasterEventId: '',
+          ticketmasterEventUrl: '',
+          imageUrl: ''
+        });
+      } else {
+        const error = await response.json();
+        alert(`Failed to add event: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error adding event:', error);
+      alert('Failed to add event');
+    } finally {
+      setIsAddingEvent(false);
+    }
+  };
+
+  const handleDeleteEvent = async (eventId: string) => {
+    if (!group) return;
+
+    try {
+      const response = await fetch(`/api/groups/${group.id}/events/${eventId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        await fetchGroupEvents();
+      } else {
+        const error = await response.json();
+        alert(`Failed to delete event: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Error deleting event:', error);
+      alert('Failed to delete event');
+    }
+  };
+
+  const openEventModal = (event?: GroupEvent) => {
+    if (event) {
+      // Edit existing event - use the old modal
+      setNewEvent({
+        name: event.name,
+        description: event.description || '',
+        date: event.date,
+        time: event.time || '',
+        location: event.location || '',
+        ticketmasterEventId: event.ticketmasterEventId || '',
+        ticketmasterEventUrl: event.ticketmasterEventUrl || '',
+        imageUrl: event.imageUrl || ''
+      });
+      setIsEditingEvent(true);
+      setShowEventModal(true);
+    } else {
+      // Add new event - open event browser
+      setShowEventBrowserModal(true);
+      fetchTicketmasterEvents();
     }
   };
 
@@ -588,6 +784,114 @@ export default function GroupDetailPage() {
                   {group.description || 'No description provided for this group.'}
                 </p>
               )}
+            </div>
+
+            {/* Group Event Card */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                             <div className="flex items-center justify-between mb-6">
+                 <h2 className="text-2xl font-bold text-gray-900">Group Events</h2>
+                 <button
+                   onClick={() => openEventModal()}
+                   className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-4 py-2 rounded-xl hover:from-green-700 hover:to-emerald-700 font-semibold transition-all duration-200 flex items-center space-x-2 shadow-lg"
+                 >
+                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                   </svg>
+                   <span>Add Event</span>
+                 </button>
+               </div>
+               
+               {groupEvents.length > 0 ? (
+                 <div className="space-y-4">
+                   {groupEvents.map((event) => (
+                     <div key={event.id} className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                       <div className="flex items-stretch space-x-4">
+                         {event.imageUrl && (
+                           <div className="w-32 bg-gray-200 rounded-xl overflow-hidden flex-shrink-0">
+                             <img src={event.imageUrl} alt="Event" className="w-full h-full object-cover" />
+                           </div>
+                         )}
+                         <div className="flex-1">
+                           <h3 className="text-xl font-bold text-gray-900 mb-2">{event.name}</h3>
+                           {event.description && (
+                             <p className="text-gray-600 mb-3">{event.description}</p>
+                           )}
+                           
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             <div className="flex items-center space-x-3">
+                               <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                 </svg>
+                               </div>
+                               <div>
+                                 <p className="text-sm font-medium text-gray-500">Date</p>
+                                 <p className="text-gray-900 font-semibold">
+                                   {new Date(event.date).toLocaleDateString()}
+                                   {event.time && ` at ${event.time}`}
+                                 </p>
+                               </div>
+                             </div>
+                             
+                             {event.location && (
+                               <div className="flex items-center space-x-3">
+                                 <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+                                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                   </svg>
+                                 </div>
+                                 <div>
+                                   <p className="text-sm font-medium text-gray-500">Location</p>
+                                   <p className="text-gray-900 font-semibold">{event.location}</p>
+                                 </div>
+                               </div>
+                             )}
+                           </div>
+                           
+                           {event.ticketmasterEventUrl && (
+                             <div className="mt-4">
+                               <a
+                                 href={event.ticketmasterEventUrl}
+                                 target="_blank"
+                                 rel="noopener noreferrer"
+                                 className="inline-flex items-center space-x-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-4 py-2 rounded-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 font-semibold shadow-md hover:shadow-lg"
+                               >
+                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                 </svg>
+                                 <span>View on Ticketmaster</span>
+                               </a>
+                             </div>
+                           )}
+                           
+                           <div className="mt-4">
+                             <button
+                               onClick={() => handleDeleteEvent(event.id)}
+                               className="bg-gradient-to-r from-gray-500 to-gray-600 text-white px-4 py-2 rounded-lg hover:from-gray-600 hover:to-gray-700 font-semibold transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                             >
+                               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                               </svg>
+                               <span>Delete Event</span>
+                             </button>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+                   ))}
+                 </div>
+               ) : (
+                 <div className="text-center py-8">
+                   <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                     <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                     </svg>
+                   </div>
+                   <h3 className="text-lg font-semibold text-gray-900 mb-2">No Events Set</h3>
+                   <p className="text-gray-600">This group doesn't have any events planned yet.</p>
+                 </div>
+               )}
             </div>
 
             {/* Image Upload Card */}
@@ -1245,6 +1549,260 @@ export default function GroupDetailPage() {
                  >
                    {isEditingExpense ? 'Updating...' : 'Update Expense'}
                  </button>
+               </div>
+             </div>
+           </div>
+         </div>
+       )}
+
+       {/* Event Modal */}
+       {showEventModal && (
+         <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50 p-4">
+           <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+             <div className="flex items-center justify-between mb-6">
+               <h3 className="text-2xl font-bold text-gray-900">
+                 {isEditingEvent ? 'Edit Event' : 'Add Event'}
+               </h3>
+               <button
+                 onClick={() => setShowEventModal(false)}
+                 className="text-gray-400 hover:text-gray-600 transition-colors"
+               >
+                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                 </svg>
+               </button>
+             </div>
+
+             <div className="space-y-4">
+               {/* Event Name */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Event Name *
+                 </label>
+                 <input
+                   type="text"
+                   value={newEvent.name}
+                   onChange={(e) => setNewEvent(prev => ({ ...prev, name: e.target.value }))}
+                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                   placeholder="e.g., Concert, Movie Night, Dinner"
+                 />
+               </div>
+
+               {/* Description */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Description
+                 </label>
+                 <textarea
+                   value={newEvent.description}
+                   onChange={(e) => setNewEvent(prev => ({ ...prev, description: e.target.value }))}
+                   rows={3}
+                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-gray-900"
+                   placeholder="Optional description..."
+                 />
+               </div>
+
+               {/* Date and Time */}
+               <div className="grid grid-cols-2 gap-4">
+                 <div>
+                   <label className="block text-sm font-semibold text-gray-700 mb-2">
+                     Date *
+                   </label>
+                   <input
+                     type="date"
+                     value={newEvent.date}
+                     onChange={(e) => setNewEvent(prev => ({ ...prev, date: e.target.value }))}
+                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                   />
+                 </div>
+                 <div>
+                   <label className="block text-sm font-semibold text-gray-700 mb-2">
+                     Time
+                   </label>
+                   <input
+                     type="time"
+                     value={newEvent.time}
+                     onChange={(e) => setNewEvent(prev => ({ ...prev, time: e.target.value }))}
+                     className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                   />
+                 </div>
+               </div>
+
+               {/* Location */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Location
+                 </label>
+                 <input
+                   type="text"
+                   value={newEvent.location}
+                   onChange={(e) => setNewEvent(prev => ({ ...prev, location: e.target.value }))}
+                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                   placeholder="e.g., Concert Hall, Restaurant, Home"
+                 />
+               </div>
+
+               {/* Ticketmaster Event ID */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Ticketmaster Event ID
+                 </label>
+                 <input
+                   type="text"
+                   value={newEvent.ticketmasterEventId}
+                   onChange={(e) => setNewEvent(prev => ({ ...prev, ticketmasterEventId: e.target.value }))}
+                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                   placeholder="Optional: Ticketmaster event ID"
+                 />
+               </div>
+
+               {/* Ticketmaster Event URL */}
+               <div>
+                 <label className="block text-sm font-semibold text-gray-700 mb-2">
+                   Ticketmaster Event URL
+                 </label>
+                 <input
+                   type="url"
+                   value={newEvent.ticketmasterEventUrl}
+                   onChange={(e) => setNewEvent(prev => ({ ...prev, ticketmasterEventUrl: e.target.value }))}
+                   className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900"
+                   placeholder="https://www.ticketmaster.com/..."
+                 />
+               </div>
+
+               {/* Action Buttons */}
+               <div className="flex space-x-3 pt-4">
+                 <button
+                   onClick={() => setShowEventModal(false)}
+                   className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-semibold transition-colors"
+                 >
+                   Cancel
+                 </button>
+                                   <button
+                    onClick={handleAddEvent}
+                    disabled={isAddingEvent}
+                    className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors"
+                  >
+                    {isAddingEvent ? 'Adding...' : 'Add Event'}
+                  </button>
+               </div>
+             </div>
+           </div>
+         </div>
+       )}
+
+       {/* Event Browser Modal */}
+       {showEventBrowserModal && (
+         <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50 p-4">
+           <div className="bg-white rounded-3xl shadow-2xl max-w-6xl w-full max-h-[95vh] overflow-y-auto border border-gray-200">
+             {/* Modal Header */}
+             <div className="flex items-center justify-between p-8 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-t-3xl">
+               <div className="flex items-center space-x-4">
+                 <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-600 rounded-xl flex items-center justify-center">
+                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                   </svg>
+                 </div>
+                 <div>
+                   <h2 className="text-3xl font-bold text-gray-900">Browse Events</h2>
+                   <p className="text-gray-600">Select an event from Ticketmaster to add to your group</p>
+                 </div>
+               </div>
+               <button
+                 onClick={() => setShowEventBrowserModal(false)}
+                 className="text-gray-400 hover:text-gray-600 transition-colors duration-200 p-2 hover:bg-gray-100 rounded-full"
+               >
+                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                 </svg>
+               </button>
+             </div>
+
+             {/* Modal Content */}
+             <div className="p-6">
+               {tmLoading && (
+                 <div className="flex justify-center items-center py-12">
+                   <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                   <span className="ml-4 text-gray-600 text-lg">Loading events...</span>
+                 </div>
+               )}
+               
+               {tmError && (
+                 <div className="bg-red-50 border border-red-200 rounded-lg p-6 mb-6">
+                   <div className="flex">
+                     <svg className="h-6 w-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                     </svg>
+                     <p className="ml-3 text-red-700">{tmError}</p>
+                   </div>
+                 </div>
+               )}
+               
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                 {tmEvents.map((event: any) => (
+                   <div 
+                     key={event.id} 
+                     className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 transform hover:scale-105 cursor-pointer"
+                     onClick={() => handleSelectApiEvent(event)}
+                   >
+                     {event.images?.[0]?.url && (
+                       <div className="h-48 overflow-hidden">
+                         <img 
+                           src={event.images[0].url} 
+                           alt={event.name}
+                           className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
+                         />
+                       </div>
+                     )}
+                                           <div className="p-6 flex flex-col h-full">
+                        <h3 className="font-bold text-lg text-gray-900 mb-3 line-clamp-2">{event.name}</h3>
+                        <div className="space-y-3 text-sm flex-grow">
+                          <div className="flex items-center text-gray-700">
+                            <svg className="w-4 h-4 mr-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            {event.dates?.start?.localDate} {event.dates?.start?.localTime}
+                          </div>
+                          {event._embedded?.venues?.[0]?.name && (
+                            <div className="flex items-center text-gray-700">
+                              <svg className="w-4 h-4 mr-3 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                              </svg>
+                              {event._embedded.venues[0].name}
+                            </div>
+                          )}
+                          {event.priceRanges?.[0] && (
+                            <div className="flex items-center text-gray-700">
+                              <svg className="w-4 h-4 mr-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                              </svg>
+                              {event.priceRanges[0].currency} {event.priceRanges[0].min} - {event.priceRanges[0].max}
+                            </div>
+                          )}
+                          {event.classifications?.[0]?.segment?.name && (
+                            <div className="flex items-center text-gray-700">
+                              <svg className="w-4 h-4 mr-3 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m-9 0h10m-10 0a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2" />
+                              </svg>
+                              {event.classifications[0].segment.name}
+                            </div>
+                          )}
+                        </div>
+                        <div className="mt-4 pt-4">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSelectApiEvent(event);
+                            }}
+                            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 text-sm"
+                          >
+                            Select This Event
+                          </button>
+                        </div>
+                      </div>
+                   </div>
+                 ))}
                </div>
              </div>
            </div>

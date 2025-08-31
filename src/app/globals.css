@@ -167,3 +167,116 @@ html, body {
   opacity: 0 !important;
   pointer-events: none !important;
 }
+
+/* Final comprehensive reset */
+* {
+  box-sizing: border-box;
+}
+
+html, body, #__next, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+  overflow-x: hidden !important;
+}
+
+/* Comprehensive Next.js development elements hiding */
+[data-nextjs-dialog-overlay],
+[data-nextjs-toast],
+[data-nextjs-portal],
+#react-devtools-root,
+[data-nextjs-error-overlay],
+[data-nextjs-error-dialog],
+[data-nextjs-error-toast],
+[data-nextjs-error-portal],
+[data-nextjs-warning-overlay],
+[data-nextjs-warning-dialog],
+[data-nextjs-warning-toast],
+[data-nextjs-warning-portal],
+[data-nextjs-sidebar],
+[data-nextjs-header],
+[data-nextjs-footer],
+[data-nextjs-banner],
+[data-nextjs-ribbon],
+[data-nextjs-badge],
+[data-nextjs-logo],
+[data-nextjs-branding],
+[class*="nextjs"],
+[id*="nextjs"],
+[data-*="nextjs"],
+[class*="devtools"],
+[id*="devtools"],
+[data-*="devtools"],
+[class*="debug"],
+[id*="debug"],
+[data-*="debug"],
+[class*="overlay"],
+[id*="overlay"],
+[data-*="overlay"],
+[class*="modal"],
+[id*="modal"],
+[data-*="modal"],
+[class*="sidebar"],
+[id*="sidebar"],
+[data-*="sidebar"],
+[class*="panel"],
+[id*="panel"],
+[data-*="panel"],
+[class*="bar"],
+[id*="bar"],
+[data-*="bar"],
+[class*="brand"],
+[id*="brand"],
+[data-*="brand"],
+[class*="logo"],
+[id*="logo"],
+[data-*="logo"],
+[class*="development"],
+[id*="development"],
+[data-*="development"],
+[class*="dev"],
+[id*="dev"],
+[data-*="dev"],
+[class*="toolbar"],
+[id*="toolbar"],
+[data-*="toolbar"],
+[class*="ribbon"],
+[id*="ribbon"],
+[data-*="ribbon"],
+[class*="nextjs-sidebar"],
+[id*="nextjs-sidebar"],
+[data-*="nextjs-sidebar"],
+[class*="nextjs-header"],
+[id*="nextjs-header"],
+[data-*="nextjs-header"],
+[class*="nextjs-footer"],
+[id*="nextjs-footer"],
+[data-*="nextjs-footer"],
+[class*="create-next-app"],
+[id*="create-next-app"],
+[data-*="create-next-app"],
+[class*="nextjs-"],
+[id*="nextjs-"],
+[data-*="nextjs-"],
+[class*="next"],
+[id*="next"],
+[data-*="next"],
+[class*="create"],
+[id*="create"],
+[data-*="create"],
+[class*="app"],
+[id*="app"],
+[data-*="app"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  clip-path: inset(50%) !important;
+}

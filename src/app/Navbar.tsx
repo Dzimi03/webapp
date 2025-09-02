@@ -2,14 +2,26 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState, useRef } from "react";
+import {
+  User,
+  FriendRequest,
+  GroupInvite,
+  EventInvite,
+  Notification as AppNotification,
+  Group
+} from "./api/db";
+
+type PopulatedFriendRequest = FriendRequest & { fromUser?: User; toUser?: User };
+type PopulatedGroupInvite = GroupInvite & { fromUser?: User; toUser?: User; group?: Group };
+type PopulatedEventInvite = EventInvite & { sender?: User };
 
 export default function Navbar() {
-  const { data: session, status } = useSession();
-  const [user, setUser] = useState<any>(null);
-  const [friendRequests, setFriendRequests] = useState<any[]>([]);
-  const [groupInvites, setGroupInvites] = useState<any[]>([]);
-  const [eventInvites, setEventInvites] = useState<any[]>([]);
-  const [notifications, setNotifications] = useState<any[]>([]);
+  const { data: session } = useSession();
+  const [user, setUser] = useState<User | null>(null);
+  const [friendRequests, setFriendRequests] = useState<PopulatedFriendRequest[]>([]);
+  const [groupInvites, setGroupInvites] = useState<PopulatedGroupInvite[]>([]);
+  const [eventInvites, setEventInvites] = useState<PopulatedEventInvite[]>([]);
+  const [notifications, setNotifications] = useState<AppNotification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const isAuthenticated = !!session;
   const notificationsRef = useRef<HTMLDivElement>(null);

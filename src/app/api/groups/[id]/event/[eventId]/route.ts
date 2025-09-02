@@ -21,18 +21,17 @@ interface GroupEvent {
 }
 
 // PUT - Edytuj event grupy
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string; eventId: string } }
-) {
+type EventContext = { params: { id: string; eventId: string } };
+export const dynamic = 'force-dynamic';
+
+export async function PUT(request: NextRequest, context: EventContext) {
   try {
-    const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const groupId = params.id;
-    const eventId = params.eventId;
+  const { id: groupId, eventId } = context.params;
     const body = await request.json();
     
     // Wczytaj dane z pliku JSON
@@ -85,18 +84,14 @@ export async function PUT(
 }
 
 // DELETE - Usuń event grupy
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string; eventId: string } }
-) {
+export async function DELETE(request: NextRequest, context: EventContext) {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const groupId = params.id;
-    const eventId = params.eventId;
+  const { id: groupId, eventId } = context.params;
     
     // Wczytaj dane z pliku JSON
     const dbData = JSON.parse(readFileSync(dbPath, 'utf-8'));

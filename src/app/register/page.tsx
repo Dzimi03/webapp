@@ -16,21 +16,37 @@ export default function RegisterPage() {
     e.preventDefault();
     setError('');
     setIsLoading(true);
-    
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
-    });
-    
-    if (res.ok) {
-      await signIn('credentials', { email, password, redirect: false });
-      router.push('/');
-    } else {
-      const data = await res.json();
-      setError(data.error || 'Registration failed');
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000); // 10s safety timeout
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+
+      let data: any = null;
+      try { data = await res.json(); } catch (_) { /* ignore parse errors */ }
+
+      if (res.ok) {
+        await signIn('credentials', { email, password, redirect: false });
+        router.push('/');
+      } else {
+        setError(data?.error || `Registration failed (${res.status})`);
+      }
+    } catch (err: any) {
+      if (err?.name === 'AbortError') {
+        setError('Request timed out. Try again.');
+      } else {
+        setError('Network error. Try again.');
+        // eslint-disable-next-line no-console
+        console.error('Register error', err);
+      }
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
 
   return (

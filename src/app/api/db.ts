@@ -119,3 +119,12 @@ export type DB = {
 const file = join(process.cwd(), 'src', 'app', 'api', 'db.json');
 const adapter = new JSONFile<DB>(file);
 export const db = new Low<DB>(adapter, { users: [], groups: [], events: [], comments: [], friendRequests: [], groupInvites: [], eventInvites: [], expenses: [], notifications: [] });
+
+// In serverless (e.g. Vercel) the filesystem is read-only; writing causes EROFS errors.
+// Quick workaround: turn db.write() into a no-op so API routes don't hang or throw.
+// NOTE: Data mutations will NOT persist between requests/deploys. Migrate to a real DB soon.
+if (process.env.VERCEL) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore override for convenience
+  db.write = (async () => { /* no-op on Vercel (read-only FS) */ }) as any;
+}

@@ -1,6 +1,7 @@
 import { Low } from 'lowdb';
 import { JSONFile } from 'lowdb/node';
 import { join } from 'path';
+import { Redis } from '@upstash/redis';
 
 export type User = {
   id: string;
@@ -116,15 +117,58 @@ export type DB = {
   notifications: Notification[];
 };
 
+const initialData: DB = { users: [], groups: [], events: [], comments: [], friendRequests: [], groupInvites: [], eventInvites: [], expenses: [], notifications: [] };
+
+// Local dev still uses JSON file for convenience.
 const file = join(process.cwd(), 'src', 'app', 'api', 'db.json');
 const adapter = new JSONFile<DB>(file);
-export const db = new Low<DB>(adapter, { users: [], groups: [], events: [], comments: [], friendRequests: [], groupInvites: [], eventInvites: [], expenses: [], notifications: [] });
+export const db = new Low<DB>(adapter, initialData);
 
-// In serverless (e.g. Vercel) the filesystem is read-only; writing causes EROFS errors.
-// Quick workaround: turn db.write() into a no-op so API routes don't hang or throw.
-// NOTE: Data mutations will NOT persist between requests/deploys. Migrate to a real DB soon.
-if (process.env.VERCEL) {
+// If Redis credentials are present, override read/write with Redis persistence.
+// This works both locally (with env vars) and on Vercel.
+if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+  const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL!,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  });
+  const KEY = 'liveapp:db:v1';
+
+  // Warm read promise to avoid race conditions across concurrent route handlers
+  let readOnce: Promise<void> | null = null;
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore override for convenience
-  db.write = (async () => { /* no-op on Vercel (read-only FS) */ }) as any;
+  // @ts-ignore override
+  db.read = async () => {
+    if (!readOnce) {
+      readOnce = (async () => {
+        try {
+          const stored = await redis.get<DB>(KEY);
+          if (stored) {
+            db.data = stored;
+          } else {
+            db.data = initialData;
+            await redis.set(KEY, initialData);
+          }
+        } catch (e) {
+          // fallback to in-memory if Redis unreachable
+          if (!db.data) db.data = initialData;
+          // eslint-disable-next-line no-console
+          console.error('Redis read error', e);
+        }
+      })();
+    }
+    return readOnce;
+  };
+
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore override
+  db.write = async () => {
+    try {
+      if (!db.data) db.data = initialData;
+      await redis.set(KEY, db.data);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Redis write error', e);
+    }
+  };
 }

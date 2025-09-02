@@ -2232,6 +2232,19 @@
         "ei_1754421834559_om5umwhhr",
         "ei_1754421858871_j0hwy419g"
       ]
+    },
+    {
+      "id": "0f278c30-ab16-4389-8361-083758d2d36a",
+      "name": "l",
+      "email": "l@l",
+      "password": "$2b$10$rd9/jFJBwUzDBYqo2qOho.ubLhULBvEgfTyV2yo8X63ocqT3i0ovu",
+      "friends": [],
+      "groups": [],
+      "avatarUrl": "",
+      "likedEvents": [],
+      "goingEvents": [],
+      "likedEventDetails": [],
+      "goingEventDetails": []
     }
   ],
   "groups": [
@@ -6564,6 +6577,27 @@
         }
       ],
       "createdAt": "2025-08-31T18:38:05.907Z"
+    },
+    {
+      "id": "1756807322801",
+      "name": "gruba pijesz",
+      "description": "ushdfiuhiu",
+      "members": [
+        {
+          "id": "0f278c30-ab16-4389-8361-083758d2d36a",
+          "name": "l",
+          "email": "l@l",
+          "password": "$2b$10$rd9/jFJBwUzDBYqo2qOho.ubLhULBvEgfTyV2yo8X63ocqT3i0ovu",
+          "friends": [],
+          "groups": [],
+          "avatarUrl": "",
+          "likedEvents": [],
+          "goingEvents": [],
+          "likedEventDetails": [],
+          "goingEventDetails": []
+        }
+      ],
+      "createdAt": "2025-09-02T10:02:02.801Z"
     }
   ],
   "events": [
@@ -6909,6 +6943,32 @@
       "ticketmasterEventUrl": "https://www.ticketmaster.pl/event/voucher-wystawy-w-art-box-experience-tickets/37313?language=en-us",
       "imageUrl": "https://s1.ticketm.net/dam/a/d76/2663cc64-0e7b-44ad-a68f-28024f16cd76_RETINA_PORTRAIT_3_2.jpg",
       "createdAt": "2025-08-31T19:21:34.848Z"
+    },
+    {
+      "id": "event_1756807339306_vw08rueun",
+      "groupId": "1756807322801",
+      "name": "RETRO WARSZAWA – PODRÓŻ DO MIASTA SPRZED 100 LAT",
+      "description": "",
+      "date": "2025-09-02",
+      "time": "",
+      "location": "Art Box Experience",
+      "ticketmasterEventId": "Z698xZQpZ1kAMfI0v",
+      "ticketmasterEventUrl": "https://www.ticketmaster.pl/event/retro-warszawa--podroz-do-miasta-sprzed-100-lat-tickets/177528901?language=en-us",
+      "imageUrl": "https://s1.ticketm.net/dam/a/b53/b8f3e828-6d5f-4ded-bda9-781c5f139b53_TABLET_LANDSCAPE_16_9.jpg",
+      "createdAt": "2025-09-02T10:02:19.394Z"
+    },
+    {
+      "id": "event_1756807351883_qrloere8u",
+      "groupId": "1756807322801",
+      "name": "DIE KRUPPS",
+      "description": "",
+      "date": "2025-09-03",
+      "time": "19:30:00",
+      "location": "Hype Park",
+      "ticketmasterEventId": "Z698xZQpZ1kqy3ajd",
+      "ticketmasterEventUrl": "https://www.ticketmaster.pl/event/die-krupps-tickets/779489703?language=en-us",
+      "imageUrl": "https://s1.ticketm.net/dam/a/e76/6040d961-ad56-458c-a5fa-180e3fe49e76_SOURCE",
+      "createdAt": "2025-09-02T10:02:32.007Z"
     }
   ]
 }

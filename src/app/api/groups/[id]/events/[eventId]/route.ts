@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../auth/[...nextauth]/authOptions';
-import { readFileSync, writeFileSync } from 'fs';
-import path from 'path';
-
-const dbPath = path.join(process.cwd(), 'src/app/api/db.json');
+import { db } from '../../../../db';
 
 // DELETE - Usuń event grupy
 export async function DELETE(
@@ -17,31 +14,31 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const dbData = JSON.parse(readFileSync(dbPath, 'utf8'));
-    const group = dbData.groups.find((g: any) => g.id === params.id);
+  await db.read();
+  const group = db.data.groups.find(g => g.id === params.id);
     
     if (!group) {
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
     // Sprawdź czy użytkownik jest członkiem grupy
-    const isMember = group.members.some((member: any) => member.email === session.user.email);
+  const isMember = group.members.some((member: any) => member.email === session.user?.email);
     if (!isMember) {
       return NextResponse.json({ error: 'Not a member of this group' }, { status: 403 });
     }
 
     // Znajdź event do usunięcia
-    const eventIndex = dbData.groupEvents?.findIndex((event: any) => 
-      event.id === params.eventId && event.groupId === params.id
-    );
+  const list = (db.data as any).groupEvents || [];
+  const eventIndex = list.findIndex((event: any) => event.id === params.eventId && event.groupId === params.id);
 
     if (eventIndex === -1 || eventIndex === undefined) {
       return NextResponse.json({ error: 'Event not found' }, { status: 404 });
     }
 
     // Usuń event
-    dbData.groupEvents.splice(eventIndex, 1);
-    writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
+  list.splice(eventIndex, 1);
+  (db.data as any).groupEvents = list;
+  await db.write();
 
     return NextResponse.json({ message: 'Event deleted successfully' });
   } catch (error) {

@@ -4,14 +4,14 @@ import { authOptions } from '../../../../auth/[...nextauth]/authOptions';
 import { db } from '../../../../db';
 
 // GET - Get expense balance for a group
-export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const { id } = await params;
+  const { id } = params;
     await db.read();
     const currentUser = db.data.users.find(u => u.email === session.user!.email);
     
@@ -45,7 +45,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
     // Initialize balance for all group members
     group.members.forEach(member => {
-      const userId = 'userId' in member ? member.userId : member.id;
+      const userId: string = 'userId' in member ? (member.userId as string) : (member.id as string);
       const user = db.data.users.find(u => u.id === userId);
       if (user) {
         balanceMap.set(userId, {

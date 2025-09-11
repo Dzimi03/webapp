@@ -3,15 +3,15 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../../auth/[...nextauth]/authOptions';
 import { db } from '../../../../db';
 
-export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string; memberId: string }> }) {
+export async function DELETE(req: NextRequest, { params }: { params: { id: string; memberId: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    await db.read();
-    const { id, memberId } = await params;
+  await db.read();
+  const { id, memberId } = params;
     const groupIndex = db.data.groups.findIndex(g => g.id === id);
     
     if (groupIndex === -1) {

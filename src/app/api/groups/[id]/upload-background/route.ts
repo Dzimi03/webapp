@@ -5,7 +5,7 @@ import { db } from '../../../db';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 
-export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   try {
     await db.read();
-    const { id } = await params;
+  const { id } = params;
     const groupIndex = db.data.groups.findIndex(g => g.id === id);
     
     if (groupIndex === -1) {

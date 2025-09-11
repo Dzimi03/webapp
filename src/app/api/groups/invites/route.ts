@@ -90,16 +90,10 @@ export async function POST(req: NextRequest) {
     }
 
     // Check if user is already a member
-    const isAlreadyMember = db.data.groups[groupIndex].members.some(member => {
-      if ('userId' in member) {
-        return member.userId === currentUser.id;
-      } else {
-        return member.id === currentUser.id;
-      }
-    });
+    const isAlreadyMember = db.data.groups[groupIndex].members.some(member => ('userId' in member ? member.userId : member.id) === currentUser.id);
 
     if (!isAlreadyMember) {
-      // Add user to group
+      // Add user to group (store full user object)
       db.data.groups[groupIndex].members.push(currentUser);
     }
     
@@ -120,7 +114,18 @@ export async function POST(req: NextRequest) {
     );
     console.log('Notification created:', notification);
 
-    return NextResponse.json({ message: 'Group invitation accepted successfully' });
+    // Dedupe members just in case and persist if changed
+    const groupMembers = db.data.groups[groupIndex].members;
+    const uniqueMembers = groupMembers.filter((m, i, arr) => {
+      const id = 'userId' in m ? m.userId : m.id;
+      return arr.findIndex(x => ('userId' in x ? x.userId : x.id) === id) === i;
+    }).map(m => ('userId' in m ? db.data.users.find(u => u.id === m.userId) || m : m));
+    if (uniqueMembers.length !== groupMembers.length) {
+      db.data.groups[groupIndex].members = uniqueMembers as any;
+      await db.write();
+    }
+
+    return NextResponse.json({ message: 'Group invitation accepted successfully', group: db.data.groups[groupIndex] });
   } catch (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

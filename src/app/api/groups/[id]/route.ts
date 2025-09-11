@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   try {
     await db.read();
   const { id } = params;
-    const group = db.data.groups.find(g => g.id === id);
+  const group = db.data.groups.find(g => g.id === id);
     
     if (!group) {
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
@@ -50,10 +50,19 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
 
     // Return group with migrated members
+    // Deduplicate members by id in case of accidental duplicates after invite acceptance
     const migratedGroup = {
       ...group,
-      members: migrateGroupMembers(group.members)
+      members: migrateGroupMembers(group.members).filter((m, idx, arr) =>
+        arr.findIndex(x => x.id === m.id) === idx
+      )
     };
+
+    // If duplicates were removed, persist cleanup
+    if (migratedGroup.members.length !== group.members.length) {
+      group.members = migratedGroup.members;
+      await db.write();
+    }
 
     return NextResponse.json(migratedGroup);
   } catch (error) {

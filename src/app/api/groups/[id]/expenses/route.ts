@@ -4,14 +4,14 @@ import { authOptions } from '../../../auth/[...nextauth]/authOptions';
 import { db } from '../../../db';
 
 // GET - Get all expenses for a group
-export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const { id } = await params;
+  const { id } = params;
     await db.read();
     const currentUser = db.data.users.find(u => u.email === session.user!.email);
     
@@ -61,14 +61,14 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 }
 
 // POST - Create new expense
-export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
-    const { id } = await params;
+  const { id } = params;
     const { name, description, amount, currency, paidByUserId, splitBetweenUserIds } = await req.json();
     
     if (!name || !amount || !currency || !paidByUserId || !splitBetweenUserIds || splitBetweenUserIds.length === 0) {

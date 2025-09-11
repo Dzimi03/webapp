@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../auth/[...nextauth]/authOptions';
-import { readFileSync, writeFileSync } from 'fs';
-import path from 'path';
-
-const dbPath = path.join(process.cwd(), 'src/app/api/db.json');
+import { db } from '../../../db';
 
 interface GroupEvent {
   id: string;
@@ -31,21 +28,21 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const dbData = JSON.parse(readFileSync(dbPath, 'utf8'));
-    const group = dbData.groups.find((g: any) => g.id === params.id);
+  await db.read();
+  const group = db.data.groups.find(g => g.id === params.id);
     
     if (!group) {
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
     // Sprawdź czy użytkownik jest członkiem grupy
-    const isMember = group.members.some((member: any) => member.email === session.user.email);
+  const isMember = group.members.some((member: any) => member.email === session.user?.email);
     if (!isMember) {
       return NextResponse.json({ error: 'Not a member of this group' }, { status: 403 });
     }
 
     // Pobierz wszystkie eventy dla tej grupy
-    const events = dbData.groupEvents?.filter((event: GroupEvent) => event.groupId === params.id) || [];
+  const events = (db.data as any).groupEvents?.filter((event: GroupEvent) => event.groupId === params.id) || [];
 
     return NextResponse.json({ events });
   } catch (error) {
@@ -65,15 +62,15 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const dbData = JSON.parse(readFileSync(dbPath, 'utf8'));
-    const group = dbData.groups.find((g: any) => g.id === params.id);
+  await db.read();
+  const group = db.data.groups.find(g => g.id === params.id);
     
     if (!group) {
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
 
     // Sprawdź czy użytkownik jest członkiem grupy
-    const isMember = group.members.some((member: any) => member.email === session.user.email);
+  const isMember = group.members.some((member: any) => member.email === session.user?.email);
     if (!isMember) {
       return NextResponse.json({ error: 'Not a member of this group' }, { status: 403 });
     }
@@ -100,12 +97,9 @@ export async function POST(
     };
 
     // Inicjalizuj tablicę groupEvents jeśli nie istnieje
-    if (!dbData.groupEvents) {
-      dbData.groupEvents = [];
-    }
-
-    dbData.groupEvents.push(newEvent);
-    writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
+  const list: GroupEvent[] = (db.data as any).groupEvents || ((db.data as any).groupEvents = []);
+  list.push(newEvent);
+  await db.write();
 
     return NextResponse.json({ event: newEvent });
   } catch (error) {

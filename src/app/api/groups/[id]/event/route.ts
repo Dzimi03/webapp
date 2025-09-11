@@ -1,10 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../auth/[...nextauth]/authOptions';
-import { readFileSync, writeFileSync } from 'fs';
-import path from 'path';
-
-const dbPath = path.join(process.cwd(), 'src/app/api/db.json');
+import { db } from '../../../db';
 
 interface GroupEvent {
   id: string;
@@ -32,14 +29,18 @@ export async function GET(
     }
 
     const groupId = params.id;
-    
-    // Wczytaj dane z pliku JSON
-    const dbData = JSON.parse(readFileSync(dbPath, 'utf-8'));
-    
-    // Znajdź event dla tej grupy
-    const groupEvent = dbData.groupEvents?.find((event: GroupEvent) => event.groupId === groupId);
-    
-    return NextResponse.json({ event: groupEvent || null });
+    await db.read();
+    const group = db.data.groups.find(g => g.id === groupId);
+    if (!group) {
+      return NextResponse.json({ error: 'Group not found' }, { status: 404 });
+    }
+    // member check (structure: full user objects)
+  const isMember = group.members.some(m => m.email === session.user?.email);
+    if (!isMember) {
+      return NextResponse.json({ error: 'Not a member of this group' }, { status: 403 });
+    }
+    const groupEvent = (db.data as any).groupEvents?.find((event: GroupEvent) => event.groupId === groupId) || null;
+    return NextResponse.json({ event: groupEvent });
   } catch (error) {
     console.error('Error fetching group event:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -59,34 +60,28 @@ export async function POST(
 
     const groupId = params.id;
     const body = await request.json();
-    
-    // Wczytaj dane z pliku JSON
-    const dbData = JSON.parse(readFileSync(dbPath, 'utf-8'));
-    
-    // Sprawdź czy grupa istnieje
-    const group = dbData.groups?.find((g: any) => g.id === groupId);
+    await db.read();
+    const group = db.data.groups.find(g => g.id === groupId);
     if (!group) {
       return NextResponse.json({ error: 'Group not found' }, { status: 404 });
     }
-    
-    // Sprawdź czy użytkownik jest członkiem grupy
-    const isMember = group.members?.some((member: any) => member.email === session.user.email);
+  const isMember = group.members.some(m => m.email === session.user?.email);
     if (!isMember) {
       return NextResponse.json({ error: 'Not a member of this group' }, { status: 403 });
     }
-    
-    // Sprawdź czy grupa już ma event
-    const existingEvent = dbData.groupEvents?.find((event: GroupEvent) => event.groupId === groupId);
+    const eventsArray: GroupEvent[] = (db.data as any).groupEvents || ((db.data as any).groupEvents = []);
+    const existingEvent = eventsArray.find(ev => ev.groupId === groupId);
     if (existingEvent) {
       return NextResponse.json({ error: 'Group already has an event' }, { status: 400 });
     }
-    
-    // Utwórz nowy event
+    if (!body.name || !body.date) {
+      return NextResponse.json({ error: 'Name and date required' }, { status: 400 });
+    }
     const newEvent: GroupEvent = {
-      id: `event_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      id: `event_${Date.now()}_${Math.random().toString(36).slice(2, 9)}`,
       groupId,
       name: body.name,
-      description: body.description,
+      description: body.description || '',
       date: body.date,
       time: body.time,
       location: body.location,
@@ -95,16 +90,8 @@ export async function POST(
       imageUrl: body.imageUrl,
       createdAt: new Date().toISOString()
     };
-    
-    // Dodaj event do bazy danych
-    if (!dbData.groupEvents) {
-      dbData.groupEvents = [];
-    }
-    dbData.groupEvents.push(newEvent);
-    
-    // Zapisz dane
-    writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
-    
+    eventsArray.push(newEvent);
+    await db.write();
     return NextResponse.json({ event: newEvent });
   } catch (error) {
     console.error('Error creating group event:', error);

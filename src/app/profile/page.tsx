@@ -12,6 +12,9 @@ export default function ProfilePage() {
   const [message, setMessage] = useState('');
   const [likedEventDetails, setLikedEventDetails] = useState<any[]>([]);
   const [goingEventDetails, setGoingEventDetails] = useState<any[]>([]);
+  // We can derive ID arrays from details, but keep quick memoized copies for PUT operations
+  const likedEventIds = likedEventDetails.map(e => e.id);
+  const goingEventIds = goingEventDetails.map(e => e.id);
   const [isUploading, setIsUploading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -105,6 +108,64 @@ export default function ProfilePage() {
     setAvatarUrl(user?.avatarUrl || '');
     setIsEditing(false);
     setMessage('');
+  };
+
+  // Toggle like from profile page
+  const handleToggleLike = async (eventObj: any) => {
+    const exists = likedEventDetails.some(e => e.id === eventObj.id);
+    const newLikedDetails = exists
+      ? likedEventDetails.filter(e => e.id !== eventObj.id)
+      : [...likedEventDetails, eventObj];
+    const newLikedIds = newLikedDetails.map(e => e.id);
+
+    try {
+      const res = await fetch('/api/user', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          likedEvents: newLikedIds,
+          likedEventDetails: newLikedDetails,
+          goingEvents: goingEventIds,
+          goingEventDetails
+        })
+      });
+      if (res.ok) {
+        setLikedEventDetails(newLikedDetails);
+        const updated = await res.json();
+        setUser(updated);
+      }
+    } catch (e) {
+      // swallow – optional toast could be added
+    }
+  };
+
+  // Toggle going from profile page
+  const handleToggleGoing = async (eventObj: any) => {
+    const exists = goingEventDetails.some(e => e.id === eventObj.id);
+    const newGoingDetails = exists
+      ? goingEventDetails.filter(e => e.id !== eventObj.id)
+      : [...goingEventDetails, eventObj];
+    const newGoingIds = newGoingDetails.map(e => e.id);
+
+    try {
+      const res = await fetch('/api/user', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          goingEvents: newGoingIds,
+            goingEventDetails: newGoingDetails,
+          likedEvents: likedEventIds,
+          likedEventDetails
+        })
+      });
+      if (res.ok) {
+        setGoingEventDetails(newGoingDetails);
+        const updated = await res.json();
+        setUser(updated);
+      }
+    } catch (e) {
+      // ignore for now
+    }
   };
 
   if (!session) return (
@@ -316,7 +377,18 @@ export default function ProfilePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {likedEventDetails.map((event: any) => (
-                <div key={event.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 transform hover:scale-105">
+                <div key={event.id} className="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 transform hover:scale-105">
+                  <button
+                    onClick={() => handleToggleLike(event)}
+                    title={likedEventDetails.some(e => e.id === event.id) ? 'Remove from liked' : 'Like'}
+                    className={`absolute top-2 right-2 z-10 rounded-full p-2 text-xs font-semibold shadow-md transition-colors ${
+                      likedEventDetails.some(e => e.id === event.id)
+                        ? 'bg-red-600 hover:bg-red-700 text-white'
+                        : 'bg-white/80 backdrop-blur hover:bg-white text-gray-700 border'
+                    }`}
+                  >
+                    {likedEventDetails.some(e => e.id === event.id) ? '✕' : '♥'}
+                  </button>
                   {event.images?.[0]?.url && (
                     <div className="h-48 overflow-hidden">
                       <img 
@@ -386,7 +458,18 @@ export default function ProfilePage() {
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {goingEventDetails.map((event: any) => (
-                <div key={event.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 transform hover:scale-105">
+                <div key={event.id} className="relative bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 transform hover:scale-105">
+                  <button
+                    onClick={() => handleToggleGoing(event)}
+                    title={goingEventDetails.some(e => e.id === event.id) ? 'Remove from going' : 'Mark going'}
+                    className={`absolute top-2 right-2 z-10 rounded-full p-2 text-xs font-semibold shadow-md transition-colors ${
+                      goingEventDetails.some(e => e.id === event.id)
+                        ? 'bg-green-600 hover:bg-green-700 text-white'
+                        : 'bg-white/80 backdrop-blur hover:bg-white text-gray-700 border'
+                    }`}
+                  >
+                    {goingEventDetails.some(e => e.id === event.id) ? '✕' : '✓'}
+                  </button>
                   {event.images?.[0]?.url && (
                     <div className="h-48 overflow-hidden">
                       <img 

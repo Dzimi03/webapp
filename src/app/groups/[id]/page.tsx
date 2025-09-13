@@ -672,16 +672,11 @@ export default function GroupDetailPage() {
           {/* Background Image */}
           <div className="h-64 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl relative overflow-hidden">
             {group.backgroundImageUrl && (
-              <>
-                {console.log('Full image URL:', `${window.location.origin}${group.backgroundImageUrl}`)}
-                <img 
-                  src={`${window.location.origin}${group.backgroundImageUrl}`}
-                  alt="Group background" 
-                  className="w-full h-full object-cover"
-                  onError={(e) => console.error('Failed to load background image:', group.backgroundImageUrl)}
-                  onLoad={() => console.log('Background image loaded successfully:', group.backgroundImageUrl)}
-                />
-              </>
+              <img 
+                src={group.backgroundImageUrl.startsWith('http') ? group.backgroundImageUrl : `${window.location.origin}${group.backgroundImageUrl}`}
+                alt="Group background" 
+                className="w-full h-full object-cover"
+              />
             )}
             
             {/* Group Info Overlay */}
@@ -760,8 +755,68 @@ export default function GroupDetailPage() {
 
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Description and Image Upload */}
+          {/* Left Column - Image Upload, Description and Events */}
           <div className="lg:col-span-2 space-y-6">
+            {/* Image Upload Card (moved up) */}
+            {isEditing && (
+              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+                <h3 className="text-xl font-bold text-gray-900 mb-4">Group Images</h3>
+                <div className="space-y-4">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setSelectedImage(e.target.files?.[0] || null)}
+                    className="hidden"
+                  />
+                  <button
+                    onClick={triggerFileUpload}
+                    className="w-full border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
+                  >
+                    <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <p className="text-gray-600 font-medium">Click to upload image</p>
+                    <p className="text-gray-400 text-sm mt-1">PNG, JPG up to 5MB</p>
+                  </button>
+                  
+                  {selectedImage && (
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl">
+                        <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span className="text-sm text-gray-600">{selectedImage.name}</span>
+                      </div>
+                      
+                      <div className="grid grid-cols-2 gap-3">
+                        <button
+                          onClick={() => handleImageUpload('profile')}
+                          disabled={isUploadingImage}
+                          className="bg-blue-600 text-white py-3 px-6 rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors flex items-center justify-center space-x-2"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-4 4v7m-4-4h8m-4-4v4" />
+                          </svg>
+                          <span>{isUploadingImage ? 'Uploading...' : 'Upload as Profile Picture'}</span>
+                        </button>
+                        
+                        <button
+                          onClick={() => handleImageUpload('background')}
+                          disabled={isUploadingImage}
+                          className="bg-purple-600 text-white py-3 px-6 rounded-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors flex items-center justify-center space-x-2"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                          <span>{isUploadingImage ? 'Uploading...' : 'Upload as Background Image'}</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
             {/* Description Card */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">About this group</h2>
@@ -894,66 +949,7 @@ export default function GroupDetailPage() {
                )}
             </div>
 
-            {/* Image Upload Card */}
-            {isEditing && (
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-                <h3 className="text-xl font-bold text-gray-900 mb-4">Group Images</h3>
-                <div className="space-y-4">
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setSelectedImage(e.target.files?.[0] || null)}
-                    className="hidden"
-                  />
-                  <button
-                    onClick={triggerFileUpload}
-                    className="w-full border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
-                  >
-                    <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
-                    <p className="text-gray-600 font-medium">Click to upload image</p>
-                    <p className="text-gray-400 text-sm mt-1">PNG, JPG up to 5MB</p>
-                  </button>
-                  
-                  {selectedImage && (
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl">
-                        <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <span className="text-sm text-gray-600">{selectedImage.name}</span>
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-3">
-                        <button
-                          onClick={() => handleImageUpload('profile')}
-                          disabled={isUploadingImage}
-                          className="bg-blue-600 text-white py-3 px-6 rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors flex items-center justify-center space-x-2"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zm-4 4v7m-4-4h8m-4-4v4" />
-                          </svg>
-                          <span>{isUploadingImage ? 'Uploading...' : 'Upload as Profile Picture'}</span>
-                        </button>
-                        
-                        <button
-                          onClick={() => handleImageUpload('background')}
-                          disabled={isUploadingImage}
-                          className="bg-purple-600 text-white py-3 px-6 rounded-xl hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed font-semibold transition-colors flex items-center justify-center space-x-2"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                          </svg>
-                          <span>{isUploadingImage ? 'Uploading...' : 'Upload as Background Image'}</span>
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+            {/* Upload card moved above */}
           </div>
 
           {/* Right Column - Members */}

@@ -70,8 +70,7 @@ export default function ProfilePage() {
       if (res.ok) {
         const data = await res.json();
         setAvatarUrl(data.avatarUrl);
-        setMessage('Profile picture uploaded successfully!');
-  emit(Events.UserUpdated);
+        emit(Events.UserUpdated);
       } else {
         setMessage('Error uploading profile picture');
       }

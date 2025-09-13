@@ -459,7 +459,6 @@ export default function GroupDetailPage() {
         if (fileInputRef.current) {
           fileInputRef.current.value = '';
         }
-        alert(`${type === 'profile' ? 'Profile picture' : 'Background image'} uploaded successfully!`);
       } else {
         console.error(`Failed to upload ${type} image`);
         alert(`Failed to upload ${type === 'profile' ? 'profile picture' : 'background image'}`);

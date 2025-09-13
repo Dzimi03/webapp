@@ -30,26 +30,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'File size too large. Maximum 5MB allowed.' }, { status: 400 });
     }
 
-    // Create uploads directory if it doesn't exist
-    const uploadsDir = join(process.cwd(), 'public', 'uploads');
-    if (!existsSync(uploadsDir)) {
-      try { await mkdir(uploadsDir, { recursive: true }); } catch {}
-    }
-
-    // Generate unique filename
+    // Generate base filename
     const timestamp = Date.now();
-    const fileExtension = file.name.split('.').pop();
-  const safeEmail = session.user.email.replace(/[^a-zA-Z0-9_.-]/g, '_');
-  const fileName = `avatar_${safeEmail}_${timestamp}.${fileExtension}`;
-  const filePath = join(uploadsDir, fileName);
+    const fileExtension = file.name.split('.').pop() || 'png';
+    const safeEmail = session.user.email.replace(/[^a-zA-Z0-9_.-]/g, '_');
+    const baseName = `avatar_${safeEmail}_${timestamp}.${fileExtension}`;
 
-    // Convert file to buffer and save
+    // Convert file to buffer once
     const bytes = await file.arrayBuffer();
-  const buffer = Buffer.from(bytes);
-  await writeFile(filePath, buffer);
+    const buffer = Buffer.from(bytes);
 
-    // Generate public URL
-    const avatarUrl = `/uploads/${fileName}`;
+    // Prefer Vercel Blob in serverless (read-only FS); fallback to local disk in dev
+    let avatarUrl: string;
+    try {
+      if (process.env.VERCEL || process.env.BLOB_READ_WRITE_TOKEN) {
+        const { put } = await import('@vercel/blob');
+        const { url } = await put(`uploads/${baseName}` /* path prefix for organization */, buffer, {
+          access: 'public',
+          addRandomSuffix: true,
+          contentType: file.type || 'image/png',
+        });
+        avatarUrl = url;
+      } else {
+        // Local dev fallback: save to public/uploads
+        const uploadsDir = join(process.cwd(), 'public', 'uploads');
+        if (!existsSync(uploadsDir)) {
+          try { await mkdir(uploadsDir, { recursive: true }); } catch {}
+        }
+        const filePath = join(uploadsDir, baseName);
+        await writeFile(filePath, buffer);
+        avatarUrl = `/uploads/${baseName}`;
+      }
+    } catch (e) {
+      console.error('Avatar upload storage error:', e);
+      return NextResponse.json({ error: 'Failed to store avatar' }, { status: 500 });
+    }
 
     // Persist avatarUrl via shared DB (supports Redis)
     await db.read();

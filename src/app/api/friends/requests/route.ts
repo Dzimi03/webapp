@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db, User } from '../../db';
+import { createNotification } from '../../notifications/route';
 import { getToken } from 'next-auth/jwt';
 
 async function getSessionUser(req: NextRequest) {
@@ -69,6 +70,17 @@ export async function POST(req: NextRequest) {
   }
 
   await db.write();
+
+  // Notify the sender that their request was accepted
+  if (fromUser) {
+    await createNotification(
+      fromUser.id,
+      'friend_request_accepted',
+      'Friend request accepted',
+      `${user.name || user.email} accepted your friend request`,
+      user.id
+    );
+  }
 
   return NextResponse.json({ 
     success: true, 

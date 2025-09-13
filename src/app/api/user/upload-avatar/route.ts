@@ -49,6 +49,8 @@ export async function POST(request: NextRequest) {
           access: 'public',
           addRandomSuffix: true,
           contentType: file.type || 'image/png',
+          // Pass token explicitly when available (useful for local dev or when integration token isn't auto-injected yet)
+          ...(process.env.BLOB_READ_WRITE_TOKEN ? { token: process.env.BLOB_READ_WRITE_TOKEN } : {}),
         });
         avatarUrl = url;
       } else {

@@ -65,6 +65,8 @@ git push origin main
   - `NEXTAUTH_URL`: Your Vercel URL (e.g., https://your-app.vercel.app)
   - `NEXTAUTH_SECRET`: Generate a random secret (e.g., `openssl rand -base64 32`)
   - `NEXT_PUBLIC_TICKETMASTER_API_KEY`: Your Ticketmaster API key (optional)
+  - `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`: From Upstash Redis (required in production)
+  - `BLOB_READ_WRITE_TOKEN` (optional): Only needed for local dev writes to Vercel Blob
 
 3. **Deploy**
 - Vercel will automatically build and deploy your app
@@ -99,7 +101,26 @@ Create a `.env.local` file with:
 NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_SECRET=your-secret-key-here
 NEXT_PUBLIC_TICKETMASTER_API_KEY=your-ticketmaster-api-key
+UPSTASH_REDIS_REST_URL=your-upstash-redis-rest-url
+UPSTASH_REDIS_REST_TOKEN=your-upstash-redis-rest-token
+# Optional for local dev with Vercel Blob uploads
+BLOB_READ_WRITE_TOKEN=your-vercel-blob-read-write-token
 ```
+
+## Avatar uploads with Vercel Blob
+
+This app stores user avatar images in Vercel Blob when deployed to Vercel (serverless file system is read‑only). Locally it falls back to writing into `public/uploads` unless a Blob token is provided.
+
+- Production (Vercel):
+  1) Connect your project to Vercel Blob in the Vercel dashboard: Storage → Blob → Connect to Project.
+  2) No token needed at runtime on Vercel; the integration provides credentials.
+
+- Local development (optional Blob writes):
+  1) Go to Vercel → Storage → Blob → your store → Settings → Tokens → Generate Read‑Write Token.
+  2) Put it into your `.env.local` as `BLOB_READ_WRITE_TOKEN=...`.
+  3) Restart `npm run dev`.
+
+If you don't set the token locally, uploads will be saved to `public/uploads` instead. In production we always prefer Blob storage.
 
 ## Main Pages
 - `/login` — Login

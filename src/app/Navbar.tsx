@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState, useRef } from "react";
-import { on, Events } from "./lib/eventBus";
+import { on, emit, Events } from "./lib/eventBus";
 import {
   User,
   FriendRequest,
@@ -107,7 +107,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ requestId }),
       });
-  if (res.ok) { setFriendRequests(prev => prev.filter(req => req.id !== requestId)); refreshInbox(); refreshUser(); }
+  if (res.ok) { setFriendRequests(prev => prev.filter(req => req.id !== requestId)); refreshInbox(); refreshUser(); emit(Events.FriendsMaybeChanged); }
     } catch (error) {
       console.error('Failed to accept friend request:', error);
     }
@@ -120,7 +120,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ requestId }),
       });
-  if (res.ok) { setFriendRequests(prev => prev.filter(req => req.id !== requestId)); refreshInbox(); }
+  if (res.ok) { setFriendRequests(prev => prev.filter(req => req.id !== requestId)); refreshInbox(); emit(Events.FriendsMaybeChanged); }
     } catch (error) {
       console.error('Failed to reject friend request:', error);
     }

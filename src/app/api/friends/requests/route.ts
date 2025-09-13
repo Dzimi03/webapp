@@ -102,7 +102,6 @@ export async function DELETE(req: NextRequest) {
   friendRequest.status = 'rejected';
 
   await db.write();
-
   return NextResponse.json({ 
     success: true, 
     message: 'Friend request rejected' 

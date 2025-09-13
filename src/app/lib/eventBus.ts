@@ -47,4 +47,5 @@ export const Events = {
   UserUpdated: "user:updated",
   NotificationsMaybeChanged: "notifications:maybeChanged",
   InvitesMaybeChanged: "invites:maybeChanged",
+  FriendsMaybeChanged: "friends:maybeChanged",
 } as const;

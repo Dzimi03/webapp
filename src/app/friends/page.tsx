@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from 'react';
+import { on, emit, Events } from '../lib/eventBus';
 import { useSession } from 'next-auth/react';
 
 export default function FriendsPage() {
@@ -30,6 +31,12 @@ export default function FriendsPage() {
 
   useEffect(() => {
     fetchFriends();
+    // refresh on focus and small polling
+    const onFocus = () => fetchFriends();
+    window.addEventListener('focus', onFocus);
+    const off = on(Events.FriendsMaybeChanged, () => fetchFriends());
+    const id = window.setInterval(fetchFriends, 15000);
+    return () => { window.removeEventListener('focus', onFocus); off(); window.clearInterval(id); };
   }, []);
 
   // Handle click outside search results and modal
@@ -120,6 +127,7 @@ export default function FriendsPage() {
         setSearchResults(prev => prev.map(user => 
           user.id === selectedUser.id ? { ...user, hasPendingRequest: true } : user
         ));
+        emit(Events.FriendsMaybeChanged);
       } else {
         const data = await res.json();
         setModalError(data.error || 'Error sending friend request');
@@ -149,6 +157,7 @@ export default function FriendsPage() {
         setSearchResults(prev => prev.map(user => 
           user.id === selectedUser.id ? { ...user, isFriend: false } : user
         ));
+        emit(Events.FriendsMaybeChanged);
       } else {
         const data = await res.json();
         setModalError(data.error || 'Error removing friend');

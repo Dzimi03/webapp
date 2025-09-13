@@ -133,31 +133,23 @@ if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) 
   });
   const KEY = 'liveapp:db:v1';
 
-  // Warm read promise to avoid race conditions across concurrent route handlers
-  let readOnce: Promise<void> | null = null;
-
+  // Always fetch fresh state from Redis to avoid stale data across lambdas
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore override
   db.read = async () => {
-    if (!readOnce) {
-      readOnce = (async () => {
-        try {
-          const stored = await redis.get<DB>(KEY);
-          if (stored) {
-            db.data = stored;
-          } else {
-            db.data = initialData;
-            await redis.set(KEY, initialData);
-          }
-        } catch (e) {
-          // fallback to in-memory if Redis unreachable
-          if (!db.data) db.data = initialData;
-          // eslint-disable-next-line no-console
-          console.error('Redis read error', e);
-        }
-      })();
+    try {
+      const stored = await redis.get<DB>(KEY);
+      if (stored) {
+        db.data = stored;
+      } else {
+        db.data = initialData;
+        await redis.set(KEY, initialData);
+      }
+    } catch (e) {
+      if (!db.data) db.data = initialData;
+      // eslint-disable-next-line no-console
+      console.error('Redis read error', e);
     }
-    return readOnce;
   };
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState, useRef } from 'react';
+import { emit, Events } from '../lib/eventBus';
 import { useSession } from 'next-auth/react';
 
 export default function ProfilePage() {
@@ -70,6 +71,7 @@ export default function ProfilePage() {
         const data = await res.json();
         setAvatarUrl(data.avatarUrl);
         setMessage('Profile picture uploaded successfully!');
+  emit(Events.UserUpdated);
       } else {
         setMessage('Error uploading profile picture');
       }

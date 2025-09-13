@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect, useState, useRef } from "react";
+import { on, Events } from "./lib/eventBus";
 import {
   User,
   FriendRequest,
@@ -26,62 +27,63 @@ export default function Navbar() {
   const isAuthenticated = !!session;
   const notificationsRef = useRef<HTMLDivElement>(null);
 
-  // Fetch user data to get avatar
-  useEffect(() => {
-    if (session?.user?.email) {
-      async function fetchUser() {
-        try {
-          const res = await fetch('/api/user');
-          if (res.ok) {
-            const data = await res.json();
-            setUser(data);
-          }
-        } catch (error) {
-          console.error('Failed to fetch user data:', error);
-        }
+  // Fetch user data to get avatar (and refresh on events/focus)
+  async function refreshUser() {
+    try {
+      const res = await fetch('/api/user', { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data);
       }
-      fetchUser();
-    }
+    } catch {}
+  }
+
+  useEffect(() => {
+    if (!session?.user?.email) return;
+    refreshUser();
+    const off = on(Events.UserUpdated, () => refreshUser());
+    const onFocus = () => refreshUser();
+    window.addEventListener('focus', onFocus);
+    return () => { off(); window.removeEventListener('focus', onFocus); };
   }, [session]);
+
+  async function refreshInbox() {
+    try {
+      const [friendRes, groupRes, eventRes, notificationsRes] = await Promise.all([
+        fetch('/api/friends/requests', { cache: 'no-store' }),
+        fetch('/api/groups/invites', { cache: 'no-store' }),
+        fetch('/api/events/invite', { cache: 'no-store' }),
+        fetch('/api/notifications', { cache: 'no-store' }),
+      ]);
+      if (friendRes.ok) {
+        const friendData = await friendRes.json();
+        setFriendRequests(friendData.requests || []);
+      }
+      if (groupRes.ok) {
+        const groupData = await groupRes.json();
+        setGroupInvites(groupData.invites || []);
+      }
+      if (eventRes.ok) {
+        const eventData = await eventRes.json();
+        setEventInvites(eventData || []);
+      }
+      if (notificationsRes.ok) {
+        const notificationsData = await notificationsRes.json();
+        setNotifications(notificationsData.notifications || []);
+      }
+    } catch {}
+  }
 
   // Fetch friend requests and group invitations
   useEffect(() => {
-    if (session?.user?.email) {
-      async function fetchNotifications() {
-        try {
-          // Fetch friend requests
-          const friendRes = await fetch('/api/friends/requests');
-          if (friendRes.ok) {
-            const friendData = await friendRes.json();
-            setFriendRequests(friendData.requests || []);
-          }
-
-          // Fetch group invitations
-          const groupRes = await fetch('/api/groups/invites');
-          if (groupRes.ok) {
-            const groupData = await groupRes.json();
-            setGroupInvites(groupData.invites || []);
-          }
-
-          // Fetch event invitations
-          const eventRes = await fetch('/api/events/invite');
-          if (eventRes.ok) {
-            const eventData = await eventRes.json();
-            setEventInvites(eventData || []);
-          }
-
-          // Fetch notifications
-          const notificationsRes = await fetch('/api/notifications');
-          if (notificationsRes.ok) {
-            const notificationsData = await notificationsRes.json();
-            setNotifications(notificationsData.notifications || []);
-          }
-        } catch (error) {
-          console.error('Failed to fetch notifications:', error);
-        }
-      }
-      fetchNotifications();
-    }
+    if (!session?.user?.email) return;
+    refreshInbox();
+    const off1 = on(Events.InvitesMaybeChanged, () => refreshInbox());
+    const off2 = on(Events.NotificationsMaybeChanged, () => refreshInbox());
+    const onFocus = () => refreshInbox();
+    window.addEventListener('focus', onFocus);
+    const id = window.setInterval(refreshInbox, 15000);
+    return () => { off1(); off2(); window.removeEventListener('focus', onFocus); window.clearInterval(id); };
   }, [session]);
 
   // Handle click outside notifications
@@ -105,9 +107,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ requestId }),
       });
-      if (res.ok) {
-        setFriendRequests(prev => prev.filter(req => req.id !== requestId));
-      }
+  if (res.ok) { setFriendRequests(prev => prev.filter(req => req.id !== requestId)); refreshInbox(); refreshUser(); }
     } catch (error) {
       console.error('Failed to accept friend request:', error);
     }
@@ -120,9 +120,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ requestId }),
       });
-      if (res.ok) {
-        setFriendRequests(prev => prev.filter(req => req.id !== requestId));
-      }
+  if (res.ok) { setFriendRequests(prev => prev.filter(req => req.id !== requestId)); refreshInbox(); }
     } catch (error) {
       console.error('Failed to reject friend request:', error);
     }
@@ -135,9 +133,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inviteId }),
       });
-      if (res.ok) {
-        setGroupInvites(prev => prev.filter(invite => invite.id !== inviteId));
-      }
+  if (res.ok) { setGroupInvites(prev => prev.filter(invite => invite.id !== inviteId)); refreshInbox(); }
     } catch (error) {
       console.error('Failed to accept group invitation:', error);
     }
@@ -150,9 +146,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inviteId }),
       });
-      if (res.ok) {
-        setGroupInvites(prev => prev.filter(invite => invite.id !== inviteId));
-      }
+  if (res.ok) { setGroupInvites(prev => prev.filter(invite => invite.id !== inviteId)); refreshInbox(); }
     } catch (error) {
       console.error('Failed to reject group invite:', error);
     }
@@ -165,9 +159,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inviteId, action: 'accept' }),
       });
-      if (res.ok) {
-        setEventInvites(prev => prev.filter(invite => invite.id !== inviteId));
-      }
+  if (res.ok) { setEventInvites(prev => prev.filter(invite => invite.id !== inviteId)); refreshInbox(); }
     } catch (error) {
       console.error('Failed to accept event invite:', error);
     }
@@ -180,9 +172,7 @@ export default function Navbar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ inviteId }),
       });
-      if (res.ok) {
-        setEventInvites(prev => prev.filter(invite => invite.id !== inviteId));
-      }
+  if (res.ok) { setEventInvites(prev => prev.filter(invite => invite.id !== inviteId)); refreshInbox(); }
     } catch (error) {
       console.error('Failed to reject event invitation:', error);
     }
